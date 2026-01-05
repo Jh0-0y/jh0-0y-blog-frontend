@@ -1,0 +1,181 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,500&display=swap');
+
+:root {
+  /* ===== 색상 ===== */
+  /* ===== Primary Colors ===== */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+
+  /* ===== Navy Gray Scale ===== */
+  --color-gray-50: #f8fafc;
+  --color-gray-100: #eef2f7;
+  --color-gray-200: #dde3ec;
+  --color-gray-300: #c3ccd9;
+  --color-gray-400: #8f9bb3;
+  --color-gray-500: #5f6f8b;
+  --color-gray-600: #45526b;
+  --color-gray-700: #2f3a52;
+  --color-gray-800: #1c253b;
+  --color-gray-900: #0b1220;
+
+  /* ===== Semantic Colors ===== */
+  --color-success: #10b981;
+  --color-error: #ef4444;
+  --color-warning: #f59e0b;
+  --color-info: #3b82f6;
+
+  /* ===== Background ===== */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f9fafb;
+  --color-bg-tertiary: #f3f4f6;
+
+  /* ===== Text =====*/
+  --color-text-primary: #0b1220;
+  --color-text-secondary: #2f3a52;
+  --color-text-tertiary: #5f6f8b;
+  --color-text-inverse: #ffffff;
+
+  /* ===== Border ===== */
+  --color-border-light: #dde3ec;
+  --color-border-medium: #c3ccd9;
+  --color-border-dark: #8f9bb3;
+
+  /* ===== 폰트 ===== */
+  /* ===== Font Family ===== */
+  --font-family-primary: 'Pretendard', -apple-system, BlinkMacSystemFont,
+    system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo',
+    'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  --font-family-code: 'Fira Code', 'JetBrains Mono', Consolas, Monaco,
+    'Courier New', monospace;
+
+  /* ===== Font Size ===== */
+  --font-size-xs: 0.75rem; /* 12px */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-base: 1rem; /* 16px */
+  --font-size-lg: 1.125rem; /* 18px */
+  --font-size-xl: 1.25rem; /* 20px */
+  --font-size-2xl: 1.5rem; /* 24px */
+  --font-size-3xl: 1.875rem; /* 30px */
+  --font-size-4xl: 2.25rem; /* 36px */
+  --font-size-5xl: 3rem; /* 48px */
+
+  /* Font Weight */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Line Height */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+
+  /* ===== 간격 (Spacing) ===== */
+  --spacing-0: 0;
+  --spacing-1: 0.25rem; /* 4px */
+  --spacing-2: 0.5rem; /* 8px */
+  --spacing-3: 0.75rem; /* 12px */
+  --spacing-4: 1rem; /* 16px */
+  --spacing-5: 1.25rem; /* 20px */
+  --spacing-6: 1.5rem; /* 24px */
+  --spacing-8: 2rem; /* 32px */
+  --spacing-10: 2.5rem; /* 40px */
+  --spacing-12: 3rem; /* 48px */
+  --spacing-16: 4rem; /* 64px */
+  --spacing-20: 5rem; /* 80px */
+
+  /* ===== Border Radius ===== */
+  --radius-sm: 0.25rem; /* 4px */
+  --radius-base: 0.5rem; /* 8px */
+  --radius-md: 0.75rem; /* 12px */
+  --radius-lg: 1rem; /* 16px */
+  --radius-xl: 1.5rem; /* 24px */
+  --radius-full: 9999px;
+
+  /* ===== Shadow ===== */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --shadow-base: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  /* ===== Breakpoints (미디어 쿼리용) ===== */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+}
+
+/* ===== Dark Mode ===== */
+[data-theme='dark'] {
+  /* ===== Primary Colors ===== */
+  --color-primary-50: #1e3a8a;
+  --color-primary-100: #1e40af;
+  --color-primary-200: #1d4ed8;
+  --color-primary-300: #2563eb;
+  --color-primary-400: #3b82f6;
+  --color-primary-500: #60a5fa;
+  --color-primary-600: #93c5fd;
+  --color-primary-700: #bfdbfe;
+  --color-primary-800: #dbeafe;
+  --color-primary-900: #eff6ff;
+
+  /* ===== Navy Gray Scale ===== */
+  --color-gray-50: #05070d;
+  --color-gray-100: #0a0f1f;
+  --color-gray-200: #10172a;
+  --color-gray-300: #1a2440;
+  --color-gray-400: #2a3760;
+  --color-gray-500: #4f5d85;
+  --color-gray-600: #8a97b3;
+  --color-gray-700: #c0c9dd;
+  --color-gray-800: #e4e8f1;
+  --color-gray-900: #f8fafc;
+
+  /* ===== Background ===== */
+  --color-bg-primary: #05070d;
+  --color-bg-secondary: #0a0f1f;
+  --color-bg-tertiary: #10172a;
+
+  /* ===== Text ===== */
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #c0c9dd;
+  --color-text-tertiary: #8a97b3;
+  --color-text-inverse: #05070d;
+
+  /* ===== Border ===== */
+  --color-border-light: #10172a;
+  --color-border-medium: #1a2440;
+  --color-border-dark: #2a3760;
+
+  /* ===== Semantic ===== */
+  --color-success: #34d399;
+  --color-error: #f87171;
+  --color-warning: #fbbf24;
+  --color-info: #60a5fa;
+
+  /* ===== Shadow ===== */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.4);
+  --shadow-base: 0 4px 6px -1px rgba(0, 0, 0, 0.4),
+    0 2px 4px -2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.4),
+    0 4px 6px -4px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.4),
+    0 8px 10px -6px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}

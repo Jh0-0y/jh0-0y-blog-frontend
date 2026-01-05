@@ -1,10 +1,32 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>young_portfolio_front</title>
+
+    <!-- 테마 적용 스크립트 -->
+    <script>
+      (function () {
+        try {
+          const stored = localStorage.getItem('theme-storage');
+          if (stored) {
+            const { state } = JSON.parse(stored);
+            if (state.darkMode) {
+              document.documentElement.setAttribute('data-theme', 'dark');
+            }
+          } else {
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+              document.documentElement.setAttribute('data-theme', 'dark');
+            }
+          }
+        } catch (e) {}
+
+        // CSS 로드 후 화면 표시
+        document.documentElement.style.visibility = 'visible';
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

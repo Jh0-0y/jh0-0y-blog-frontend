@@ -1,0 +1,224 @@
+.editor {
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-color: var(--color-bg-primary);
+}
+
+/* 툴바 */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3) var(--spacing-4);
+  background-color: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border-light);
+  flex-wrap: wrap;
+}
+
+.toolbarGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+
+.divider {
+  width: 1px;
+  height: 1.5rem;
+  background-color: var(--color-border-light);
+  margin: 0 var(--spacing-1);
+}
+
+.toolbarButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 var(--spacing-2);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  transition: all 0.2s;
+}
+
+.toolbarButton:hover {
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+}
+
+.toolbarButton.active {
+  background-color: var(--color-primary-100);
+  color: var(--color-primary-600);
+}
+
+.codeBlockButton {
+  gap: var(--spacing-1);
+  padding: 0 var(--spacing-3);
+}
+
+.codeBlockButton svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* 에디터 본문 */
+.content {
+  min-height: 400px;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.content :global(.tiptap) {
+  padding: var(--spacing-5);
+  outline: none;
+  min-height: 400px;
+}
+
+.content :global(.tiptap) > * + * {
+  margin-top: var(--spacing-3);
+}
+
+/* Placeholder */
+.content :global(.tiptap p.is-editor-empty:first-child::before) {
+  content: attr(data-placeholder);
+  float: left;
+  color: var(--color-gray-400);
+  pointer-events: none;
+  height: 0;
+}
+
+/* 헤딩 */
+.content :global(.tiptap h2) {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-top: var(--spacing-6);
+}
+
+.content :global(.tiptap h3) {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-top: var(--spacing-5);
+}
+
+/* 텍스트 */
+.content :global(.tiptap p) {
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+
+.content :global(.tiptap strong) {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.content :global(.tiptap em) {
+  font-style: italic;
+}
+
+/* 인라인 코드 */
+.content :global(.tiptap code) {
+  padding: var(--spacing-1) var(--spacing-2);
+  background-color: var(--color-bg-tertiary);
+  border-radius: var(--radius-sm);
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.9em;
+  color: var(--color-primary-600);
+}
+
+/* 코드 블록 */
+.content :global(.tiptap pre) {
+  position: relative;
+  margin: var(--spacing-4) 0;
+  padding: var(--spacing-5);
+  background-color: var(--color-gray-900);
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+}
+
+.content :global(.tiptap pre code) {
+  padding: 0;
+  background: none;
+  color: var(--color-gray-100);
+  font-size: var(--font-size-sm);
+}
+
+/* 신택스 하이라이팅 */
+.content :global(.tiptap pre .hljs-keyword) {
+  color: #c678dd;
+}
+
+.content :global(.tiptap pre .hljs-string) {
+  color: #98c379;
+}
+
+.content :global(.tiptap pre .hljs-number) {
+  color: #d19a66;
+}
+
+.content :global(.tiptap pre .hljs-function) {
+  color: #61afef;
+}
+
+.content :global(.tiptap pre .hljs-comment) {
+  color: #5c6370;
+  font-style: italic;
+}
+
+.content :global(.tiptap pre .hljs-class) {
+  color: #e5c07b;
+}
+
+.content :global(.tiptap pre .hljs-variable) {
+  color: #e06c75;
+}
+
+.content :global(.tiptap pre .hljs-attr) {
+  color: #d19a66;
+}
+
+/* 리스트 */
+.content :global(.tiptap ul) {
+  list-style-type: disc;
+  padding-left: var(--spacing-6);
+}
+
+.content :global(.tiptap ol) {
+  list-style-type: decimal;
+  padding-left: var(--spacing-6);
+}
+
+.content :global(.tiptap li) {
+  color: var(--color-text-secondary);
+  margin: var(--spacing-1) 0;
+}
+
+/* 인용 */
+.content :global(.tiptap blockquote) {
+  padding-left: var(--spacing-4);
+  border-left: 3px solid var(--color-primary-500);
+  color: var(--color-text-tertiary);
+  font-style: italic;
+}
+
+/* 반응형 */
+@media (max-width: 640px) {
+  .toolbar {
+    padding: var(--spacing-2) var(--spacing-3);
+  }
+
+  .toolbarButton {
+    min-width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .codeBlockButton span {
+    display: none;
+  }
+
+  .content {
+    min-height: 300px;
+  }
+}
