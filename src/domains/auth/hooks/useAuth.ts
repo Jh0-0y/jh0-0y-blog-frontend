@@ -8,7 +8,6 @@ interface UseAuthReturn {
   // 상태
   isAuthenticated: boolean;
   user: UserInfo | null;
-  
   // 액션
   logout: () => void;
   refreshUser: () => Promise<void>;
