@@ -93,7 +93,7 @@ export const BlogPostPage = () => {
   return (
     <div className={styles.page}>
       {/* 뒤로가기 */}
-      <Link to="/blog" className={styles.backLink}>
+      <Link to="/" className={styles.backLink}>
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path
             strokeLinecap="round"

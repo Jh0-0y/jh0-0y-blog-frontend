@@ -27,6 +27,16 @@
         document.documentElement.style.visibility = 'visible';
       })();
     </script>
+    <script>
+      // 404.html에서 리다이렉트된 경우 원래 경로로 복원
+      (function () {
+        const redirect = sessionStorage.getItem('redirect');
+        if (redirect) {
+          sessionStorage.removeItem('redirect');
+          history.replaceState(null, '', redirect);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

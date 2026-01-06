@@ -11,7 +11,7 @@ export const Sidebar = () => {
       <aside className={`${styles.sidebar} ${styles.open}`}>
         {/* 로고/홈 */}
         <div className={styles.header}>
-          <Link to="/blog" className={styles.logo}>
+          <Link to="/" className={styles.logo}>
             hyunyoung.dev
           </Link>
           <p className={styles.subtitle}>Junior Backend Developer</p>
