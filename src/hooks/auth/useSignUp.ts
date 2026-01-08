@@ -6,12 +6,9 @@ import { useAuthStore } from '@/stores/auth/authStore';
 import { getErrorMessage, getFieldErrors } from '@/services/core/api.error';
 
 interface UseSignUpReturn {
-  // 상태
   isLoading: boolean;
   error: string | null;
   fieldErrors: Record<string, string> | null;
-
-  // 액션
   signUp: (request: SignUpRequest) => Promise<void>;
   clearError: () => void;
 }
@@ -33,11 +30,9 @@ export const useSignUp = (): UseSignUpReturn => {
       const response = await authApi.signUp(request);
 
       if (response.success) {
-        const { accessToken, refreshToken, user } = response.data;
-        
-        // 회원가입 성공 시 자동 로그인
-        setAuth(accessToken, refreshToken, user);
-        
+        // 사용자 정보만 저장 (토큰은 쿠키에 자동 저장됨)
+        setAuth(response.data.user);
+
         // 메인 페이지로 이동
         navigate('/');
       }
