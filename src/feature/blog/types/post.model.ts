@@ -1,12 +1,12 @@
-import type { PostCategory, PostStatus } from './post.enums';
+import type { PostType, PostStatus } from './post.enums';
 
 export interface Post {
   id: number;
   title: string;
   excerpt: string;
-  category: PostCategory;
+  PostType: PostType;
   date: string;
-  readTime: string;
+  stacks: string[];
   tags: string[];
   content?: string | null;
   status?: PostStatus;

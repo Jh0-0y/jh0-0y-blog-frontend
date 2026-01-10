@@ -1,15 +1,15 @@
 import { apiClient } from '@/services/core/apiClient';
 import type { ApiResponse, PageResponse } from '@/services/core/api.response';
 
-import type { PostCategory } from '../types/post.enums';
+import type { PostType } from '../types/post.enums';
 import type { CreatePostRequest, UpdatePostRequest } from './post.request';
 import type { PostDetail, PostListItem } from './post.response';
 
 export interface PostSearchParams {
   page?: number;
   size?: number;
-  category?: PostCategory;
-  tag?: string;
+  postType?: PostType;
+  stack?: string;
   keyword?: string;
 }
 

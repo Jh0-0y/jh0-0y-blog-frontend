@@ -17,7 +17,7 @@
   transform: translateX(0);
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .sidebar {
     position: sticky;
     transform: translateX(0);
@@ -32,7 +32,7 @@
   z-index: 99;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .overlay {
     display: none;
   }
@@ -74,6 +74,14 @@
   overflow-y: auto;
 }
 
+/* 로딩 */
+.loading {
+  padding: var(--spacing-8);
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-400);
+}
+
 /* 섹션 */
 .section {
   padding: var(--spacing-5);
@@ -93,14 +101,14 @@
   margin-bottom: var(--spacing-3);
 }
 
-/* 인기 태그 */
-.popularTags {
+/* 인기 스택 */
+.popularStacks {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-1);
 }
 
-.popularTag {
+.popularStack {
   display: flex;
   align-items: center;
   gap: var(--spacing-2);
@@ -113,11 +121,11 @@
   text-align: left;
 }
 
-.popularTag:hover {
+.popularStack:hover {
   background-color: var(--color-bg-secondary);
 }
 
-.popularTag.active {
+.popularStack.active {
   background-color: var(--color-gray-900);
   color: var(--color-text-inverse);
 }
@@ -128,7 +136,7 @@
   color: var(--color-gray-300);
 }
 
-.popularTag.active .tagRank {
+.popularStack.active .tagRank {
   color: var(--color-gray-400);
 }
 
@@ -141,7 +149,7 @@
   color: var(--color-gray-400);
 }
 
-/* 태그 그룹 */
+/* 스택 그룹 */
 .tagGroup {
   margin-bottom: var(--spacing-5);
 }
@@ -163,20 +171,33 @@
   border-radius: var(--radius-full);
 }
 
+/* 그룹별 색상 */
 .groupDot.language {
-  background-color: var(--color-primary-500);
+  background-color: #3b82f6; /* blue */
 }
 
 .groupDot.framework {
-  background-color: var(--color-success);
+  background-color: #22c55e; /* green */
 }
 
-.groupDot.area {
-  background-color: #8b5cf6;
+.groupDot.library {
+  background-color: #8b5cf6; /* purple */
 }
 
-.groupDot.topic {
-  background-color: var(--color-warning);
+.groupDot.database {
+  background-color: #f59e0b; /* amber */
+}
+
+.groupDot.devops {
+  background-color: #ef4444; /* red */
+}
+
+.groupDot.tool {
+  background-color: #06b6d4; /* cyan */
+}
+
+.groupDot.etc {
+  background-color: #6b7280; /* gray */
 }
 
 .groupLabel {
@@ -185,7 +206,7 @@
   color: var(--color-gray-400);
 }
 
-.groupTags {
+.groupStacks {
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -218,6 +239,22 @@
   color: var(--color-gray-300);
 }
 
+/* 필터 초기화 버튼 */
+.clearFilter {
+  width: 100%;
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--radius-base);
+  transition: all 0.2s;
+}
+
+.clearFilter:hover {
+  color: var(--color-text-secondary);
+  background-color: var(--color-bg-tertiary);
+}
+
 /* 모바일 닫기 버튼 */
 .closeButton {
   position: absolute;
@@ -242,7 +279,7 @@
   height: 1.25rem;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .closeButton {
     display: none;
   }

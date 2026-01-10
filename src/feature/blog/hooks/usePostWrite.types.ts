@@ -1,11 +1,12 @@
-import type { PostCategory, PostStatus } from '../types';
+import type { PostType, PostStatus } from '../types';
 
 export interface PostForm {
   title: string;
   excerpt: string;
-  category: PostCategory;
+  postType: PostType;
   content: string;
   status: PostStatus;
+  stacks: string[];
   tags: string[];
 }
 

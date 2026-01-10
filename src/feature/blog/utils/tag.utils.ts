@@ -1,4 +1,4 @@
-import type { TagGroup } from '../types/tag.enums';
+import type { TagGroup } from '../types/stack.enums';
 
 /**
  * 태그 그룹 우선순위

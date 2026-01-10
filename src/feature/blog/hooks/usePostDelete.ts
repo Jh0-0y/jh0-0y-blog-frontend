@@ -21,7 +21,7 @@ export const usePostDelete = (): UsePostDeleteReturn => {
       try {
         const response = await postApi.deletePost(postId);
         if (response.success) {
-          navigate('/blog');
+          navigate('/');
           return true;
         }
         return false;

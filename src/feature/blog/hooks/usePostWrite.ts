@@ -8,9 +8,10 @@ import type { PostForm, UsePostWriteReturn } from './usePostWrite.types';
 const INITIAL_FORM: PostForm = {
   title: '',
   excerpt: '',
-  category: 'CORE',
+  postType: 'CORE',
   content: '',
   status: 'PRIVATE',
+  stacks: [],
   tags: [],
 };
 
@@ -37,9 +38,10 @@ export const usePostWrite = (postId?: number): UsePostWriteReturn => {
           setForm({
             title: post.title,
             excerpt: post.excerpt,
-            category: post.category,
+            postType: post.postType,
             content: post.content,
             status: post.status,
+            stacks: post.stacks,
             tags: post.tags,
           });
         }
@@ -105,9 +107,10 @@ export const usePostWrite = (postId?: number): UsePostWriteReturn => {
       const request: CreatePostRequest | UpdatePostRequest = {
         title: form.title,
         excerpt: form.excerpt,
-        category: form.category,
+        postType: form.postType,
         content: form.content,
         status: form.status,
+        stacks: form.stacks,
         tags: form.tags,
       };
 

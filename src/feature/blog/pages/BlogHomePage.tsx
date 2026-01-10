@@ -47,26 +47,42 @@ export const BlogHomePage = () => {
           {posts.map((post) => (
             <article key={post.id} className={styles.postCard}>
               <Link to={`/post/${post.id}`} className={styles.postLink}>
-                <h2 className={styles.postTitle}>
-                  <span className={styles.category}>[{post.category}]</span>
-                  {post.title}
-                </h2>
-                <p className={styles.postExcerpt}>{post.excerpt}</p>
+                  {/* 타입 */}
+                  <span className={styles.postType}>{post.postType}</span>
 
-                <div className={styles.postMeta}>
-                  <div className={styles.postTags}>
-                    {post.tags.map((tag) => (
-                      <span key={tag} className={styles.postTag}>
-                        {tag}
+                  {/* 제목 */}
+                  <h2 className={styles.postTitle}>{post.title}</h2>
+
+                  {/* 설명 */}
+                  <p className={styles.postExcerpt}>{post.excerpt}</p>
+
+                  {/* 스택 */}
+                  <div className={styles.postStacks}>
+                    {post.stacks.map((stack) => (
+                      <span key={stack} className={styles.postStack}>
+                        {stack}
                       </span>
                     ))}
                   </div>
-                  <div className={styles.postInfo}>
-                    <span>{formatDate(post.createdAt)}</span>
-                    <span className={styles.dot}>·</span>
-                    <span>{calculateReadTime(post.excerpt)}</span>
+
+                  {/* 하단: 태그 + 메타 정보 */}
+                  <div className={styles.postFooter}>
+                    <div className={styles.postTags}>
+                      {post.tags.map((tag) => (
+                        <span key={tag} className={styles.postTag}>
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className={styles.postMeta}>
+                      <span className={styles.author}>정현영</span>
+                      <span className={styles.dot}>·</span>
+                      <span>{formatDate(post.createdAt)}</span>
+                      <span className={styles.dot}>·</span>
+                      <span>{calculateReadTime(post.excerpt)}</span>
+                    </div>
                   </div>
-                </div>
               </Link>
             </article>
           ))}

@@ -12,7 +12,7 @@
   width: 100%;
 }
 
-@media (max-width: 1023px) {
+@media (max-width: 768px) {
   .main {
     padding: var(--spacing-8) var(--spacing-4);
     padding-top: var(--spacing-16);
@@ -84,7 +84,7 @@
   height: 1.25rem;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .writeButton {
     padding: var(--spacing-3);
     border-radius: var(--radius-full);

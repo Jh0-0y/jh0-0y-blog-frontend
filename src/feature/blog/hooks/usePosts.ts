@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { getErrorMessage } from '@/services/core/api.error';
 import { postApi } from '../api/post.api';
 import type { PostListItem } from '../api/post.response';
@@ -7,6 +8,8 @@ import type { PostsFilter, Pagination, UsePostsReturn } from './usePosts.types';
 const DEFAULT_PAGE_SIZE = 10;
 
 export const usePosts = (initialFilter?: PostsFilter): UsePostsReturn => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [posts, setPosts] = useState<PostListItem[]>([]);
   const [pagination, setPagination] = useState<Pagination>({
     page: 0,
@@ -16,9 +19,26 @@ export const usePosts = (initialFilter?: PostsFilter): UsePostsReturn => {
     hasNext: false,
     hasPrevious: false,
   });
-  const [filter, setFilter] = useState<PostsFilter>(initialFilter || {});
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // URL에서 필터 읽기
+  const getFilterFromURL = useCallback((): PostsFilter => {
+    return {
+      postType: searchParams.get('postType') || initialFilter?.postType,
+      stack: searchParams.get('stack') || initialFilter?.stack,
+      keyword: searchParams.get('keyword') || initialFilter?.keyword,
+    };
+  }, [searchParams, initialFilter]);
+
+  // URL에서 페이지 읽기
+  const getPageFromURL = useCallback((): number => {
+    const page = searchParams.get('page');
+    return page ? parseInt(page, 10) : 0;
+  }, [searchParams]);
+
+  const filter = getFilterFromURL();
+  const currentPage = getPageFromURL();
 
   const fetchPosts = useCallback(async () => {
     setIsLoading(true);
@@ -26,10 +46,10 @@ export const usePosts = (initialFilter?: PostsFilter): UsePostsReturn => {
 
     try {
       const response = await postApi.getPosts({
-        page: pagination.page,
+        page: currentPage,
         size: pagination.size,
-        category: filter.category,
-        tag: filter.tag,
+        postType: filter.postType,
+        stack: filter.stack,
         keyword: filter.keyword,
       });
 
@@ -38,6 +58,7 @@ export const usePosts = (initialFilter?: PostsFilter): UsePostsReturn => {
         setPosts(data.content);
         setPagination((prev) => ({
           ...prev,
+          page: currentPage,
           totalPages: data.totalPages,
           totalElements: data.totalElements,
           hasNext: data.hasNext,
@@ -50,24 +71,50 @@ export const usePosts = (initialFilter?: PostsFilter): UsePostsReturn => {
     } finally {
       setIsLoading(false);
     }
-  }, [pagination.page, pagination.size, filter]);
+  }, [currentPage, pagination.size, filter.postType, filter.stack, filter.keyword]);
 
   useEffect(() => {
     fetchPosts();
   }, [fetchPosts]);
 
+  // URL 파라미터 업데이트 헬퍼
+  const updateSearchParams = useCallback((updates: Record<string, string | null>) => {
+    setSearchParams((prev) => {
+      const newParams = new URLSearchParams(prev);
+
+      Object.entries(updates).forEach(([key, value]) => {
+        if (value) {
+          newParams.set(key, value);
+        } else {
+          newParams.delete(key);
+        }
+      });
+
+      return newParams;
+    });
+  }, [setSearchParams]);
+
   const handleSetFilter = useCallback((newFilter: PostsFilter) => {
-    setFilter(newFilter);
-    setPagination((prev) => ({ ...prev, page: 0 }));
-  }, []);
+    updateSearchParams({
+      postType: newFilter.postType || null,
+      stack: newFilter.stack || null,
+      keyword: newFilter.keyword || null,
+      page: null, // 필터 변경 시 페이지 리셋
+    });
+  }, [updateSearchParams]);
 
   const setPage = useCallback((page: number) => {
-    setPagination((prev) => ({ ...prev, page }));
-  }, []);
+    updateSearchParams({
+      page: page > 0 ? String(page) : null,
+    });
+  }, [updateSearchParams]);
 
   return {
     posts,
-    pagination,
+    pagination: {
+      ...pagination,
+      page: currentPage,
+    },
     isLoading,
     error,
     filter,

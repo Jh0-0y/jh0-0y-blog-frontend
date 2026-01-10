@@ -1,4 +1,4 @@
-export type PostCategory = 
+export type PostType = 
   'CORE' | 'ARCHITECTURE' | 'TROUBLESHOOTING' | 'ESSAY';
 
 export type PostStatus = 

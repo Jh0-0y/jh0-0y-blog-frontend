@@ -1,9 +1,9 @@
 import type { PostListItem } from '../api/post.response';
-import type { PostCategory } from '../types';
+import type { PostType } from '../types';
 
 export interface PostsFilter {
-  category?: PostCategory;
-  tag?: string;
+  postType?: PostType;
+  stack?: string;
   keyword?: string;
 }
 

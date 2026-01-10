@@ -1,6 +1,34 @@
+import { useEffect, useRef } from 'react';
+import { useSearch } from '../../hooks/useSearch';
 import styles from './SearchBar.module.css';
 
 export const SearchBar = () => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const { inputValue, setInputValue, handleSearch, clearSearch } = useSearch();
+
+  // Enter 키 처리
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+    if (e.key === 'Escape') {
+      clearSearch();
+      inputRef.current?.blur();
+    }
+  };
+
+  // Cmd+K / Ctrl+K 단축키
+  useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        inputRef.current?.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleGlobalKeyDown);
+    return () => document.removeEventListener('keydown', handleGlobalKeyDown);
+  }, []);
 
   return (
     <div className={styles.searchBar}>
@@ -21,12 +49,23 @@ export const SearchBar = () => {
       </div>
 
       <input
+        ref={inputRef}
         type="text"
         className={styles.input}
+        placeholder="검색..."
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        onKeyDown={handleKeyDown}
       />
 
       <div className={styles.actions}>
-          <button className={styles.clearButton} type="button">
+        {inputValue && (
+          <button 
+            className={styles.clearButton} 
+            type="button"
+            onClick={clearSearch}
+            aria-label="검색어 지우기"
+          >
             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path
                 strokeLinecap="round"
@@ -36,6 +75,7 @@ export const SearchBar = () => {
               />
             </svg>
           </button>
+        )}
         <kbd className={styles.shortcut}>⌘K</kbd>
       </div>
     </div>

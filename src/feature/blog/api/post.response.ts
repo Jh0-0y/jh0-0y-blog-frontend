@@ -1,11 +1,12 @@
-import type { PostCategory, PostStatus } from '../types/post.enums';
+import type { PostType, PostStatus } from '../types/post.enums';
 
 export interface PostListItem {
   id: number;
   title: string;
   excerpt: string;
-  category: PostCategory;
+  postType: PostType;
   status: PostStatus;
+  stacks: string[];
   tags: string[];
   createdAt: string;
 }
@@ -13,16 +14,17 @@ export interface PostListItem {
 export interface AdjacentPost {
   id: number;
   title: string;
-  category: PostCategory;
+  postType: PostType;
 }
 
 export interface PostDetail {
   id: number;
   title: string;
   excerpt: string;
-  category: PostCategory;
+  postType: PostType;
   content: string;
   status: PostStatus;
+  stacks: string[];
   tags: string[];
   prev: AdjacentPost | null;
   next: AdjacentPost | null;
