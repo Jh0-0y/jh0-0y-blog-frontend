@@ -4,10 +4,21 @@ import { useStacks } from '@/feature/blog/hooks/stack/useStacks';
 import { useUnsaved } from '@/feature/blog/hooks/common/useUnsaved';
 import { 
   ThumbnailBannerEdit,
-  BlogForm,
-  UnsavedModal
+  UnsavedModal,
+  StackSection,
+  TagSection,
 } from '@/feature/blog/components/blog-form';
+import { Editor } from '@/components/editor';
+import { VALIDATION_LIMITS } from '@/feature/blog/utils/postValidation';
+import type { PostType } from '@/feature/blog/types/post';
 import styles from './BlogEditWritePage.module.css';
+
+const POST_TYPES: { value: PostType; label: string }[] = [
+  { value: 'CORE', label: 'Core' },
+  { value: 'ARCHITECTURE', label: 'Architecture' },
+  { value: 'TROUBLESHOOTING', label: 'Troubleshooting' },
+  { value: 'ESSAY', label: 'Essay' },
+];
 
 export const BlogWritePage = () => {
   const navigate = useNavigate();
@@ -67,6 +78,7 @@ export const BlogWritePage = () => {
         onThumbnailChange={handleThumbnailChange}
         onThumbnailRemove={handleThumbnailRemove}
       />
+      
       <section className={styles.content}>
         {/* 컨텐츠 헤더 */}
         <header className={styles.header}>
@@ -106,24 +118,119 @@ export const BlogWritePage = () => {
         {/* 에러 메시지 */}
         {error && <div className={styles.errorMessage}>{error}</div>}
 
-        {/* 공통 폼 컴포넌트 */}
-        <BlogForm
-          form={form}
-          fieldErrors={fieldErrors}
-          contentLengthError={contentLengthError}
-          isLoading={isLoading}
-          groupedStacks={groupedStacks}
-          isStacksLoading={isStacksLoading}
-          onFieldUpdate={updateField}
-          onTagAdd={addTag}
-          onTagRemove={removeTag}
-          onStackAdd={addStack}
-          onStackRemove={removeStack}
-          onStacksRefetch={refetchStacks}
-          onSubmit={handleSubmit}
-          onCancel={handleCancelClick}
-          submitButtonText="발행하기"
-        />
+        {/* 폼 */}
+        <form onSubmit={handleSubmit} className={styles.form}>
+          {/* 포스트 타입 */}
+          <div className={styles.field}>
+            <label className={styles.label}>타입</label>
+            <div className={styles.typeButtons}>
+              {POST_TYPES.map((type) => (
+                <button
+                  key={type.value}
+                  type="button"
+                  onClick={() => updateField('postType', type.value)}
+                  className={`${styles.typeButton} ${form.postType === type.value ? styles.active : ''}`}
+                >
+                  {type.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* 제목 */}
+          <div className={styles.field}>
+            <div className={styles.labelRow}>
+              <label className={styles.label}>제목</label>
+              <span className={styles.charCount}>
+                {form.title.length}/{VALIDATION_LIMITS.TITLE_MAX}
+              </span>
+            </div>
+            <input
+              type="text"
+              value={form.title}
+              onChange={(e) => updateField('title', e.target.value)}
+              placeholder="제목을 입력하세요"
+              className={`${styles.titleInput} ${fieldErrors?.title ? styles.inputError : ''}`}
+              maxLength={VALIDATION_LIMITS.TITLE_MAX}
+            />
+            {fieldErrors?.title && <span className={styles.fieldError}>{fieldErrors.title}</span>}
+          </div>
+
+          {/* 요약 */}
+          <div className={styles.field}>
+            <div className={styles.labelRow}>
+              <label className={styles.label}>요약</label>
+              <span className={styles.charCount}>
+                {form.excerpt.length}/{VALIDATION_LIMITS.EXCERPT_MAX}
+              </span>
+            </div>
+            <textarea
+              value={form.excerpt}
+              onChange={(e) => updateField('excerpt', e.target.value)}
+              placeholder="글을 간단히 요약해주세요 (목록에 표시됩니다)"
+              className={`${styles.excerptInput} ${fieldErrors?.excerpt ? styles.inputError : ''}`}
+              rows={2}
+              maxLength={VALIDATION_LIMITS.EXCERPT_MAX}
+            />
+            {fieldErrors?.excerpt && <span className={styles.fieldError}>{fieldErrors.excerpt}</span>}
+          </div>
+
+          {/* 스택 선택 */}
+          <StackSection
+            selectedStacks={form.stacks}
+            groupedStacks={groupedStacks}
+            isStacksLoading={isStacksLoading}
+            fieldError={fieldErrors?.stacks ?? null}
+            onStackAdd={addStack}
+            onStackRemove={removeStack}
+            onStacksRefetch={refetchStacks}
+          />
+
+          {/* 태그 */}
+          <TagSection
+            tags={form.tags}
+            fieldError={fieldErrors?.tags ?? null}
+            onTagAdd={addTag}
+            onTagRemove={removeTag}
+          />
+
+          {/* 본문 에디터 */}
+          <div className={styles.editorSection}>
+            <div className={styles.labelRow}>
+              <label className={styles.label}>본문</label>
+              <span className={`${styles.charCount} ${contentLengthError ? styles.charCountError : ''}`}>
+                {form.content.length}/{VALIDATION_LIMITS.CONTENT_MAX}
+              </span>
+            </div>
+            {contentLengthError && (
+              <span className={styles.fieldError}>{contentLengthError}</span>
+            )}
+            {fieldErrors?.content && !contentLengthError && (
+              <span className={styles.fieldError}>{fieldErrors.content}</span>
+            )}
+            
+            <Editor
+              content={form.content}
+              placeholder="마크다운 문서도 지원합니다."
+              onUpdate={(value) => updateField('content', value)}
+              editable={!isLoading}
+            />
+          </div>
+
+          {/* 하단 액션 */}
+          <div className={styles.actions}>
+            <a href="/" onClick={handleCancelClick} className={styles.cancelButton}>
+              취소
+            </a>
+            <button
+              type="submit"
+              className={styles.submitButton}
+              disabled={isLoading || !!contentLengthError}
+            >
+              {isLoading ? '저장 중...' : '발행하기'}
+            </button>
+          </div>
+        </form>
 
         {/* 저장되지 않은 변경사항 경고 모달 */}
         <UnsavedModal

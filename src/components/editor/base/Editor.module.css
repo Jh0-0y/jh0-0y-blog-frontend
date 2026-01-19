@@ -1,0 +1,234 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-base);
+  overflow: hidden;
+}
+
+.loading {
+  padding: var(--spacing-8);
+  text-align: center;
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-base);
+}
+
+.editorContent {
+  flex: 1;
+  border: 1px solid var(--color-border-light);
+  border-radius: 0 0 var(--radius-base) var(--radius-base);
+  background-color: var(--color-bg-surface);
+}
+
+/* Tiptap Editor Styles */
+.editorContent :global(.tiptap-editor) {
+  padding: var(--spacing-4);
+  min-height: 400px;
+  outline: none;
+}
+
+.editorContent :global(.tiptap-editor) :global(.ProseMirror) {
+  outline: none;
+}
+
+/* Placeholder */
+.editorContent
+  :global(.tiptap-editor)
+  :global(.is-editor-empty:first-child::before) {
+  content: attr(data-placeholder);
+  color: var(--color-text-tertiary);
+  pointer-events: none;
+  height: 0;
+  float: left;
+}
+
+/* Typography */
+.editorContent :global(.tiptap-editor) :global(h1) {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  margin: var(--spacing-6) 0 var(--spacing-4) 0;
+  line-height: var(--line-height-tight);
+  color: var(--color-text-primary);
+}
+
+.editorContent :global(.tiptap-editor) :global(h2) {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  margin: var(--spacing-5) 0 var(--spacing-3) 0;
+  line-height: var(--line-height-tight);
+  color: var(--color-text-primary);
+}
+
+.editorContent :global(.tiptap-editor) :global(h3) {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  margin: var(--spacing-4) 0 var(--spacing-2) 0;
+  line-height: var(--line-height-tight);
+  color: var(--color-text-primary);
+}
+
+.editorContent :global(.tiptap-editor) :global(p) {
+  margin: var(--spacing-2) 0;
+  line-height: var(--line-height-normal);
+  color: var(--color-text-secondary);
+}
+
+/* Text Styles */
+.editorContent :global(.tiptap-editor) :global(strong) {
+  font-weight: var(--font-weight-bold);
+}
+
+.editorContent :global(.tiptap-editor) :global(em) {
+  font-style: italic;
+}
+
+.editorContent :global(.tiptap-editor) :global(u) {
+  text-decoration: underline;
+}
+
+.editorContent :global(.tiptap-editor) :global(s) {
+  text-decoration: line-through;
+}
+
+.editorContent :global(.tiptap-editor) :global(code) {
+  padding: 0.125rem 0.25rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-elevated);
+  color: var(--color-primary-medium);
+  font-family: var(--font-family-code);
+  font-size: 0.9em;
+}
+
+.editorContent :global(.tiptap-editor) :global(mark) {
+  background-color: #fef08a;
+  padding: 0.125rem 0;
+}
+
+/* Links */
+.editorContent :global(.tiptap-editor) :global(a) {
+  color: var(--color-primary-normal);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.editorContent :global(.tiptap-editor) :global(a:hover) {
+  color: var(--color-primary-medium);
+}
+
+/* Lists */
+.editorContent :global(.tiptap-editor) :global(ul),
+.editorContent :global(.tiptap-editor) :global(ol) {
+  padding-left: var(--spacing-6);
+  margin: var(--spacing-3) 0;
+}
+
+.editorContent :global(.tiptap-editor) :global(li) {
+  margin: var(--spacing-1) 0;
+  line-height: var(--line-height-normal);
+}
+
+/* Task List */
+.editorContent :global(.tiptap-editor) :global(ul[data-type='taskList']) {
+  list-style: none;
+  padding-left: 0;
+}
+
+.editorContent :global(.tiptap-editor) :global(li[data-type='taskItem']) {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-2);
+}
+
+.editorContent
+  :global(.tiptap-editor)
+  :global(li[data-type='taskItem'])
+  :global(input[type='checkbox']) {
+  margin-top: 0.25rem;
+  cursor: pointer;
+}
+
+/* Blockquote */
+.editorContent :global(.tiptap-editor) :global(blockquote) {
+  padding-left: var(--spacing-4);
+  border-left: 3px solid var(--color-primary-light);
+  margin: var(--spacing-4) 0;
+  color: var(--color-text-tertiary);
+  font-style: italic;
+}
+
+/* Horizontal Rule */
+.editorContent :global(.tiptap-editor) :global(hr) {
+  border: none;
+  border-top: 1px solid var(--color-border-light);
+  margin: var(--spacing-6) 0;
+}
+
+/* Code Block */
+.editorContent :global(.tiptap-editor) :global(.code-block) {
+  position: relative;
+  padding: var(--spacing-4);
+  border-radius: var(--radius-base);
+  background-color: var(--color-bg-elevated);
+  margin: var(--spacing-4) 0;
+  overflow-x: auto;
+}
+
+.editorContent :global(.tiptap-editor) :global(.code-block) :global(code) {
+  background-color: transparent;
+  padding: 0;
+  font-family: var(--font-family-code);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-primary);
+}
+
+/* Table */
+.editorContent :global(.tiptap-editor) :global(table),
+.editorContent :global(.tiptap-editor) :global(.tiptap-table) {
+  border-collapse: collapse;
+  margin: var(--spacing-4) 0;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-base);
+  border: 1px solid var(--color-border-light);
+  table-layout: fixed;
+}
+
+.editorContent :global(.tiptap-editor) :global(table) :global(td),
+.editorContent :global(.tiptap-editor) :global(table) :global(th),
+.editorContent :global(.tiptap-editor) :global(.tiptap-table) :global(td),
+.editorContent :global(.tiptap-editor) :global(.tiptap-table) :global(th) {
+  border: 1px solid var(--color-border-light);
+  padding: var(--spacing-2) var(--spacing-3);
+  vertical-align: top;
+  box-sizing: border-box;
+  position: relative;
+  min-width: 100px;
+  background-color: var(--color-bg-surface);
+}
+
+.editorContent :global(.tiptap-editor) :global(table) :global(th),
+.editorContent :global(.tiptap-editor) :global(.tiptap-table) :global(th) {
+  background-color: var(--color-bg-elevated);
+  font-weight: var(--font-weight-semibold);
+  text-align: left;
+}
+
+.editorContent :global(.tiptap-editor) :global(table) :global(.selectedCell),
+.editorContent
+  :global(.tiptap-editor)
+  :global(.tiptap-table)
+  :global(.selectedCell) {
+  background-color: var(--color-primary-light);
+  opacity: 0.3;
+}
+
+.editorContent :global(.tiptap-editor) :global(table) :global(td:hover),
+.editorContent :global(.tiptap-editor) :global(table) :global(th:hover),
+.editorContent :global(.tiptap-editor) :global(.tiptap-table) :global(td:hover),
+.editorContent
+  :global(.tiptap-editor)
+  :global(.tiptap-table)
+  :global(th:hover) {
+  background-color: var(--color-bg-elevated);
+  transition: background-color 0.2s;
+}

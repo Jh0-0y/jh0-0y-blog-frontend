@@ -1,66 +1,73 @@
 import { Node, mergeAttributes } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import FileNodeView from '../nodes/FileNodeView';
+import FileComponent from '../nodes/FileNode';
+import type { FileNodeAttrs } from '../types';
 
-export interface FileAttributes {
-  src: string;
-  filename: string;
-  size: number;
-  fileId: number;
-  fileType: string;
+export interface FileOptions {
+  HTMLAttributes: Record<string, unknown>;
 }
 
-/**
- * 커스텀 파일 노드 (v3) - S3 URL 기반
- */
-export const CustomFile = Node.create({
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    customFile: {
+      setFile: (options: FileNodeAttrs) => ReturnType;
+    };
+  }
+}
+
+export const CustomFile = Node.create<FileOptions>({
   name: 'customFile',
-  
+
   group: 'block',
-  
+
   atom: true,
-  
+
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    };
+  },
+
   addAttributes() {
     return {
-      src: {
+      id: {
         default: null,
-        parseHTML: element => element.getAttribute('data-src'),
-        renderHTML: attributes => {
-          if (!attributes.src) return {};
-          return { 'data-src': attributes.src };
+        parseHTML: (element) => element.getAttribute('data-id'),
+        renderHTML: (attributes) => {
+          if (!attributes.id) return {};
+          return { 'data-id': attributes.id };
         },
       },
-      filename: {
-        default: 'file.pdf',
-        parseHTML: element => element.getAttribute('data-filename'),
-        renderHTML: attributes => {
-          return { 'data-filename': attributes.filename };
+      url: {
+        default: null,
+        parseHTML: (element) => element.getAttribute('data-url'),
+        renderHTML: (attributes) => {
+          if (!attributes.url) return {};
+          return { 'data-url': attributes.url };
+        },
+      },
+      fileName: {
+        default: null,
+        parseHTML: (element) => element.getAttribute('data-filename'),
+        renderHTML: (attributes) => {
+          if (!attributes.fileName) return {};
+          return { 'data-filename': attributes.fileName };
         },
       },
       size: {
-        default: 0,
-        parseHTML: element => parseInt(element.getAttribute('data-size') || '0'),
-        renderHTML: attributes => {
+        default: null,
+        parseHTML: (element) => {
+          const size = element.getAttribute('data-size');
+          return size ? parseInt(size, 10) : null;
+        },
+        renderHTML: (attributes) => {
+          if (!attributes.size) return {};
           return { 'data-size': attributes.size };
-        },
-      },
-      fileId: {
-        default: 0,
-        parseHTML: element => parseInt(element.getAttribute('data-file-id') || '0'),
-        renderHTML: attributes => {
-          return { 'data-file-id': attributes.fileId };
-        },
-      },
-      fileType: {
-        default: 'application/octet-stream',
-        parseHTML: element => element.getAttribute('data-file-type'),
-        renderHTML: attributes => {
-          return { 'data-file-type': attributes.fileType };
         },
       },
     };
   },
-  
+
   parseHTML() {
     return [
       {
@@ -68,23 +75,28 @@ export const CustomFile = Node.create({
       },
     ];
   },
-  
+
   renderHTML({ HTMLAttributes }) {
-    return ['div', mergeAttributes({ 'data-type': 'custom-file' }, HTMLAttributes)];
+    return [
+      'div',
+      mergeAttributes(HTMLAttributes, { 'data-type': 'custom-file' }),
+    ];
   },
-  
+
   addNodeView() {
-    return ReactNodeViewRenderer(FileNodeView);
+    return ReactNodeViewRenderer(FileComponent);
   },
-  
+
   addCommands() {
     return {
-      setCustomFile: (attributes: FileAttributes) => ({ commands }) => {
-        return commands.insertContent({
-          type: this.name,
-          attrs: attributes,
-        });
-      },
+      setFile:
+        (options) =>
+        ({ commands }) => {
+          return commands.insertContent({
+            type: this.name,
+            attrs: options,
+          });
+        },
     };
   },
 });

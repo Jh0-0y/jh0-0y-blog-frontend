@@ -1,0 +1,55 @@
+.wrapper {
+  margin: var(--spacing-4) 0;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-base);
+  cursor: pointer;
+  transition: all 0.2s;
+  background-color: var(--color-bg-surface);
+}
+
+.container:hover {
+  border-color: var(--color-border-hover);
+  background-color: var(--color-bg-elevated);
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-base);
+  background-color: var(--color-bg-elevated);
+}
+
+.icon {
+  font-size: var(--font-size-xl);
+  color: var(--color-primary-normal);
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+}
+
+.fileName {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fileSize {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  margin-top: var(--spacing-1);
+}

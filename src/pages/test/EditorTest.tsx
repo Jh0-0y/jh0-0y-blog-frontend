@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import EditorBase from '@/components/editor/base/EditorBase';
 import styles from './EditorTest.module.css';
+import { Editor } from '@/components/editor';
 
 /**
  * 에디터 사용 예시
@@ -12,7 +12,7 @@ const EditorTest: React.FC = () => {
   const [mode, setMode] = useState<'create' | 'edit' | 'view'>('create');
   const [savedContent, setSavedContent] = useState<string>('');
   const [currentContent, setCurrentContent] = useState<string>('');
-
+  const [markdown, setMarkdown] = useState('');
   // 저장 핸들러
   const handleSave = () => {
     setSavedContent(currentContent);
@@ -33,6 +33,11 @@ const EditorTest: React.FC = () => {
   const handleCreate = () => {
     setMode('create');
     setCurrentContent('');
+  };
+
+  const handleUpdate = (md: string) => {
+    setMarkdown(md);
+    console.log('현재 마크다운:', md);
   };
 
   return (
@@ -85,12 +90,12 @@ const EditorTest: React.FC = () => {
             {mode === 'view' && '👁️ 읽기 전용 모드'}
           </div>
 
-          <EditorBase
-            editable={mode !== 'view'}
-            content={mode === 'view' ? savedContent : mode === 'edit' ? savedContent : ''}
-            onUpdate={setCurrentContent}
-            height="600px"
-          />
+   <Editor
+        content={markdown}
+        placeholder="마크다운 문서도 지원합니다."
+        onUpdate={handleUpdate}
+        editable={true}
+      />
         </div>
 
         {/* 디버깅용: Markdown 미리보기 */}

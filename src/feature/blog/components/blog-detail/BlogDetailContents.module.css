@@ -5,36 +5,25 @@
   margin: 0 auto;
 }
 
-/* 읽기 전용 에디터 글꼴 및 스타일 개선 */
-.wrapper :global(.editorContainer) {
+/* Viewer 컴포넌트 커스텀 스타일 */
+.viewer {
   background: transparent;
-  box-shadow: none;
-  border: none;
-  border-radius: 0;
-}
-
-.wrapper :global(.editorWrapper) {
   padding: 0;
-  background: transparent;
-}
-
-.wrapper :global(.readonlyBadge) {
-  display: none; /* 읽기 전용 배지 숨김 */
 }
 
 /* 본문 텍스트 스타일 개선 */
-.wrapper :global(.ProseMirror) {
+.wrapper :global(.tiptap-viewer) {
   font-size: var(--font-size-base);
   line-height: var(--line-height-relaxed);
   color: var(--color-text-primary);
 }
 
-.wrapper :global(.ProseMirror p) {
+.wrapper :global(.tiptap-viewer p) {
   margin: var(--spacing-4) 0;
   line-height: var(--line-height-relaxed);
 }
 
-.wrapper :global(.ProseMirror h1) {
+.wrapper :global(.tiptap-viewer h1) {
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
   margin: var(--spacing-8) 0 var(--spacing-4);
@@ -42,7 +31,7 @@
   line-height: var(--line-height-tight);
 }
 
-.wrapper :global(.ProseMirror h2) {
+.wrapper :global(.tiptap-viewer h2) {
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-bold);
   margin: var(--spacing-6) 0 var(--spacing-3);
@@ -50,7 +39,7 @@
   line-height: var(--line-height-tight);
 }
 
-.wrapper :global(.ProseMirror h3) {
+.wrapper :global(.tiptap-viewer h3) {
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
   margin: var(--spacing-5) 0 var(--spacing-2);
@@ -59,19 +48,19 @@
 }
 
 /* 리스트 스타일 */
-.wrapper :global(.ProseMirror ul),
-.wrapper :global(.ProseMirror ol) {
+.wrapper :global(.tiptap-viewer ul),
+.wrapper :global(.tiptap-viewer ol) {
   padding-left: var(--spacing-6);
   margin: var(--spacing-4) 0;
 }
 
-.wrapper :global(.ProseMirror li) {
+.wrapper :global(.tiptap-viewer li) {
   margin: var(--spacing-2) 0;
   line-height: var(--line-height-relaxed);
 }
 
 /* 인용구 스타일 */
-.wrapper :global(.ProseMirror blockquote) {
+.wrapper :global(.tiptap-viewer blockquote) {
   border-left: 4px solid var(--color-primary-normal);
   padding: var(--spacing-3) var(--spacing-4);
   margin: var(--spacing-4) 0;
@@ -82,7 +71,7 @@
 }
 
 /* 인라인 코드 */
-.wrapper :global(.ProseMirror code) {
+.wrapper :global(.tiptap-viewer code) {
   background: var(--color-bg-elevated);
   color: var(--color-primary-normal);
   padding: 0.2em 0.4em;
@@ -92,7 +81,7 @@
 }
 
 /* 링크 스타일 */
-.wrapper :global(.ProseMirror a) {
+.wrapper :global(.tiptap-viewer a) {
   color: var(--color-primary-normal);
   text-decoration: none;
   border-bottom: 1px solid var(--color-primary-light);
@@ -100,13 +89,14 @@
   padding-bottom: 1px;
 }
 
-.wrapper :global(.ProseMirror a:hover) {
+.wrapper :global(.tiptap-viewer a:hover) {
   border-bottom-color: var(--color-primary-normal);
   background: var(--color-bg-elevated);
 }
 
-/* 테이블 스타일 */
-.wrapper :global(.custom-table) {
+/* 테이블 스타일 - tiptap-table 클래스 오버라이드 */
+.wrapper :global(.tiptap-viewer table),
+.wrapper :global(.tiptap-viewer .tiptap-table) {
   width: 100%;
   margin: var(--spacing-6) 0;
   border-collapse: collapse;
@@ -115,7 +105,8 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.wrapper :global(.custom-table-header) {
+.wrapper :global(.tiptap-viewer table th),
+.wrapper :global(.tiptap-viewer .tiptap-table th) {
   background: var(--color-bg-elevated);
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
@@ -124,7 +115,8 @@
   text-align: left;
 }
 
-.wrapper :global(.custom-table-cell) {
+.wrapper :global(.tiptap-viewer table td),
+.wrapper :global(.tiptap-viewer .tiptap-table td) {
   padding: var(--spacing-3) var(--spacing-4);
   border: 1px solid var(--color-border-light);
   background: var(--color-bg-surface);
@@ -138,39 +130,41 @@
 }
 
 /* 코드블록 여백 */
-.wrapper :global(.codeBlock) {
+.wrapper :global(.code-block) {
   margin: var(--spacing-6) 0;
 }
 
 /* 첫 번째/마지막 요소 여백 제거 */
-.wrapper :global(.ProseMirror > *:first-child) {
+.wrapper :global(.tiptap-viewer > *:first-child) {
   margin-top: 0;
 }
 
-.wrapper :global(.ProseMirror > *:last-child) {
+.wrapper :global(.tiptap-viewer > *:last-child) {
   margin-bottom: 0;
 }
 
 /* 반응형: Mobile */
 @media (max-width: 767px) {
-  .wrapper :global(.ProseMirror) {
+  .wrapper :global(.tiptap-viewer) {
     font-size: var(--font-size-sm);
   }
 
-  .wrapper :global(.ProseMirror h1) {
+  .wrapper :global(.tiptap-viewer h1) {
     font-size: var(--font-size-xl);
   }
 
-  .wrapper :global(.ProseMirror h2) {
+  .wrapper :global(.tiptap-viewer h2) {
     font-size: var(--font-size-lg);
   }
 
-  .wrapper :global(.ProseMirror h3) {
+  .wrapper :global(.tiptap-viewer h3) {
     font-size: var(--font-size-base);
   }
 
-  .wrapper :global(.custom-table-header),
-  .wrapper :global(.custom-table-cell) {
+  .wrapper :global(.tiptap-viewer table th),
+  .wrapper :global(.tiptap-viewer table td),
+  .wrapper :global(.tiptap-viewer .tiptap-table th),
+  .wrapper :global(.tiptap-viewer .tiptap-table td) {
     padding: var(--spacing-2) var(--spacing-3);
     font-size: var(--font-size-sm);
   }
@@ -178,24 +172,24 @@
 
 /* 반응형: Small Mobile */
 @media (max-width: 539px) {
-  .wrapper :global(.ProseMirror ul),
-  .wrapper :global(.ProseMirror ol) {
+  .wrapper :global(.tiptap-viewer ul),
+  .wrapper :global(.tiptap-viewer ol) {
     padding-left: var(--spacing-4);
   }
 
-  .wrapper :global(.ProseMirror blockquote) {
+  .wrapper :global(.tiptap-viewer blockquote) {
     padding: var(--spacing-2) var(--spacing-3);
   }
 }
 
 /* 프린트 스타일 */
 @media print {
-  .wrapper :global(.ProseMirror a) {
+  .wrapper :global(.tiptap-viewer a) {
     color: var(--color-text-primary);
     text-decoration: underline;
   }
 
-  .wrapper :global(.ProseMirror code) {
+  .wrapper :global(.tiptap-viewer code) {
     background: #f5f5f5;
     border: 1px solid #ddd;
   }

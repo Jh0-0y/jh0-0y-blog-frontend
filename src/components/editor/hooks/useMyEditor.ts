@@ -1,103 +1,191 @@
-import { useEditor, type Editor } from '@tiptap/react';
+import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { Table } from '@tiptap/extension-table';
+import Underline from '@tiptap/extension-underline';
+import Link from '@tiptap/extension-link';
+import Highlight from '@tiptap/extension-highlight';
+import TaskList from '@tiptap/extension-task-list';
+import TaskItem from '@tiptap/extension-task-item';
+import {Table} from '@tiptap/extension-table';
 import TableRow from '@tiptap/extension-table-row';
 import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
-import { common, createLowlight } from 'lowlight';
+import Placeholder from '@tiptap/extension-placeholder';
+import { CustomImage, CustomVideo, CustomFile } from '../extensions';
+import { htmlToMarkdown, markdownToHtml } from '../converter';
+import { uploadFile, extractFilesFromDrop, getFileMetadataType } from '../utils';
+import type { EditorOptions, UseMyEditorReturn } from '../types';
 
-// 커스텀 확장 임포트
-import { CustomImage } from '../extensions/CustomImage';
-import { CustomVideo } from '../extensions/CustomVideo';
-import { CustomFile } from '../extensions/CustomFile';
-import { CustomLink } from '../extensions/CustomLink';
-import { CustomCodeBlock } from '../extensions/CustomCodeBlock';
-
-// 타입 임포트
-import type { UseMyEditorProps } from '../types/editor.types;
-
-// Markdown 변환 유틸 임포트
-import { editorToMarkdown, markdownToHTML } from './markdownConverter';
-
-const lowlight = createLowlight(common);
-
-/**
- * Tiptap v3 에디터 훅
- * 
- * @param content - 초기 마크다운 콘텐츠
- * @param editable - 편집 가능 여부 (기본값: true)
- * @param onUpdate - 콘텐츠 업데이트 시 호출되는 콜백 (마크다운 형식)
- * @returns Editor 인스턴스 또는 null
- * 
- * @example
- * ```tsx
- * const editor = useMyEditor({
- *   content: '# Hello World',
- *   editable: true,
- *   onUpdate: (markdown) => {
- *     console.log('Updated content:', markdown);
- *   }
- * });
- * ```
- */
-export const useMyEditor = ({ 
-  content = '', 
+export const useMyEditor = ({
+  mode,
+  content = '',
+  placeholder = '마크다운 문서도 지원합니다.',
+  onUpdate,
   editable = true,
-  onUpdate 
-}: UseMyEditorProps): Editor | null => {
+}: EditorOptions): UseMyEditorReturn => {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
-        codeBlock: false, // CustomCodeBlock 사용
-        hardBreak: {
-          keepMarks: true,
+        codeBlock: {
+          HTMLAttributes: {
+            class: 'code-block',
+          },
         },
       }),
-      CustomImage,
-      CustomVideo,
-      CustomFile,
-      CustomLink.configure({
-        openOnClick: !editable,
+      Underline,
+      Link.configure({
+        openOnClick: mode === 'viewer',
         HTMLAttributes: {
-          class: 'custom-link',
+          target: '_blank',
+          rel: 'noopener noreferrer',
         },
       }),
-      CustomCodeBlock.configure({
-        lowlight,
-        defaultLanguage: 'javascript',
+      Highlight,
+      TaskList,
+      TaskItem.configure({
+        nested: true,
       }),
       Table.configure({
         resizable: true,
         HTMLAttributes: {
-          class: 'custom-table',
+          class: 'tiptap-table',
         },
       }),
-      TableRow,
+      TableRow.configure({
+        HTMLAttributes: {
+          class: 'tiptap-table-row',
+        },
+      }),
       TableCell.configure({
         HTMLAttributes: {
-          class: 'custom-table-cell',
+          class: 'tiptap-table-cell',
         },
       }),
       TableHeader.configure({
         HTMLAttributes: {
-          class: 'custom-table-header',
+          class: 'tiptap-table-header',
         },
       }),
+      Placeholder.configure({
+        placeholder: mode === 'editor' ? placeholder : '',
+      }),
+      CustomImage,
+      CustomVideo,
+      CustomFile,
     ],
-    
-    editable,
-    content: content ? markdownToHTML(content) : '',
-    
+    content: markdownToHtml(content),
+    editable: mode === 'editor' && editable,
+    editorProps: {
+      attributes: {
+        class: mode === 'editor' ? 'tiptap-editor' : 'tiptap-viewer',
+      },
+      handleDrop: (view, event, slice, moved) => {
+        if (mode !== 'editor') return false;
+
+        const files = extractFilesFromDrop(event.dataTransfer);
+        if (!files || files.length === 0) return false;
+
+        event.preventDefault();
+
+        // 드롭 위치 계산
+        const coordinates = view.posAtCoords({
+          left: event.clientX,
+          top: event.clientY,
+        });
+
+        if (!coordinates) return true;
+
+        // 파일 업로드 및 삽입
+        files.forEach(async (file) => {
+          const result = await uploadFile(file);
+
+          if (result.success && result.data) {
+            const { id, url, fileName, size, type } = result.data;
+
+            if (type === 'IMAGE') {
+              editor?.commands.setImage({
+                id,
+                url,
+                fileName,
+                size,
+              });
+            } else if (type === 'VIDEO') {
+              editor?.commands.setVideo({
+                id,
+                url,
+                fileName,
+                size,
+              });
+            } else {
+              editor?.commands.setFile({
+                id,
+                url,
+                fileName,
+                size,
+              });
+            }
+          } else {
+            alert(result.error || '파일 업로드에 실패했습니다.');
+          }
+        });
+
+        return true;
+      },
+      handlePaste: (view, event) => {
+        if (mode !== 'editor') return false;
+
+        const text = event.clipboardData?.getData('text/plain');
+        if (!text) return false;
+
+        // 마크다운 패턴 감지
+        const hasMarkdown =
+          /^#{1,6}\s/.test(text) || // 헤딩
+          /^\*\*.*\*\*/.test(text) || // Bold
+          /^\*.*\*/.test(text) || // Italic
+          /^\[.*\]\(.*\)/.test(text) || // Link
+          /^```/.test(text) || // Code block
+          /^>\s/.test(text) || // Blockquote
+          /^\|(.+)\|/.test(text); // Table (| ... | 형태)
+
+        if (hasMarkdown) {
+          event.preventDefault();
+          const html = markdownToHtml(text);
+          editor?.commands.insertContent(html);
+          return true;
+        }
+
+        return false;
+      },
+    },
     onUpdate: ({ editor }) => {
-      if (onUpdate) {
-        const markdown = editorToMarkdown(editor);
+      if (mode === 'editor' && onUpdate) {
+        const html = editor.getHTML();
+        const markdown = htmlToMarkdown(html);
         onUpdate(markdown);
       }
     },
   });
 
-  return editor;
-};
+  const getMarkdown = (): string => {
+    if (!editor) return '';
+    const html = editor.getHTML();
+    return htmlToMarkdown(html);
+  };
 
-// ===== 마크다운 변환 유틸 내보내기 =====
-export { extractFileIds, editorToMarkdown, markdownToHTML } from './markdownConverter';
+  const setMarkdown = (markdown: string): void => {
+    if (!editor) return;
+    const html = markdownToHtml(markdown);
+    editor.commands.setContent(html);
+  };
+
+  const clear = (): void => {
+    if (!editor) return;
+    editor.commands.clearContent();
+  };
+
+  return {
+    editor,
+    getMarkdown,
+    setMarkdown,
+    clear,
+  };
+};

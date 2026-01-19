@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { STACK_GROUP_LABELS, STACK_GROUP_ORDER } from '@/feature/blog/types/stack/stack.enums';
 import { VALIDATION_LIMITS } from '@/feature/blog/utils/postValidation';
-import { StackManageModal } from '../modal/StackManageModal';
+import { StackManageModal } from './modal/StackManageModal';
 import type { GroupedStacks } from '@/feature/blog/types/stack';
 
 import styles from './StackSection.module.css';

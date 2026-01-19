@@ -1,69 +1,85 @@
 import { Node, mergeAttributes } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import ImageNodeView from '../nodes/ImageNodeView';
+import ImageComponent from '../nodes/ImageNode';
+import type { ImageNodeAttrs } from '../types';
 
-export interface ImageAttributes {
-  src: string;
-  filename: string;
-  size: number;
-  fileId: number;
-  alt?: string;
+export interface ImageOptions {
+  inline: boolean;
+  allowBase64: boolean;
+  HTMLAttributes: Record<string, unknown>;
 }
 
-/**
- * 커스텀 이미지 노드 (v3) - S3 URL 기반
- * - S3에 업로드된 이미지 표시
- * - fileId 메타데이터 보존
- */
-export const CustomImage = Node.create({
+declare module '@tiptap/core' {
+  interface Commands<ReturnType> {
+    customImage: {
+      setImage: (options: ImageNodeAttrs) => ReturnType;
+    };
+  }
+}
+
+export const CustomImage = Node.create<ImageOptions>({
   name: 'customImage',
-  
+
   group: 'block',
-  
+
   atom: true,
-  
+
+  addOptions() {
+    return {
+      inline: false,
+      allowBase64: false,
+      HTMLAttributes: {},
+    };
+  },
+
   addAttributes() {
     return {
-      src: {
+      id: {
         default: null,
-        parseHTML: element => element.getAttribute('data-src'),
-        renderHTML: attributes => {
-          if (!attributes.src) return {};
-          return { 'data-src': attributes.src };
+        parseHTML: (element) => element.getAttribute('data-id'),
+        renderHTML: (attributes) => {
+          if (!attributes.id) return {};
+          return { 'data-id': attributes.id };
         },
       },
-      filename: {
-        default: 'image.png',
-        parseHTML: element => element.getAttribute('data-filename'),
-        renderHTML: attributes => {
-          return { 'data-filename': attributes.filename };
+      url: {
+        default: null,
+        parseHTML: (element) => element.getAttribute('data-url'),
+        renderHTML: (attributes) => {
+          if (!attributes.url) return {};
+          return { 'data-url': attributes.url };
+        },
+      },
+      fileName: {
+        default: null,
+        parseHTML: (element) => element.getAttribute('data-filename'),
+        renderHTML: (attributes) => {
+          if (!attributes.fileName) return {};
+          return { 'data-filename': attributes.fileName };
         },
       },
       size: {
-        default: 0,
-        parseHTML: element => parseInt(element.getAttribute('data-size') || '0'),
-        renderHTML: attributes => {
-          return { 'data-size': attributes.size };
+        default: null,
+        parseHTML: (element) => {
+          const size = element.getAttribute('data-size');
+          return size ? parseInt(size, 10) : null;
         },
-      },
-      fileId: {
-        default: 0,
-        parseHTML: element => parseInt(element.getAttribute('data-file-id') || '0'),
-        renderHTML: attributes => {
-          return { 'data-file-id': attributes.fileId };
+        renderHTML: (attributes) => {
+          if (!attributes.size) return {};
+          return { 'data-size': attributes.size };
         },
       },
       alt: {
         default: null,
-        parseHTML: element => element.getAttribute('data-alt'),
-        renderHTML: attributes => {
+        parseHTML: (element) => element.getAttribute('alt'),
+        renderHTML: (attributes) => {
           if (!attributes.alt) return {};
-          return { 'data-alt': attributes.alt };
+          return { alt: attributes.alt };
         },
       },
     };
   },
-  
+
   parseHTML() {
     return [
       {
@@ -71,23 +87,28 @@ export const CustomImage = Node.create({
       },
     ];
   },
-  
+
   renderHTML({ HTMLAttributes }) {
-    return ['div', mergeAttributes({ 'data-type': 'custom-image' }, HTMLAttributes)];
+    return [
+      'div',
+      mergeAttributes(HTMLAttributes, { 'data-type': 'custom-image' }),
+    ];
   },
-  
+
   addNodeView() {
-    return ReactNodeViewRenderer(ImageNodeView);
+    return ReactNodeViewRenderer(ImageComponent);
   },
-  
+
   addCommands() {
     return {
-      setCustomImage: (attributes: ImageAttributes) => ({ commands }) => {
-        return commands.insertContent({
-          type: this.name,
-          attrs: attributes,
-        });
-      },
+      setImage:
+        (options) =>
+        ({ commands }) => {
+          return commands.insertContent({
+            type: this.name,
+            attrs: options,
+          });
+        },
     };
   },
 });

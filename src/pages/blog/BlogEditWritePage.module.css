@@ -189,7 +189,7 @@
   border-radius: var(--radius-base);
 }
 
-/* 폼 - 이하 동일하므로 BlogForm.module.css 참조 권장 */
+/* 폼 */
 .form {
   display: flex;
   flex-direction: column;
