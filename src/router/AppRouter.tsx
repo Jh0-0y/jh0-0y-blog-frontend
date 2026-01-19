@@ -1,76 +1,67 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ProtectedRoute, GuestRoute } from '@/router/guards';
 
-import { BlogLayout } from '@/feature/blog/layouts/BlogLayout';
-import { BlogHomePage, BlogPostPage, BlogWritePage, BlogEditPage } from '@/feature/blog/pages';
-
+import { BlogLayout } from '@/layout/post/BlogLayout';
+import { BlogHomePage, BlogDetailPage, BlogWritePage, BlogEditPage } from '@/pages/blog';
 import { LoginPage, SignUpPage } from '@/pages/auth';
-import { ProfilePage } from '@/feature/portfolio/pages';
-
 import { NotFoundPage } from '@/pages/notfound';
-import { ProjectDetailPage } from '@/feature/portfolio/pages/ProjectDetailPage';
+
 import ToastTest from '@/pages/test/ToastTest';
-// import ScrollToTop from '@/utils/scrollerToTop/ScrollerToTop';
+import { AuthLayout } from '@/layout/auth/AuthLayout';
+import EditorTest from '@/pages/test/EditorTest';
 
 export const AppRouter = () => (
   <BrowserRouter basename="/">
-    {/* <ScrollToTop /> */}
     <Routes>
-      {/* 블로그 (공개) */}
       <Route path="/" element={<BlogLayout />}>
-        {/* 전체 글 */}
         <Route index element={<BlogHomePage />} />
-        {/* 필터링된 글 */}
         <Route path=":postType">
           <Route index element={<BlogHomePage />} />
-          <Route path="post/:id" element={<BlogPostPage />} />
+          <Route path="post/:slug" element={<BlogDetailPage />} />
         </Route>
 
         <Route path=":group/:stack">
           <Route index element={<BlogHomePage />} />
-          <Route path="post/:id" element={<BlogPostPage />} />
+          <Route path="post/:slug" element={<BlogDetailPage />} />
         </Route>
 
         <Route path=":group/:stack/:postType">
           <Route index element={<BlogHomePage />} />
-          <Route path="post/:id" element={<BlogPostPage />} />
+          <Route path="post/:slug" element={<BlogDetailPage />} />
         </Route>
-        {/* 글 상세 */}
-        <Route path="post/:id" element={<BlogPostPage />} />
+
+        <Route path="post/:slug" element={<BlogDetailPage />} />
         
-        {/* 글쓰기 (인증 필요) */}
+
         <Route path="write" element={
           <ProtectedRoute>
             <BlogWritePage />
           </ProtectedRoute>
         } />
         
-        {/* 글 수정 (인증 필요) */}
-        <Route path="post/:id/edit" element={
+        <Route path="post/:slug/edit" element={
           <ProtectedRoute>
             <BlogEditPage />
           </ProtectedRoute>
         } />
       </Route>
 
-      {/* 포트폴리오 (공개) */}
-      <Route path="/portfolio" element={<ProfilePage />} />
-      <Route path="/portfolio/project/:id" element={<ProjectDetailPage />} />
-
-      {/* 로그인/회원가입 (비로그인만) */}
-      <Route path="/login" element={
+     {/* 로그인/회원가입 (비로그인만) - GuestRoute를 element로 */}
+      <Route path="auth" element={
         <GuestRoute>
-          <LoginPage />
+          <AuthLayout />
         </GuestRoute>
-      } />
-      <Route path="/signup" element={
-        <GuestRoute>
-          <SignUpPage />
-        </GuestRoute>
-      } />
+      }>
+        <Route path="login" element={<LoginPage />} />
+        <Route path="signup" element={<SignUpPage />} />
+      </Route>
 
       <Route path="test" element={
         <ToastTest />
+      } />
+
+      <Route path="editor" element={
+        <EditorTest />
       } />
 
       <Route path="*" element={<NotFoundPage />} />

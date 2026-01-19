@@ -2,72 +2,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,500&display=swap');
 
 :root {
-  /* ===== 색상 ===== */
-  /* ===== Primary Colors (Soft Ocean Blue) ===== */
-  --color-primary-50: #f0f9ff;
-  --color-primary-100: #e0f2fe;
-  --color-primary-200: #bae6fd;
-  --color-primary-300: #7dd3fc;
-  --color-primary-400: #38bdf8;
-  --color-primary-500: #0ea5e9;
-  --color-primary-600: #0284c7;
-  --color-primary-700: #0369a1;
-  --color-primary-800: #075985;
-  --color-primary-900: #0c4a6e;
-
-  /* ===== Navy Gray Scale (Muted Ocean) ===== */
-  --color-gray-50: #f8fafc;
-  --color-gray-100: #f1f5f9;
-  --color-gray-200: #e2e8f0;
-  --color-gray-300: #cbd5e1;
-  --color-gray-400: #94a3b8;
-  --color-gray-500: #64748b;
-  --color-gray-600: #475569;
-  --color-gray-700: #334155;
-  --color-gray-800: #1e293b;
-  --color-gray-900: #0f172a;
-
-  /* ===== Semantic Colors (Muted) ===== */
-  --color-success: #10b981;
-  --color-error: #ef4444;
-  --color-warning: #f59e0b;
-  --color-info: #0ea5e9;
-
-  /* ===== Background (Soft Ocean) ===== */
-  --color-bg-primary: #ffffff;
-  --color-bg-secondary: #f8fafc;
-  --color-bg-tertiary: #f1f5f9;
-
-  /* Accent Colors (Subtle Ocean Gradients) */
-  --accent-gradient: linear-gradient(135deg, #bae6fd 0%, #7dd3fc 100%);
-  --header-overlay: rgba(255, 255, 255, 0.2);
-  --banner-overlay: linear-gradient(
-    to bottom,
-    rgba(248, 250, 252, 0.4) 0%,
-    rgba(241, 245, 249, 0.2) 30%,
-    transparent 50%,
-    rgba(226, 232, 240, 0.15) 75%,
-    rgba(203, 213, 225, 0.3) 100%
-  );
-
-  /* ===== Text =====*/
-  --color-text-primary: #0f172a;
-  --color-text-secondary: #334155;
-  --color-text-tertiary: #64748b;
-  --color-text-inverse: #ffffff;
-
-  /* ===== Border ===== */
-  --color-border-light: #e2e8f0;
-  --color-border-hover: #cbd5e1;
-  --color-border-dark: #94a3b8;
-
-  /* ===== 폰트 ===== */
   /* ===== Font Family ===== */
-  --font-family-primary: 'Pretendard', -apple-system, BlinkMacSystemFont,
-    system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo',
-    'Noto Sans KR', 'Malgun Gothic', sans-serif;
-  --font-family-code: 'Fira Code', 'JetBrains Mono', Consolas, Monaco,
-    'Courier New', monospace;
+  --font-family-primary:
+    'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR',
+    'Malgun Gothic', sans-serif;
+  --font-family-code:
+    'Fira Code', 'JetBrains Mono', Consolas, Monaco, 'Courier New', monospace;
 
   /* ===== Font Size ===== */
   --font-size-xs: 0.75rem; /* 12px */
@@ -114,66 +55,98 @@
   --radius-xl: 1.5rem; /* 24px */
   --radius-full: 9999px;
 
-  /* ===== Shadow (Soft Glow) ===== */
-  --shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.03);
-  --shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.05),
-    0 1px 2px -1px rgba(15, 23, 42, 0.05);
-  --shadow-base: 0 4px 6px -1px rgba(15, 23, 42, 0.06),
-    0 2px 4px -2px rgba(15, 23, 42, 0.06);
-  --shadow-md: 0 10px 15px -3px rgba(15, 23, 42, 0.08),
-    0 4px 6px -4px rgba(15, 23, 42, 0.06);
-  --shadow-lg: 0 20px 25px -5px rgba(15, 23, 42, 0.1),
-    0 8px 10px -6px rgba(15, 23, 42, 0.08);
-  --shadow-xl: 0 25px 50px -12px rgba(15, 23, 42, 0.15);
+  /* ===== article ===== */
+  --article-sm: 800px;
+  --article-md: 900px;
+  --article-lg: 1100px;
+  --article-xl: 1200px;
 
-  /* ===== Breakpoints (미디어 쿼리용) ===== */
-  --breakpoint-sm: 640px;
-  --breakpoint-md: 768px;
-  --breakpoint-lg: 920px;
-  --breakpoint-xl: 1024px;
+  /* ===== Primary Colors ===== */
+  --color-primary-light: #5fb6d9;
+  --color-primary-normal: #4e94bf;
+  --color-primary-medium: #2a558c;
+
+  /* ===== Gray Scale ===== */
+  --color-gray-light: #f1f5f9;
+  --color-gray-normal: #cbd5e1;
+  --color-gray-medium: #64748b;
+
+  /* ===== Background ===== */
+  --color-bg-base: #f8f9fb;
+  --color-bg-elevated: #fcfcfd;
+  --color-bg-surface: #ffffff;
+
+  /* ===== Text =====*/
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #334155;
+  --color-text-tertiary: #64748b;
+  --color-text-inverse: #ffffff;
+  --color-text-white: #ffffff;
+  --color-text-black: #0f172a;
+
+  /* ===== Border ===== */
+  --color-border-light: #e5e7eb;
+  --color-border-hover: #cbd5e1;
+
+  /* ===== Semantic Colors ===== */
+  --color-success: #10b981;
+  --color-error: #ef4444;
+  --color-warning: #f59e0b;
+  --color-info: #0ea5e9;
+
+  /* ===== Overlay ===== */
+  --header-overlay: rgba(255, 255, 255, 0.2);
+  --sidebar-overlay: rgba(255, 255, 255, 0.8);
+  --indexbar-overlay: rgba(255, 255, 255, 0.6);
+  --banner-overlay: linear-gradient(
+    to bottom,
+    rgba(248, 250, 252, 0.4) 0%,
+    rgba(241, 245, 249, 0.2) 30%,
+    transparent 50%,
+    rgba(226, 232, 240, 0.15) 75%,
+    rgba(203, 213, 225, 0.3) 100%
+  );
+
+  /* ===== Shadow ===== */
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+  --shadow-md:
+    0 4px 6px -1px rgba(15, 23, 42, 0.1), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+  --shadow-lg:
+    0 10px 15px -3px rgba(15, 23, 42, 0.15),
+    0 4px 6px -4px rgba(15, 23, 42, 0.1);
+
+  /* ===== Gradient ===== */
+  --gradient-primary: linear-gradient(135deg, #5fb6d9 0%, #4e94bf 100%);
+  --gradient-primary-soft: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+  --gradient-ocean: linear-gradient(135deg, #5fb6d9 0%, #2a558c 100%);
+  --gradient-glass: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(255, 255, 255, 0.4) 100%
+  );
+  --gradient-backdrop: linear-gradient(
+    to bottom,
+    rgba(248, 249, 251, 0) 0%,
+    rgba(248, 249, 251, 0.8) 100%
+  );
 }
 
 /* ===== Dark Mode (Calm Night Ocean) ===== */
 [data-theme='dark'] {
-  /* ===== Primary Colors (Deep Calm Ocean) ===== */
-  --color-primary-50: #0c1929;
-  --color-primary-100: #0f2539;
-  --color-primary-200: #1e3a52;
-  --color-primary-300: #2d4f6b;
-  --color-primary-400: #3d6485;
-  --color-primary-500: #5589b3;
-  --color-primary-600: #7dacd0;
-  --color-primary-700: #a5cde8;
-  --color-primary-800: #cde5f5;
-  --color-primary-900: #e0f2fe;
+  /* ===== Primary Colors (Dark Mode) ===== */
+  --color-primary-light: #4e94bf;
+  --color-primary-normal: #5fb6d9;
+  --color-primary-medium: #8ec5e5;
 
-  /* ===== Navy Gray Scale (Soft Deep Sea) ===== */
-  --color-gray-50: #0f1419;
-  --color-gray-100: #1a1f2e;
-  --color-gray-200: #252d3d;
-  --color-gray-300: #364152;
-  --color-gray-400: #4f5b6e;
-  --color-gray-500: #6b788c;
-  --color-gray-600: #8896aa;
-  --color-gray-700: #a8b5c7;
-  --color-gray-800: #cbd5e1;
-  --color-gray-900: #e2e8f0;
+  /* ===== Gray Scale (Dark Mode) ===== */
+  --color-gray-light: #334155;
+  --color-gray-normal: #475569;
+  --color-gray-medium: #94a3b8;
 
-  /* ===== Background (Deep Calm Ocean) ===== */
-  --color-bg-primary: #0a0e14;
-  --color-bg-secondary: #0f1419;
-  --color-bg-tertiary: #1a1f2e;
-
-  --accent-gradient: linear-gradient(135deg, #3d6485 0%, #5589b3 100%);
-  --header-overlay: rgba(26, 31, 46, 0.2);
-  --banner-overlay: linear-gradient(
-    to bottom,
-    rgba(15, 20, 25, 0.5) 0%,
-    rgba(26, 31, 46, 0.2) 30%,
-    transparent 50%,
-    rgba(37, 45, 61, 0.15) 75%,
-    rgba(54, 65, 82, 0.25) 100%
-  );
+  /* ===== Background (Dark Mode) ===== */
+  --color-bg-base: #0a0e14;
+  --color-bg-elevated: #0f1419;
+  --color-bg-surface: #1a1f2e;
 
   /* ===== Text ===== */
   --color-text-primary: #e2e8f0;
@@ -184,7 +157,6 @@
   /* ===== Border ===== */
   --color-border-light: #252d3d;
   --color-border-hover: #364152;
-  --color-border-dark: #1a1f2e;
 
   /* ===== Semantic ===== */
   --color-success: #34d399;
@@ -192,15 +164,37 @@
   --color-warning: #fbbf24;
   --color-info: #7dd3fc;
 
-  /* ===== Shadow (Subtle Deep Glow) ===== */
-  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.3),
-    0 1px 2px -1px rgba(0, 0, 0, 0.25);
-  --shadow-base: 0 4px 6px -1px rgba(0, 0, 0, 0.3),
-    0 2px 4px -2px rgba(0, 0, 0, 0.25);
-  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.35),
-    0 4px 6px -4px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.4),
-    0 8px 10px -6px rgba(0, 0, 0, 0.35);
-  --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+  /* ===== Overlay ===== */
+  --header-overlay: rgba(26, 31, 46, 0.2);
+  --sidebar-overlay: rgba(15, 23, 42, 0.8);
+  --banner-overlay: linear-gradient(
+    to bottom,
+    rgba(15, 20, 25, 0.5) 0%,
+    rgba(26, 31, 46, 0.2) 30%,
+    transparent 50%,
+    rgba(37, 45, 61, 0.15) 75%,
+    rgba(54, 65, 82, 0.25) 100%
+  );
+
+  /* ===== Shadow (Dark Mode) ===== */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md:
+    0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg:
+    0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+
+  /* ===== Gradient (Dark Mode) ===== */
+  --gradient-primary: linear-gradient(135deg, #5fb6d9 0%, #8ec5e5 100%);
+  --gradient-primary-soft: linear-gradient(135deg, #334155 0%, #475569 100%);
+  --gradient-ocean: linear-gradient(135deg, #4e94bf 0%, #5fb6d9 100%);
+  --gradient-glass: linear-gradient(
+    135deg,
+    rgba(51, 65, 85, 0.8) 0%,
+    rgba(51, 65, 85, 0.4) 100%
+  );
+  --gradient-backdrop: linear-gradient(
+    to bottom,
+    rgba(15, 23, 42, 0) 0%,
+    rgba(15, 23, 42, 0.8) 100%
+  );
 }

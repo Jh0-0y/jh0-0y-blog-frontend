@@ -1,0 +1,238 @@
+/* 토글 버튼 - 항상 표시 */
+.toggleButton {
+  position: fixed;
+  top: calc(30vh - 30px); /* 30px 위로 이동 */
+  right: 0; /* 오른쪽 벽에 딱 붙임 */
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  background-color: var(--header-overlay);
+  border-right: none; /* 오른쪽 보더 제거 */
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm); /* 왼쪽만 둥글게 */
+  color: var(--color-text-inverted);
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  transition: all 0.2s;
+}
+
+.toggleButton:hover {
+  background-color: var(--color-primary-normal);
+  color: var(--color-text-white);
+  border-color: var(--color-primary-normal);
+  box-shadow: var(--shadow-lg);
+  transform: scale(1.05);
+}
+
+.toggleButton svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* 목차 컨테이너 - 데스크탑 (1024px 이상) */
+.toc {
+  position: fixed;
+  top: calc(30vh - 30px + 3.25rem); /* 버튼 아래에 위치 */
+  right: -100%;
+  width: 18rem;
+  max-height: calc(70vh - 4rem);
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  z-index: 90;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toc.open {
+  right: 0; /* 오른쪽 벽에 딱 붙임 */
+}
+
+/* 목차 헤더 */
+.tocHeader {
+  padding: var(--spacing-3) var(--spacing-4);
+  border-bottom: 1px solid var(--color-border-light);
+  background-color: var(--color-bg-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tocTitle {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.closeButton {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: none;
+  border: none;
+  color: var(--color-text-tertiary);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s;
+}
+
+.closeButton:hover {
+  background-color: var(--color-bg-base);
+  color: var(--color-text-primary);
+}
+
+.closeButton svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* 목차 네비게이션 */
+.tocNav {
+  padding: var(--spacing-2);
+  overflow-y: auto;
+  max-height: calc(70vh - 5rem);
+}
+
+.tocNav::-webkit-scrollbar {
+  width: 4px;
+}
+
+.tocNav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tocNav::-webkit-scrollbar-thumb {
+  background: var(--color-border-light);
+  border-radius: var(--radius-full);
+}
+
+.tocNav::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-hover);
+}
+
+/* 목차 아이템 */
+.tocItem {
+  display: block;
+  width: 100%;
+  padding: var(--spacing-2) var(--spacing-3);
+  margin-bottom: var(--spacing-1);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  text-align: left;
+  background: none;
+  border: none;
+  border-left: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+  line-height: 1.4;
+  font-weight: var(--font-weight-medium);
+}
+
+.tocItem:hover {
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-elevated);
+  border-left-color: var(--color-primary-light);
+  font-weight: var(--font-weight-semibold);
+}
+
+.tocItem.active {
+  color: var(--color-primary-normal);
+  background-color: var(--color-gray-light);
+  border-left-color: var(--color-primary-normal);
+  font-weight: var(--font-weight-bold);
+}
+
+/* 레벨별 들여쓰기 - H1, H2, H3 */
+.tocItem.level1 {
+  padding-left: var(--spacing-3);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-sm);
+}
+
+.tocItem.level2 {
+  padding-left: var(--spacing-6);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+}
+
+.tocItem.level3 {
+  padding-left: var(--spacing-8);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-normal);
+  opacity: 0.85;
+}
+
+/* 오버레이 */
+.overlay {
+  display: none;
+}
+
+/* 태블릿 (768px ~ 1023px) */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .toc {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0;
+    pointer-events: none;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+  }
+
+  .toc.open {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .closeButton {
+    display: flex;
+  }
+
+  .overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 80;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .tocNav {
+    max-height: calc(80vh - 5rem);
+  }
+}
+
+/* 모바일 (540px 이하) */
+@media (max-width: 539px) {
+  .toggleButton {
+    display: none;
+  }
+  .toc {
+    display: none;
+  }
+  .overlay {
+    display: none;
+  }
+}

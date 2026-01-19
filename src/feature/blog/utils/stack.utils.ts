@@ -1,4 +1,4 @@
-import type { StackGroup } from '../../../services/stack/stack.enums';
+import type { StackGroup } from '../types/stack/stack.enums';
 
 /**
  * 스택 그룹 우선순위

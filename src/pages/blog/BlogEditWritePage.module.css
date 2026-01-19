@@ -1,0 +1,610 @@
+.page {
+  width: 100%;
+}
+
+/* 로딩 */
+.loading {
+  padding: var(--spacing-16) 0;
+  text-align: center;
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-sm);
+}
+
+.content {
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-8);
+}
+
+/* 헤더 */
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-8);
+  padding-bottom: var(--spacing-4);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  transition: color 0.2s;
+}
+
+.backLink:hover {
+  color: var(--color-text-primary);
+}
+
+.backLink svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.pageTitle {
+  flex: 1;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+/* 삭제 버튼 (Edit 페이지에만 사용) */
+.deleteButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  color: var(--color-error);
+  background-color: rgba(239, 68, 68, 0.1);
+  transition: all 0.2s;
+}
+
+.deleteButton:hover {
+  background-color: rgba(239, 68, 68, 0.2);
+}
+
+.deleteButton svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* 공개/비공개 토글 */
+.statusToggle {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  background-color: var(--color-bg-elevated);
+  transition: all 0.2s;
+}
+
+.statusToggle:hover {
+  background-color: var(--color-gray-light);
+}
+
+.statusToggle.public {
+  color: var(--color-success);
+  background-color: rgba(34, 197, 94, 0.1);
+}
+
+.statusToggle svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* 삭제 확인 모달 (Edit 페이지에만 사용) */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: var(--color-bg-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-6);
+  width: 100%;
+  max-width: 400px;
+  margin: var(--spacing-4);
+  box-shadow: var(--shadow-lg);
+}
+
+.modalTitle {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-2);
+}
+
+.modalMessage {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-6);
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-3);
+}
+
+.modalCancelButton {
+  padding: var(--spacing-2) var(--spacing-4);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  background-color: var(--color-bg-elevated);
+  border-radius: var(--radius-base);
+  transition: all 0.2s;
+}
+
+.modalCancelButton:hover {
+  background-color: var(--color-gray-light);
+}
+
+.modalDeleteButton {
+  padding: var(--spacing-2) var(--spacing-4);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-inverse);
+  background-color: var(--color-error);
+  border-radius: var(--radius-base);
+  transition: all 0.2s;
+}
+
+.modalDeleteButton:hover:not(:disabled) {
+  opacity: 0.9;
+  box-shadow: var(--shadow-md);
+}
+
+.modalDeleteButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 에러 메시지 */
+.errorMessage {
+  padding: var(--spacing-3) var(--spacing-4);
+  margin-bottom: var(--spacing-6);
+  font-size: var(--font-size-sm);
+  color: var(--color-error);
+  background-color: rgba(239, 68, 68, 0.1);
+  border-radius: var(--radius-base);
+}
+
+/* 폼 - 이하 동일하므로 BlogForm.module.css 참조 권장 */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.manageButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  padding: var(--spacing-1) var(--spacing-2);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  background: transparent;
+  border-radius: var(--radius-sm);
+  transition: all 0.15s;
+}
+
+.manageButton:hover {
+  color: var(--color-text-secondary);
+  background-color: var(--color-bg-elevated);
+}
+
+.manageButton svg {
+  width: 14px;
+  height: 14px;
+}
+
+.charCount {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+}
+
+.charCountError {
+  color: var(--color-error);
+  font-weight: var(--font-weight-medium);
+}
+
+.fieldError {
+  font-size: var(--font-size-xs);
+  color: var(--color-error);
+}
+
+.inputError {
+  border-color: var(--color-error) !important;
+}
+
+/* 포스트 타입 버튼 */
+.typeButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+}
+
+.typeButton {
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  background-color: var(--color-bg-elevated);
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.typeButton:hover {
+  border-color: var(--color-border-light);
+  color: var(--color-text-secondary);
+}
+
+.typeButton.active {
+  background: var(--gradient-primary);
+  color: var(--color-text-inverse);
+  border-color: transparent;
+}
+
+/* 제목 입력 */
+.titleInput {
+  width: 100%;
+  padding: var(--spacing-4);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  background: none;
+  border: none;
+  border-bottom: 2px solid var(--color-border-light);
+  transition: border-color 0.2s;
+}
+
+.titleInput:focus {
+  outline: none;
+  border-color: var(--color-primary-normal);
+}
+
+.titleInput::placeholder {
+  color: var(--color-gray-normal);
+}
+
+/* 요약 입력 */
+.excerptInput {
+  width: 100%;
+  padding: var(--spacing-3);
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  background-color: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-base);
+  resize: none;
+  transition: border-color 0.2s;
+}
+
+.excerptInput:focus {
+  outline: none;
+  border-color: var(--color-primary-normal);
+}
+
+.excerptInput::placeholder {
+  color: var(--color-gray-medium);
+}
+
+/* 스택 선택 */
+.stacksLoading {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+}
+
+.stackGroups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  padding: var(--spacing-4);
+  background-color: var(--color-bg-elevated);
+  border-radius: var(--radius-base);
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.stackGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.stackGroupLabel {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.stackButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-1);
+}
+
+.stackButton {
+  padding: var(--spacing-1) var(--spacing-2);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-sm);
+  transition: all 0.2s;
+}
+
+.stackButton:hover {
+  border-color: var(--color-primary-light);
+  color: var(--color-text-secondary);
+}
+
+.stackButton.active {
+  background: var(--gradient-primary);
+  border-color: transparent;
+  color: var(--color-text-inverse);
+}
+
+/* 선택된 스택 */
+.selectedStacks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-2);
+}
+
+.selectedStack {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  padding: var(--spacing-1) var(--spacing-3);
+  background-color: rgba(94, 182, 217, 0.1);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  color: var(--color-primary-medium);
+}
+
+.stackRemove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  font-size: var(--font-size-base);
+  color: var(--color-primary-normal);
+  border-radius: var(--radius-full);
+  transition: all 0.2s;
+}
+
+.stackRemove:hover {
+  background-color: rgba(94, 182, 217, 0.2);
+  color: var(--color-primary-medium);
+}
+
+/* 태그 입력 */
+.tagInputWrapper {
+  display: flex;
+  gap: var(--spacing-2);
+}
+
+.tagInput {
+  flex: 1;
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-base);
+  transition: border-color 0.2s;
+}
+
+.tagInput:focus {
+  outline: none;
+  border-color: var(--color-primary-normal);
+}
+
+.tagAddButton {
+  padding: var(--spacing-2) var(--spacing-4);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  background-color: var(--color-bg-elevated);
+  border-radius: var(--radius-base);
+  transition: all 0.2s;
+}
+
+.tagAddButton:hover {
+  background-color: var(--color-gray-light);
+  color: var(--color-text-primary);
+}
+
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-2);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  padding: var(--spacing-1) var(--spacing-3);
+  background-color: var(--color-gray-light);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.tagRemove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  font-size: var(--font-size-base);
+  color: var(--color-text-tertiary);
+  border-radius: var(--radius-full);
+  transition: all 0.2s;
+}
+
+.tagRemove:hover {
+  background-color: var(--color-bg-elevated);
+  color: var(--color-text-primary);
+}
+
+/* 에디터 섹션 */
+.editorSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+/* 하단 액션 */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-3);
+  padding-top: var(--spacing-6);
+  border-top: 1px solid var(--color-border-light);
+}
+
+.cancelButton {
+  padding: var(--spacing-3) var(--spacing-6);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  background-color: var(--color-bg-elevated);
+  border-radius: var(--radius-base);
+  transition: all 0.2s;
+}
+
+.cancelButton:hover {
+  background-color: var(--color-gray-light);
+  color: var(--color-text-primary);
+}
+
+.submitButton {
+  padding: var(--spacing-3) var(--spacing-6);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-inverse);
+  background: var(--gradient-primary);
+  border-radius: var(--radius-base);
+  transition: all 0.2s;
+}
+
+.submitButton:hover:not(:disabled) {
+  opacity: 0.9;
+  box-shadow: var(--shadow-md);
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 반응형: Mobile (< 768px) */
+@media (max-width: 767px) {
+  .content {
+    padding: 0 var(--spacing-4);
+  }
+
+  .header {
+    flex-wrap: wrap;
+  }
+
+  .pageTitle {
+    order: -1;
+    width: 100%;
+    margin-bottom: var(--spacing-2);
+  }
+
+  .headerActions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .modal {
+    margin: var(--spacing-4);
+  }
+
+  .modalActions {
+    flex-direction: column;
+  }
+
+  .modalCancelButton,
+  .modalDeleteButton {
+    width: 100%;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .cancelButton,
+  .submitButton {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* 반응형: Small Mobile (< 540px) */
+@media (max-width: 539px) {
+  .content {
+    padding: 0 var(--spacing-2);
+  }
+
+  .titleInput {
+    font-size: var(--font-size-xl);
+    padding: var(--spacing-3);
+  }
+
+  .typeButtons {
+    gap: var(--spacing-1);
+  }
+
+  .typeButton {
+    padding: var(--spacing-2) var(--spacing-3);
+    font-size: var(--font-size-xs);
+  }
+}

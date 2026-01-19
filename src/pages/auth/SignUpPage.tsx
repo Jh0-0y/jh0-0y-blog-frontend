@@ -1,6 +1,11 @@
 import { useState, type FormEvent } from 'react';
-import { Link } from 'react-router-dom';
-import { useSignUp } from '@/hooks/auth';
+import { useSignUp } from '@/feature/auth/hooks';
+import 
+{ AuthHeader, 
+  ErrorAlert, 
+  FormInput, 
+  SubmitButton, 
+  AuthFooter } from '@/feature/auth/components';
 import styles from './SignUpPage.module.css';
 
 export const SignUpPage = () => {
@@ -37,165 +42,93 @@ export const SignUpPage = () => {
   };
 
   const displayError = localError || error;
+  const confirmPasswordError =
+    confirmPassword && password !== confirmPassword
+      ? '비밀번호가 일치하지 않습니다'
+      : undefined;
 
   return (
-    <div className={styles.container}>
-      <div className={styles.formWrapper}>
-        {/* 헤더 */}
-        <div className={styles.header}>
-          <h1 className={styles.title}>회원가입</h1>
-          <p className={styles.subtitle}>새로운 계정을 만들어보세요</p>
-        </div>
+    <>
+      <AuthHeader
+        title="회원가입"
+        subtitle="새로운 계정을 만들어보세요"
+      />
 
-        {/* 에러 메시지 */}
-        {displayError && (
-          <div className={styles.errorAlert}>
-            <svg className={styles.errorIcon} viewBox="0 0 20 20" fill="currentColor">
-              <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                clipRule="evenodd"
-              />
-            </svg>
-            <span>{displayError}</span>
-          </div>
-        )}
+      {displayError && <ErrorAlert message={displayError} />}
 
-        {/* 회원가입 폼 */}
-        <form className={styles.form} onSubmit={handleSubmit}>
-          {/* 이메일 */}
-          <div className={styles.inputGroup}>
-            <label htmlFor="email" className={styles.label}>
-              이메일
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                handleInputChange();
-              }}
-              className={`${styles.input} ${fieldErrors?.email ? styles.inputError : ''}`}
-              placeholder="example@email.com"
-              required
-              disabled={isLoading}
-            />
-            {fieldErrors?.email && (
-              <p className={styles.fieldError}>{fieldErrors.email}</p>
-            )}
-          </div>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <FormInput
+          id="email"
+          type="email"
+          label="이메일"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            handleInputChange();
+          }}
+          placeholder="example@email.com"
+          required
+          disabled={isLoading}
+          error={fieldErrors?.email}
+        />
 
-          {/* 닉네임 */}
-          <div className={styles.inputGroup}>
-            <label htmlFor="nickname" className={styles.label}>
-              닉네임
-            </label>
-            <input
-              id="nickname"
-              type="text"
-              value={nickname}
-              onChange={(e) => {
-                setNickname(e.target.value);
-                handleInputChange();
-              }}
-              className={`${styles.input} ${fieldErrors?.nickname ? styles.inputError : ''}`}
-              placeholder="2~20자로 입력하세요"
-              required
-              disabled={isLoading}
-              minLength={2}
-              maxLength={20}
-            />
-            {fieldErrors?.nickname && (
-              <p className={styles.fieldError}>{fieldErrors.nickname}</p>
-            )}
-          </div>
+        <FormInput
+          id="nickname"
+          type="text"
+          label="닉네임"
+          value={nickname}
+          onChange={(e) => {
+            setNickname(e.target.value);
+            handleInputChange();
+          }}
+          placeholder="2~20자로 입력하세요"
+          required
+          disabled={isLoading}
+          minLength={2}
+          maxLength={20}
+          error={fieldErrors?.nickname}
+        />
 
-          {/* 비밀번호 */}
-          <div className={styles.inputGroup}>
-            <label htmlFor="password" className={styles.label}>
-              비밀번호
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-                handleInputChange();
-              }}
-              className={`${styles.input} ${fieldErrors?.password ? styles.inputError : ''}`}
-              placeholder="8~20자로 입력하세요"
-              required
-              disabled={isLoading}
-            />
-            {fieldErrors?.password && (
-              <p className={styles.fieldError}>{fieldErrors.password}</p>
-            )}
-          </div>
+        <FormInput
+          id="password"
+          type="password"
+          label="비밀번호"
+          value={password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            handleInputChange();
+          }}
+          placeholder="8~20자로 입력하세요"
+          required
+          disabled={isLoading}
+          error={fieldErrors?.password}
+        />
 
-          {/* 비밀번호 확인 */}
-          <div className={styles.inputGroup}>
-            <label htmlFor="confirmPassword" className={styles.label}>
-              비밀번호 확인
-            </label>
-            <input
-              id="confirmPassword"
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => {
-                setConfirmPassword(e.target.value);
-                handleInputChange();
-              }}
-              className={`${styles.input} ${
-                confirmPassword && password !== confirmPassword ? styles.inputError : ''
-              }`}
-              placeholder="비밀번호를 다시 입력하세요"
-              required
-              disabled={isLoading}
-            />
-            {confirmPassword && password !== confirmPassword && (
-              <p className={styles.fieldError}>비밀번호가 일치하지 않습니다</p>
-            )}
-          </div>
+        <FormInput
+          id="confirmPassword"
+          type="password"
+          label="비밀번호 확인"
+          value={confirmPassword}
+          onChange={(e) => {
+            setConfirmPassword(e.target.value);
+            handleInputChange();
+          }}
+          placeholder="비밀번호를 다시 입력하세요"
+          required
+          disabled={isLoading}
+          error={confirmPasswordError}
+        />
 
-          {/* 회원가입 버튼 */}
-          <button
-            type="submit"
-            className={styles.submitButton}
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <span className={styles.loadingWrapper}>
-                <svg className={styles.spinner} viewBox="0 0 24 24">
-                  <circle
-                    className={styles.spinnerCircle}
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                    fill="none"
-                  />
-                </svg>
-                가입 중...
-              </span>
-            ) : (
-              '회원가입'
-            )}
-          </button>
-        </form>
+        <SubmitButton isLoading={isLoading} loadingText="가입 중...">
+          회원가입
+        </SubmitButton>
+      </form>
 
-        {/* 로그인 링크 */}
-        <div className={styles.footer}>
-          <p className={styles.footerText}>
-            이미 계정이 있으신가요?{' '}
-            <Link to="/login" className={styles.link}>
-              로그인
-            </Link>
-          </p>
-        </div>
-      </div>
-    </div>
+      <AuthFooter
+        text="이미 계정이 있으신가요?"
+        linkText="로그인"
+        linkTo="/login"
+      />
+    </>
   );
 };

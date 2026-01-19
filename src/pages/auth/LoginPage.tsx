@@ -1,6 +1,11 @@
 import { useState, type FormEvent } from 'react';
-import { Link } from 'react-router-dom';
-import { useLogin } from '@/hooks/auth';
+import { useLogin } from '@/feature/auth/hooks';
+import 
+{ AuthHeader, 
+  ErrorAlert, 
+  FormInput, 
+  SubmitButton, 
+  AuthFooter } from '@/feature/auth/components';
 import styles from './LoginPage.module.css';
 
 export const LoginPage = () => {
@@ -19,113 +24,55 @@ export const LoginPage = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.formWrapper}>
-        {/* 헤더 */}
-        <div className={styles.header}>
-          <h1 className={styles.title}>로그인</h1>
-          <p className={styles.subtitle}>블로그에 오신 것을 환영합니다</p>
-        </div>
+    <>
+      <AuthHeader
+        title="로그인"
+        subtitle="블로그에 오신 것을 환영합니다"
+      />
 
-        {/* 에러 메시지 */}
-        {error && (
-          <div className={styles.errorAlert}>
-            <svg className={styles.errorIcon} viewBox="0 0 20 20" fill="currentColor">
-              <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                clipRule="evenodd"
-              />
-            </svg>
-            <span>{error}</span>
-          </div>
-        )}
+      {error && <ErrorAlert message={error} />}
 
-        {/* 로그인 폼 */}
-        <form className={styles.form} onSubmit={handleSubmit}>
-          {/* 이메일 */}
-          <div className={styles.inputGroup}>
-            <label htmlFor="email" className={styles.label}>
-              이메일
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                handleInputChange();
-              }}
-              className={`${styles.input} ${fieldErrors?.email ? styles.inputError : ''}`}
-              placeholder="example@email.com"
-              required
-              disabled={isLoading}
-            />
-            {fieldErrors?.email && (
-              <p className={styles.fieldError}>{fieldErrors.email}</p>
-            )}
-          </div>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <FormInput
+          id="email"
+          type="email"
+          label="이메일"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            handleInputChange();
+          }}
+          placeholder="example@email.com"
+          required
+          disabled={isLoading}
+          error={fieldErrors?.email}
+        />
 
-          {/* 비밀번호 */}
-          <div className={styles.inputGroup}>
-            <label htmlFor="password" className={styles.label}>
-              비밀번호
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-                handleInputChange();
-              }}
-              className={`${styles.input} ${fieldErrors?.password ? styles.inputError : ''}`}
-              placeholder="비밀번호를 입력하세요"
-              required
-              disabled={isLoading}
-            />
-            {fieldErrors?.password && (
-              <p className={styles.fieldError}>{fieldErrors.password}</p>
-            )}
-          </div>
+        <FormInput
+          id="password"
+          type="password"
+          label="비밀번호"
+          value={password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            handleInputChange();
+          }}
+          placeholder="비밀번호를 입력하세요"
+          required
+          disabled={isLoading}
+          error={fieldErrors?.password}
+        />
 
-          {/* 로그인 버튼 */}
-          <button
-            type="submit"
-            className={styles.submitButton}
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <span className={styles.loadingWrapper}>
-                <svg className={styles.spinner} viewBox="0 0 24 24">
-                  <circle
-                    className={styles.spinnerCircle}
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                    fill="none"
-                  />
-                </svg>
-                로그인 중...
-              </span>
-            ) : (
-              '로그인'
-            )}
-          </button>
-        </form>
+        <SubmitButton isLoading={isLoading} loadingText="로그인 중...">
+          로그인
+        </SubmitButton>
+      </form>
 
-        {/* 회원가입 링크 */}
-        <div className={styles.footer}>
-          <p className={styles.footerText}>
-            계정이 없으신가요?{' '}
-            <Link to="/signup" className={styles.link}>
-              회원가입
-            </Link>
-          </p>
-        </div>
-      </div>
-    </div>
+      <AuthFooter
+        text="계정이 없으신가요?"
+        linkText="회원가입"
+        linkTo="/signup"
+      />
+    </>
   );
 };

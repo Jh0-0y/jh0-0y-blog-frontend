@@ -1,6 +1,6 @@
-import { useToast } from '@/utils/toast/useToast';
+import { useToast } from '@/hooks/toast/useToast';
 import styles from './ToastTest.module.css';
-import { usePageTransition } from '@/utils/loader/PageTransitionProvider';
+import { usePageTransition } from '@/hooks/loader/PageTransitionProvider';
 
 const ToastTest = () => {
   const toast = useToast();

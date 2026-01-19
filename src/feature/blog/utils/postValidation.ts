@@ -23,11 +23,25 @@ export const VALIDATION_LIMITS = {
   TITLE_MIN: 1,
   TITLE_MAX: 50,
   EXCERPT_MAX: 200,
-  CONTENT_MAX: 5000,
+  CONTENT_MAX: 50000,
   STACKS_MIN: 1,
   STACKS_MAX: 10,
   TAGS_MAX: 5,
 } as const;
+
+/**
+ * 제목이 유효한 slug를 생성할 수 있는지 검사
+ */
+const canGenerateSlug = (title: string): boolean => {
+  // 영문자 또는 숫자가 있는지 체크
+  const hasAlphanumeric = /[a-zA-Z0-9]/.test(title);
+
+  // 완성된 한글이 있는지 체크 (자음/모음만 있으면 false)
+  const hasCompleteKorean = /[가-힣]/.test(title);
+
+  // 영문/숫자가 있거나, 완성된 한글이 있으면 OK
+  return hasAlphanumeric || hasCompleteKorean;
+};
 
 /**
  * 제출 시 전체 유효성 검사
@@ -40,6 +54,8 @@ export const validatePostForm = (form: PostFormData): ValidationErrors | null =>
     errors.title = '제목을 입력해주세요';
   } else if (form.title.length > VALIDATION_LIMITS.TITLE_MAX) {
     errors.title = `제목은 ${VALIDATION_LIMITS.TITLE_MAX}자 이내로 입력해주세요`;
+  } else if (!canGenerateSlug(form.title)) {
+    errors.title = '제목에 영문, 숫자 또는 완성된 한글을 포함해주세요';
   }
 
   // 요약 검사

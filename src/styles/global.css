@@ -9,14 +9,14 @@ body {
   line-height: var(--line-height-normal);
   color: var(--color-text-primary);
   background-color: var(--color-bg-primary);
-  transition: background-color var(--transition-base),
+  transition:
+    background-color var(--transition-base),
     color var(--transition-base);
 }
 
 /* 선택 영역 스타일 */
 ::selection {
-  background-color: var(--color-primary-500);
-  color: var(--color-text-inverse);
+  background-color: var(--color-primary-light);
 }
 
 /* 포커스 스타일 */

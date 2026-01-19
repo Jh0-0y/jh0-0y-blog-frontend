@@ -1,4 +1,4 @@
-import { useLogout } from '@/hooks/auth/useLogout';
+import { useLogout } from '@/feature/auth/hooks/useLogout';
 
 export function LogoutButton() {
   const { logout, isLoading } = useLogout();

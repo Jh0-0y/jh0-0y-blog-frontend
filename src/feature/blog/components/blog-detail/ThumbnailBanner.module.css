@@ -1,0 +1,115 @@
+.banner {
+  position: relative;
+  height: 400px;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--color-bg-base);
+}
+
+/* 배경 컨테이너 */
+.backgroundContainer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* 썸네일 이미지 */
+.bannerImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* 썸네일 없을 때 플레이스홀더 */
+.bannerPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gradient-ocean);
+}
+
+.placeholderIcon {
+  font-size: var(--font-size-5xl);
+  opacity: 0.3;
+  filter: grayscale(1);
+}
+
+/* 어두운 오버레이 */
+.bannerOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+}
+
+/* 물결 래퍼 */
+.waveWrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  z-index: 2;
+}
+
+.waves {
+  width: 100%;
+  height: 100%;
+}
+
+.parallax > use {
+  animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+}
+
+.waveLayer1 {
+  fill: var(--color-bg-surface);
+  opacity: 0.5;
+  animation-delay: -2s;
+  animation-duration: 7s;
+}
+
+.waveLayer2 {
+  fill: var(--color-bg-base);
+  animation-delay: -5s;
+  animation-duration: 10s;
+}
+
+@keyframes move-forever {
+  0% {
+    transform: translate3d(-90px, 0, 0);
+  }
+  100% {
+    transform: translate3d(85px, 0, 0);
+  }
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .banner {
+    height: 300px;
+  }
+
+  .waveWrapper {
+    height: 60px;
+  }
+
+  .placeholderIcon {
+    font-size: var(--font-size-4xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .banner {
+    height: 250px;
+  }
+
+  .waveWrapper {
+    height: 50px;
+  }
+}

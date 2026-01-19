@@ -1,0 +1,202 @@
+/* 콘텐츠 래퍼 */
+.wrapper {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* 읽기 전용 에디터 글꼴 및 스타일 개선 */
+.wrapper :global(.editorContainer) {
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
+}
+
+.wrapper :global(.editorWrapper) {
+  padding: 0;
+  background: transparent;
+}
+
+.wrapper :global(.readonlyBadge) {
+  display: none; /* 읽기 전용 배지 숨김 */
+}
+
+/* 본문 텍스트 스타일 개선 */
+.wrapper :global(.ProseMirror) {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-primary);
+}
+
+.wrapper :global(.ProseMirror p) {
+  margin: var(--spacing-4) 0;
+  line-height: var(--line-height-relaxed);
+}
+
+.wrapper :global(.ProseMirror h1) {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  margin: var(--spacing-8) 0 var(--spacing-4);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+}
+
+.wrapper :global(.ProseMirror h2) {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  margin: var(--spacing-6) 0 var(--spacing-3);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+}
+
+.wrapper :global(.ProseMirror h3) {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  margin: var(--spacing-5) 0 var(--spacing-2);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-normal);
+}
+
+/* 리스트 스타일 */
+.wrapper :global(.ProseMirror ul),
+.wrapper :global(.ProseMirror ol) {
+  padding-left: var(--spacing-6);
+  margin: var(--spacing-4) 0;
+}
+
+.wrapper :global(.ProseMirror li) {
+  margin: var(--spacing-2) 0;
+  line-height: var(--line-height-relaxed);
+}
+
+/* 인용구 스타일 */
+.wrapper :global(.ProseMirror blockquote) {
+  border-left: 4px solid var(--color-primary-normal);
+  padding: var(--spacing-3) var(--spacing-4);
+  margin: var(--spacing-4) 0;
+  background: var(--color-bg-elevated);
+  border-radius: 0 var(--radius-base) var(--radius-base) 0;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+/* 인라인 코드 */
+.wrapper :global(.ProseMirror code) {
+  background: var(--color-bg-elevated);
+  color: var(--color-primary-normal);
+  padding: 0.2em 0.4em;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-family-code);
+  font-size: 0.9em;
+}
+
+/* 링크 스타일 */
+.wrapper :global(.ProseMirror a) {
+  color: var(--color-primary-normal);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-primary-light);
+  transition: all 0.2s ease;
+  padding-bottom: 1px;
+}
+
+.wrapper :global(.ProseMirror a:hover) {
+  border-bottom-color: var(--color-primary-normal);
+  background: var(--color-bg-elevated);
+}
+
+/* 테이블 스타일 */
+.wrapper :global(.custom-table) {
+  width: 100%;
+  margin: var(--spacing-6) 0;
+  border-collapse: collapse;
+  border-radius: var(--radius-base);
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.wrapper :global(.custom-table-header) {
+  background: var(--color-bg-elevated);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  padding: var(--spacing-3) var(--spacing-4);
+  border: 1px solid var(--color-border-light);
+  text-align: left;
+}
+
+.wrapper :global(.custom-table-cell) {
+  padding: var(--spacing-3) var(--spacing-4);
+  border: 1px solid var(--color-border-light);
+  background: var(--color-bg-surface);
+}
+
+/* 이미지/비디오/파일 여백 */
+.wrapper :global([data-type='custom-image']),
+.wrapper :global([data-type='custom-video']),
+.wrapper :global([data-type='custom-file']) {
+  margin: var(--spacing-6) 0;
+}
+
+/* 코드블록 여백 */
+.wrapper :global(.codeBlock) {
+  margin: var(--spacing-6) 0;
+}
+
+/* 첫 번째/마지막 요소 여백 제거 */
+.wrapper :global(.ProseMirror > *:first-child) {
+  margin-top: 0;
+}
+
+.wrapper :global(.ProseMirror > *:last-child) {
+  margin-bottom: 0;
+}
+
+/* 반응형: Mobile */
+@media (max-width: 767px) {
+  .wrapper :global(.ProseMirror) {
+    font-size: var(--font-size-sm);
+  }
+
+  .wrapper :global(.ProseMirror h1) {
+    font-size: var(--font-size-xl);
+  }
+
+  .wrapper :global(.ProseMirror h2) {
+    font-size: var(--font-size-lg);
+  }
+
+  .wrapper :global(.ProseMirror h3) {
+    font-size: var(--font-size-base);
+  }
+
+  .wrapper :global(.custom-table-header),
+  .wrapper :global(.custom-table-cell) {
+    padding: var(--spacing-2) var(--spacing-3);
+    font-size: var(--font-size-sm);
+  }
+}
+
+/* 반응형: Small Mobile */
+@media (max-width: 539px) {
+  .wrapper :global(.ProseMirror ul),
+  .wrapper :global(.ProseMirror ol) {
+    padding-left: var(--spacing-4);
+  }
+
+  .wrapper :global(.ProseMirror blockquote) {
+    padding: var(--spacing-2) var(--spacing-3);
+  }
+}
+
+/* 프린트 스타일 */
+@media print {
+  .wrapper :global(.ProseMirror a) {
+    color: var(--color-text-primary);
+    text-decoration: underline;
+  }
+
+  .wrapper :global(.ProseMirror code) {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+  }
+}
