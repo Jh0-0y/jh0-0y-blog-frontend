@@ -1,50 +1,75 @@
 import { NodeViewWrapper } from '@tiptap/react';
+import { useState } from 'react';
 import type { NodeViewProps } from '@tiptap/react';
-import { FaFilePdf, FaFileWord, FaFileExcel, FaFilePowerpoint, FaFileArchive, FaFileAlt, FaFile } from 'react-icons/fa';
+import { FaFile } from 'react-icons/fa';
 import type { FileNodeAttrs } from '../types';
 import { formatFileSize } from '../utils';
+import ImageModal from '../base/ImageModal';
 import styles from './FileNode.module.css';
 
 const FileNode = ({ node }: NodeViewProps) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const attrs = node.attrs as FileNodeAttrs;
+  const { url, fileName, size, contentType } = attrs;
 
-  const getFileIcon = () => {
-    const extension = attrs.fileName.toLowerCase().substring(attrs.fileName.lastIndexOf('.'));
+  // 이미지 렌더링
+  if (contentType?.startsWith('image/')) {
+    return (
+      <NodeViewWrapper className={styles.wrapper}>
+        <div className={styles.imageContainer}>
+          <img
+            src={url}
+            alt={fileName}
+            className={styles.image}
+            onClick={() => setIsModalOpen(true)}
+            loading="lazy"
+          />
+        </div>
 
-    switch (extension) {
-      case '.pdf':
-        return <FaFilePdf className={styles.icon} />;
-      case '.doc':
-      case '.docx':
-        return <FaFileWord className={styles.icon} />;
-      case '.xls':
-      case '.xlsx':
-        return <FaFileExcel className={styles.icon} />;
-      case '.ppt':
-      case '.pptx':
-        return <FaFilePowerpoint className={styles.icon} />;
-      case '.zip':
-      case '.rar':
-      case '.7z':
-        return <FaFileArchive className={styles.icon} />;
-      case '.txt':
-        return <FaFileAlt className={styles.icon} />;
-      default:
-        return <FaFile className={styles.icon} />;
-    }
-  };
+        {isModalOpen && (
+          <ImageModal
+            url={url}
+            alt={fileName}
+            onClose={() => setIsModalOpen(false)}
+          />
+        )}
+      </NodeViewWrapper>
+    );
+  }
 
+  // 비디오 렌더링
+  if (contentType?.startsWith('video/')) {
+    return (
+      <NodeViewWrapper className={styles.wrapper}>
+        <div className={styles.videoContainer}>
+          <video
+            src={url}
+            controls
+            controlsList="nodownload"
+            className={styles.video}
+          >
+            <track kind="captions" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </NodeViewWrapper>
+    );
+  }
+
+  // 그 외 파일 렌더링
   const handleDownload = () => {
-    window.open(attrs.url, '_blank');
+    window.open(url, '_blank');
   };
 
   return (
     <NodeViewWrapper className={styles.wrapper}>
-      <div className={styles.container} onClick={handleDownload}>
-        <div className={styles.iconWrapper}>{getFileIcon()}</div>
+      <div className={styles.fileContainer} onClick={handleDownload}>
+        <div className={styles.iconWrapper}>
+          <FaFile className={styles.icon} />
+        </div>
         <div className={styles.info}>
-          <div className={styles.fileName}>{attrs.fileName}</div>
-          <div className={styles.fileSize}>{formatFileSize(attrs.size)}</div>
+          <div className={styles.fileName}>{fileName}</div>
+          <div className={styles.fileSize}>{formatFileSize(size)}</div>
         </div>
       </div>
     </NodeViewWrapper>

@@ -9,12 +9,12 @@
 }
 
 .link {
-  color: var(--color-primary-600);
+  color: var(--color-primary-normal);
   font-weight: var(--font-weight-medium);
   transition: color 0.2s;
 }
 
 .link:hover {
-  color: var(--color-primary-700);
+  color: var(--color-primary-medium);
   text-decoration: underline;
 }

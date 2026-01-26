@@ -1,6 +1,6 @@
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { usePostDetails } from '@/feature/blog/hooks/post/usePostDeteils';
-import { useTocItems } from '@/components/editor/hooks/useTocItems'; // 추가
+import { useTocItems } from '@/components/editor/hooks/useTocItems';
 import { TableOfContents } from '@/components/editor/base/TableOfContents';
 import { 
   ThumbnailBanner,
@@ -12,44 +12,15 @@ import styles from './BlogDetailPage.module.css';
 
 export const BlogDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
-  const { post, isLoading, error } = usePostDetails(slug);
+  const { post, isLoading } = usePostDetails(slug);
   
-  // 추가: DOM에서 목차 추출
   const tocItems = useTocItems('.tiptap-viewer');
 
-  // 로딩 상태
-  if (isLoading) {
-    return (
-      <div className={styles.pageWrapper}>
-        <div className={styles.loading}>게시글을 불러오는 중...</div>
-      </div>
-    );
-  }
+  if(isLoading) return null;
 
-  // 에러 상태
-  if (error) {
-    return (
-      <div className={styles.pageWrapper}>
-        <div className={styles.container}>
-          <div className={styles.error}>
-            <p>{error}</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // 게시글 없음
+  // 게시글 없음 (로딩 중이거나 실제로 없는 경우)
   if (!post) {
-    return (
-      <div className={styles.pageWrapper}>
-        <div className={styles.container}>
-          <div className={styles.empty}>
-            <p>게시글을 찾을 수 없습니다.</p>
-          </div>
-        </div>
-      </div>
-    );
+    return <Navigate to="/404" replace />;
   }
 
   return (
@@ -77,7 +48,7 @@ export const BlogDetailPage = () => {
         <RelatedPosts relatedPosts={post.relatedPosts || []} />
       </div>
 
-      {/* 목차 - 수정: items prop으로 전달 */}
+      {/* 목차 */}
       <TableOfContents items={tocItems} />
     </div>
   );

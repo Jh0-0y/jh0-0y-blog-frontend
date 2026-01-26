@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { VALIDATION_LIMITS } from '@/feature/blog/utils/postValidation';
+import { VALIDATION_LIMITS } from '@/feature/blog/validations/post.validation';
 
 import styles from './TagSection.module.css';
 

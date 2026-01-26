@@ -1,6 +1,6 @@
 import { Node, mergeAttributes } from '@tiptap/core';
 import { ReactNodeViewRenderer } from '@tiptap/react';
-import FileComponent from '../nodes/FileNode';
+import FileNode from '../nodes/FileNode';
 import type { FileNodeAttrs } from '../types';
 
 export interface FileOptions {
@@ -65,6 +65,14 @@ export const CustomFile = Node.create<FileOptions>({
           return { 'data-size': attributes.size };
         },
       },
+      contentType: {
+        default: null,
+        parseHTML: (element) => element.getAttribute('data-contenttype'),
+        renderHTML: (attributes) => {
+          if (!attributes.contentType) return {};
+          return { 'data-contenttype': attributes.contentType };
+        },
+      },
     };
   },
 
@@ -76,25 +84,23 @@ export const CustomFile = Node.create<FileOptions>({
     ];
   },
 
-  // 수정: renderHTML에서 모든 속성을 명시적으로 포함
-  // 수정: 빈 요소가 아니도록 HTML 주석 추가
   renderHTML({ HTMLAttributes }) {
     return [
       'div',
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, { 
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
         'data-type': 'custom-file',
-        // 수정: 속성들을 직접 HTML에 포함
         'data-id': HTMLAttributes['data-id'],
         'data-url': HTMLAttributes['data-url'],
         'data-filename': HTMLAttributes['data-filename'],
         'data-size': HTMLAttributes['data-size'],
+        'data-contenttype': HTMLAttributes['data-contenttype'],
       }),
-      '<!--custom-file-->', // 수정: 빈 요소가 아니도록 주석 추가
+      '<!--custom-file-->',
     ];
   },
 
   addNodeView() {
-    return ReactNodeViewRenderer(FileComponent);
+    return ReactNodeViewRenderer(FileNode);
   },
 
   addCommands() {

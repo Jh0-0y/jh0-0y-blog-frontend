@@ -3,7 +3,7 @@ import { ProtectedRoute, GuestRoute } from '@/router/guards';
 
 import { BlogLayout } from '@/layout/post/BlogLayout';
 import { BlogHomePage, BlogDetailPage, BlogWritePage, BlogEditPage } from '@/pages/blog';
-import { LoginPage, SignUpPage } from '@/pages/auth';
+import { LoginPage } from '@/pages/auth';
 import { NotFoundPage } from '@/pages/notfound';
 
 import ToastTest from '@/pages/test/ToastTest';
@@ -53,7 +53,7 @@ export const AppRouter = () => (
         </GuestRoute>
       }>
         <Route path="login" element={<LoginPage />} />
-        <Route path="signup" element={<SignUpPage />} />
+        {/* <Route path="signup" element={<SignUpPage />} /> */}
       </Route>
 
       <Route path="test" element={
@@ -63,6 +63,7 @@ export const AppRouter = () => (
       <Route path="editor" element={
         <EditorTest />
       } />
+      <Route path="/404" element={<NotFoundPage />} />
 
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

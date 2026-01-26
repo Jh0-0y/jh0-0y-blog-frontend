@@ -71,7 +71,7 @@ export const LoginPage = () => {
       <AuthFooter
         text="계정이 없으신가요?"
         linkText="회원가입"
-        linkTo="/signup"
+        linkTo="/auth/signup"
       />
     </>
   );

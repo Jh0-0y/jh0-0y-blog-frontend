@@ -1,52 +1,47 @@
-import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '@/stores/auth/authStore';
-import { authApi } from '@/api/auth/auth.api';
-import type { UserInfo } from '@/services/user/user.types';
+import { useLogoutMutation } from '@/api/auth/mutations';
+import { useMeQuery } from '@/api/user/queries';
+import { useAuthStore } from '../stores';
 
-interface UseAuthReturn {
-  // 상태
-  isAuthenticated: boolean;
-  user: UserInfo | null;
-  // 액션
-  logout: () => void;
-  refreshUser: () => Promise<void>;
-}
-
-export const useAuth = (): UseAuthReturn => {
+/**
+ * 인증 상태 조회 + 로그아웃 액션
+ * - 로그인/회원가입은 각각 useLogin, useSignUp 사용
+ */
+export const useAuth = () => {
   const navigate = useNavigate();
-  const { isAuthenticated, user, logout: clearAuth, setUser } = useAuthStore();
+  const { logout: clearAuth } = useAuthStore();
+  
+  // Zustand에서 인증 상태 가져오기
+  const { isAuthenticated, user } = useAuthStore();
+  
+  // 로그아웃 mutation
+  const logoutMutation = useLogoutMutation();
 
-  // 로그아웃
-  const logout = useCallback(async () => {
-    try {
-      await authApi.logout();
-    } catch {
-      // 에러가 나도 로컬 상태는 정리
-    } finally {
-      clearAuth();
-      navigate('/login');
-    }
-  }, [clearAuth, navigate]);
+  const logout = () => {
+    logoutMutation.mutate(undefined, {
+      onSettled: () => {
+        // 성공/실패 상관없이 로컬 상태 정리
+        clearAuth();
+        navigate('/login');
+      },
+    });
+  };
 
-  // 사용자 정보 새로고침
-  const refreshUser = useCallback(async () => {
-    try {
-      const response = await authApi.getMe();
-      if (response.success) {
-        setUser(response.data);
-      }
-    } catch {
-      // 에러 시 로그아웃 처리
-      clearAuth();
-      navigate('/login');
+  // 유저 정보 새로고침 (필요시 사용)
+  const meQuery = useMeQuery({ enabled: false });
+  
+  const refreshUser = async () => {
+    const result = await meQuery.refetch();
+    if (result.data) {
+      useAuthStore.getState().setUser(result.data);
     }
-  }, [setUser, clearAuth, navigate]);
+  };
 
   return {
     isAuthenticated,
     user,
     logout,
     refreshUser,
+    isLoggingOut: logoutMutation.isPending,
   };
 };

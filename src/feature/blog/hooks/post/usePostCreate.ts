@@ -1,86 +1,73 @@
 import { useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getErrorMessage, getFieldErrors } from '@/api/core/api.error';
-import { useToast } from '@/hooks/toast/useToast';
-import { postApi } from '@/feature/blog/api/post.api';
-
-import type { CreatePostRequest } from '@/feature/blog/types/post/post.request';
-import type { PostType, PostStatus } from '@/feature/blog/types/post/post.enums';
+import { useCreatePostMutation } from '@/api/post/mutations/post.mutations';
+import { useFileUploadMutation } from '@/api/file/mutations/file.mutations';
+import { getFieldErrors } from '@/api/core/api.error';
+import { scrollToField } from '../../utils';
 import {
   canAddStack,
   canAddTag,
   validateContentLength,
   validatePostForm,
-  VALIDATION_LIMITS,
-} from '../../utils/postValidation';
+} from '../../validations/post.validation';
+import type { CreatePostRequest } from '@/api/post/types';
+import type { ValidationErrors } from '../../validations/post.validation';
 
-export interface PostCreateForm {
-  title: string;
-  excerpt: string;
-  postType: PostType;
-  content: string;
-  status: PostStatus;
-  stacks: string[];
-  tags: string[];
-  thumbnail?: File;
-  contentsFileIds?: number[];
-}
-
-export interface UsePostCreateReturn {
-  form: PostCreateForm;
-  isLoading: boolean;
-  error: string | null;
-  fieldErrors: Record<string, string> | null;
-  contentLengthError: string | null;
-  hasUnsavedChanges: boolean;
-  updateField: <K extends keyof PostCreateForm>(key: K, value: PostCreateForm[K]) => void;
-  setThumbnail: (file: File | undefined) => void;
-  addContentFileId: (fileId: number) => void;
-  addTag: (tag: string) => void;
-  removeTag: (tag: string) => void;
-  addStack: (stack: string) => void;
-  removeStack: (stack: string) => void;
-  toggleStatus: () => void;
-  submit: () => Promise<void>;
-  reset: () => void;
-}
-
-const INITIAL_FORM: PostCreateForm = {
+const INITIAL_FORM: CreatePostRequest = {
   title: '',
   excerpt: '',
   postType: 'CORE',
   content: '',
-  status: 'PUBLIC',
   stacks: [],
   tags: [],
-  contentsFileIds: [],
+  thumbnailFileId: null,
+  thumbnailUrl: null,
 };
 
-export const usePostCreate = (): UsePostCreateReturn => {
+/**
+ * 게시글 생성 훅
+ * - 폼 상태 관리
+ * - 썸네일 업로드 (선택 시 즉시 업로드)
+ * - 게시글 생성 mutation
+ */
+export const usePostCreate = () => {
   const navigate = useNavigate();
-  const toast = useToast();
 
-  const [form, setForm] = useState<PostCreateForm>(INITIAL_FORM);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string> | null>(null);
+  const [form, setForm] = useState<CreatePostRequest>(INITIAL_FORM);
+  const [fieldErrors, setFieldErrors] = useState<ValidationErrors | null>(null);
   const [contentLengthError, setContentLengthError] = useState<string | null>(null);
 
-  // 변경사항이 있는지 확인
+  // Mutations
+  const createMutation = useCreatePostMutation();
+  const uploadMutation = useFileUploadMutation();
+
+  // 로딩 상태 통합
+  const isLoading = createMutation.isPending || uploadMutation.isPending;
+
+  // 변경사항 확인
   const hasUnsavedChanges = useMemo(() => {
     return (
       form.title.trim() !== '' ||
       form.excerpt.trim() !== '' ||
       form.content.trim() !== '' ||
       form.stacks.length > 0 ||
-      form.tags.length > 0 ||
-      form.thumbnail !== undefined
+      form.tags.length > 0
     );
   }, [form]);
 
+  // 필드 에러 제거 헬퍼
+  const removeFieldError = useCallback((fieldName: string) => {
+    setFieldErrors((prev) => {
+      if (!prev || !prev[fieldName as keyof ValidationErrors]) return prev;
+      const updated = { ...prev };
+      delete updated[fieldName as keyof ValidationErrors];
+      return Object.keys(updated).length > 0 ? updated : null;
+    });
+  }, []);
+
   // 필드 업데이트
   const updateField = useCallback(
-    <K extends keyof PostCreateForm>(key: K, value: PostCreateForm[K]) => {
+    <K extends keyof CreatePostRequest>(key: K, value: CreatePostRequest[K]) => {
       setForm((prev) => ({ ...prev, [key]: value }));
 
       // 본문 실시간 길이 검사
@@ -89,58 +76,61 @@ export const usePostCreate = (): UsePostCreateReturn => {
       }
 
       // 해당 필드 에러 제거
-      if (fieldErrors?.[key]) {
-        setFieldErrors((prev) => {
-          if (!prev) return null;
-          const { [key]: _, ...rest } = prev;
-          return Object.keys(rest).length > 0 ? rest : null;
-        });
+      if (fieldErrors?.[key as keyof ValidationErrors]) {
+        removeFieldError(key as string);
       }
     },
-    [fieldErrors]
+    [fieldErrors, removeFieldError]
   );
 
-  // 썸네일 설정
-  const setThumbnail = useCallback((file: File | undefined) => {
-    setForm((prev) => ({ ...prev, thumbnail: file }));
-  }, []);
+  // 썸네일 설정 (파일 선택 시 즉시 업로드)
+  const setThumbnail = useCallback(
+    async (file: File | undefined) => {
+      if (!file) {
+        // 썸네일 제거
+        setForm((prev) => ({
+          ...prev,
+          thumbnailFileId: null,
+          thumbnailUrl: null,
+        }));
+        return;
+      }
 
-  // 본문 파일 ID 추가
-  const addContentFileId = useCallback((fileId: number) => {
-    setForm((prev) => ({
-      ...prev,
-      contentsFileIds: [...(prev.contentsFileIds || []), fileId],
-    }));
-  }, []);
+      try {
+        // 파일 업로드
+        const response = await uploadMutation.mutateAsync({ file });
+        
+        if (response.success && response.data) {
+          setForm((prev) => ({
+            ...prev,
+            thumbnailFileId: response.data.id,
+            thumbnailUrl: response.data.url,
+          }));
+        }
+      } catch (err) {
+        // 에러는 mutation의 onError에서 토스트로 처리됨
+        console.error('썸네일 업로드 실패:', err);
+      }
+    },
+    [uploadMutation]
+  );
 
   // 태그 추가
   const addTag = useCallback(
     (tag: string) => {
       const trimmed = tag.trim();
-      if (!trimmed) return;
 
-      if (!canAddTag(form.tags)) {
-        toast.warning(`태그는 ${VALIDATION_LIMITS.TAGS_MAX}개까지만 추가 가능합니다`);
-        return;
-      }
-
-      if (form.tags.includes(trimmed)) {
-        toast.warning('이미 추가된 태그입니다');
+      if (!trimmed || !canAddTag(form.tags) || form.tags.includes(trimmed)) {
         return;
       }
 
       setForm((prev) => ({ ...prev, tags: [...prev.tags, trimmed] }));
 
-      // 태그 에러 제거
       if (fieldErrors?.tags) {
-        setFieldErrors((prev) => {
-          if (!prev) return null;
-          const { tags: _, ...rest } = prev;
-          return Object.keys(rest).length > 0 ? rest : null;
-        });
+        removeFieldError('tags');
       }
     },
-    [form.tags, fieldErrors, toast]
+    [form.tags, fieldErrors, removeFieldError]
   );
 
   // 태그 제거
@@ -154,25 +144,17 @@ export const usePostCreate = (): UsePostCreateReturn => {
   // 스택 추가
   const addStack = useCallback(
     (stack: string) => {
-      if (!canAddStack(form.stacks)) {
-        toast.warning(`스택은 ${VALIDATION_LIMITS.STACKS_MAX}개까지만 선택 가능합니다`);
+      if (!canAddStack(form.stacks) || form.stacks.includes(stack)) {
         return;
       }
 
-      if (form.stacks.includes(stack)) return;
-
       setForm((prev) => ({ ...prev, stacks: [...prev.stacks, stack] }));
 
-      // 스택 에러 제거
       if (fieldErrors?.stacks) {
-        setFieldErrors((prev) => {
-          if (!prev) return null;
-          const { stacks: _, ...rest } = prev;
-          return Object.keys(rest).length > 0 ? rest : null;
-        });
+        removeFieldError('stacks');
       }
     },
-    [form.stacks, fieldErrors, toast]
+    [form.stacks, fieldErrors, removeFieldError]
   );
 
   // 스택 제거
@@ -183,83 +165,49 @@ export const usePostCreate = (): UsePostCreateReturn => {
     }));
   }, []);
 
-  // 공개/비공개 토글
-  const toggleStatus = useCallback(() => {
-    setForm((prev) => ({
-      ...prev,
-      status: prev.status === 'PUBLIC' ? 'PRIVATE' : 'PUBLIC',
-    }));
-  }, []);
-
-  // 폼 초기화
-  const reset = useCallback(() => {
-    setForm(INITIAL_FORM);
-    setError(null);
-    setFieldErrors(null);
-    setContentLengthError(null);
-  }, []);
-
   // 제출
   const submit = useCallback(async () => {
     // 클라이언트 유효성 검사
     const validationErrors = validatePostForm(form);
     if (validationErrors) {
       setFieldErrors(validationErrors);
-
-      // 첫 번째 에러 메시지 토스트
-      const firstError = Object.values(validationErrors)[0];
-      toast.error(firstError);
+      const firstErrorKey = Object.keys(validationErrors)[0];
+      scrollToField(firstErrorKey);
       return;
     }
 
-    setIsLoading(true);
-    setError(null);
     setFieldErrors(null);
 
     try {
-      const request: CreatePostRequest = {
-        title: form.title,
-        excerpt: form.excerpt,
-        postType: form.postType,
-        content: form.content,
-        status: form.status,
-        stacks: form.stacks,
-        tags: form.tags,
-        contentsFileIds: form.contentsFileIds,
-      };
-
-      const response = await postApi.createPost(request, form.thumbnail);
+      const response = await createMutation.mutateAsync(form);
 
       if (response.success) {
-        toast.success(response.message || '게시글이 발행되었습니다');
         navigate(`/post/${response.data.slug}`);
       }
     } catch (err) {
-      const message = getErrorMessage(err);
-      setError(message);
-      setFieldErrors(getFieldErrors(err));
-      toast.error(message);
-    } finally {
-      setIsLoading(false);
+      // 서버에서 필드 에러가 내려온 경우 UI에 표시
+      const serverFieldErrors = getFieldErrors(err);
+      if (serverFieldErrors) {
+        setFieldErrors(serverFieldErrors as ValidationErrors);
+        const firstErrorKey = Object.keys(serverFieldErrors)[0];
+        scrollToField(firstErrorKey);
+      }
+      // 일반 서버 에러는 apiClient 인터셉터에서 토스트로 처리됨
     }
-  }, [form, navigate, toast]);
+  }, [form, createMutation, navigate]);
 
   return {
     form,
     isLoading,
-    error,
     fieldErrors,
     contentLengthError,
     hasUnsavedChanges,
     updateField,
     setThumbnail,
-    addContentFileId,
     addTag,
     removeTag,
     addStack,
     removeStack,
-    toggleStatus,
     submit,
-    reset,
   };
 };

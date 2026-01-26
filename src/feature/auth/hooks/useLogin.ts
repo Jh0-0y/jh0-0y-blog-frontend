@@ -1,57 +1,36 @@
-import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { authApi } from '@/api/auth/auth.api';
-import type { LoginRequest } from '@/api/auth/auth.request';
-import { useAuthStore } from '@/stores/auth/authStore';
+import { useLoginMutation } from '@/api/auth/mutations';
 import { getErrorMessage, getFieldErrors } from '@/api/core/api.error';
+import type { LoginRequest } from '@/api/auth/types';
+import { useAuthStore } from '../stores';
 
-interface UseLoginReturn {
-  isLoading: boolean;
-  error: string | null;
-  fieldErrors: Record<string, string> | null;
-  login: (request: LoginRequest) => Promise<void>;
-  clearError: () => void;
-}
-
-export const useLogin = (): UseLoginReturn => {
+export const useLogin = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { login: setAuth } = useAuthStore();
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string> | null>(null);
+  const mutation = useLoginMutation();
 
-  const login = async (request: LoginRequest) => {
-    setIsLoading(true);
-    setError(null);
-    setFieldErrors(null);
-
-    try {
-      const response = await authApi.login(request);
-
-      if (response.success) {
-        setAuth(response.data.user);
-        const from = (location.state as { from?: Location })?.from?.pathname || '/';
-        navigate(from, { replace: true });
-      }
-    } catch (err) {
-      setError(getErrorMessage(err));
-      setFieldErrors(getFieldErrors(err));
-    } finally {
-      setIsLoading(false);
-    }
+  const login = (request: LoginRequest) => {
+    mutation.mutate(request, {
+      onSuccess: (response) => {
+        if (response.success) {
+          setAuth(response.data);
+          const from = (location.state as { from?: Location })?.from?.pathname || '/';
+          navigate(from, { replace: true });
+        }
+      },
+    });
   };
 
   const clearError = () => {
-    setError(null);
-    setFieldErrors(null);
+    mutation.reset();
   };
 
   return {
-    isLoading,
-    error,
-    fieldErrors,
+    isLoading: mutation.isPending,
+    error: mutation.error ? getErrorMessage(mutation.error) : null,
+    fieldErrors: mutation.error ? getFieldErrors(mutation.error) : null,
     login,
     clearError,
   };

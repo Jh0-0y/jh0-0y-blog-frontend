@@ -1,58 +1,34 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { authApi } from '@/api/auth/auth.api';
-import type { SignUpRequest } from '@/api/auth/auth.request';
-import { useAuthStore } from '@/stores/auth/authStore';
 import { getErrorMessage, getFieldErrors } from '@/api/core/api.error';
+import { useSignUpMutation } from '@/api/auth/mutations';
+import type { SignUpRequest } from '@/api/auth/types';
+import { useAuthStore } from '../stores';
 
-interface UseSignUpReturn {
-  isLoading: boolean;
-  error: string | null;
-  fieldErrors: Record<string, string> | null;
-  signUp: (request: SignUpRequest) => Promise<void>;
-  clearError: () => void;
-}
-
-export const useSignUp = (): UseSignUpReturn => {
+export const useSignUp = () => {
   const navigate = useNavigate();
   const { login: setAuth } = useAuthStore();
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string> | null>(null);
+  const mutation = useSignUpMutation();
 
-  const signUp = async (request: SignUpRequest) => {
-    setIsLoading(true);
-    setError(null);
-    setFieldErrors(null);
-
-    try {
-      const response = await authApi.signUp(request);
-
-      if (response.success) {
-        // 사용자 정보만 저장 (토큰은 쿠키에 자동 저장됨)
-        setAuth(response.data.user);
-
-        // 메인 페이지로 이동
-        navigate('/');
-      }
-    } catch (err) {
-      setError(getErrorMessage(err));
-      setFieldErrors(getFieldErrors(err));
-    } finally {
-      setIsLoading(false);
-    }
+  const signUp = (request: SignUpRequest) => {
+    mutation.mutate(request, {
+      onSuccess: (response) => {
+        if (response.success) {
+          setAuth(response.data);
+          navigate('/');
+        }
+      },
+    });
   };
 
   const clearError = () => {
-    setError(null);
-    setFieldErrors(null);
+    mutation.reset();
   };
 
   return {
-    isLoading,
-    error,
-    fieldErrors,
+    isLoading: mutation.isPending,
+    error: mutation.error ? getErrorMessage(mutation.error) : null,
+    fieldErrors: mutation.error ? getFieldErrors(mutation.error) : null,
     signUp,
     clearError,
   };

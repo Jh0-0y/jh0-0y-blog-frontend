@@ -2,7 +2,8 @@
   margin: var(--spacing-4) 0;
 }
 
-.container {
+/* 기존 파일 컨테이너 */
+.fileContainer {
   display: flex;
   align-items: center;
   gap: var(--spacing-3);
@@ -14,7 +15,7 @@
   background-color: var(--color-bg-surface);
 }
 
-.container:hover {
+.fileContainer:hover {
   border-color: var(--color-border-hover);
   background-color: var(--color-bg-elevated);
 }
@@ -52,4 +53,38 @@
   font-size: var(--font-size-sm);
   color: var(--color-text-tertiary);
   margin-top: var(--spacing-1);
+}
+
+.imageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-base);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.image:hover {
+  opacity: 0.9;
+}
+
+.vedioContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.video {
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-base);
+  background-color: var(--color-bg-elevated);
 }

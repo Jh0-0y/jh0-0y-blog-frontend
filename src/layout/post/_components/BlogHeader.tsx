@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { HiOutlineLogin, HiOutlineLogout } from 'react-icons/hi';
 import { GiNautilusShell } from 'react-icons/gi';
 import { useLogout } from '@/feature/auth/hooks/useLogout';
-import { useAuthStore } from '@/stores/auth/authStore';
+import { useAuthStore } from '@/feature/auth/stores/authStore';
 import styles from './BlogHeader.module.css';
 
 interface BlogHeaderProps {

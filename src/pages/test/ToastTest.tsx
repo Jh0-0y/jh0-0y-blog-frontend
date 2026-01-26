@@ -1,4 +1,4 @@
-import { useToast } from '@/hooks/toast/useToast';
+import { useToast } from '@/shared/toast/useToast';
 import styles from './ToastTest.module.css';
 import { usePageTransition } from '@/hooks/loader/PageTransitionProvider';
 

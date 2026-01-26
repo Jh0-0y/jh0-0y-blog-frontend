@@ -1,49 +1,37 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { authApi } from '@/api/auth/auth.api';
-import { useAuthStore } from '@/stores/auth/authStore';
 import { getErrorMessage } from '@/api/core/api.error';
+import { useLogoutMutation } from '@/api/auth/mutations';
+import { useAuthStore } from '../stores';
 
-interface UseLogoutReturn {
-  isLoading: boolean;
-  error: string | null;
-  logout: () => Promise<void>;
-  clearError: () => void;
-}
-
-export const useLogout = (): UseLogoutReturn => {
+export const useLogout = () => {
   const navigate = useNavigate();
   const { logout: clearAuth } = useAuthStore();
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const mutation = useLogoutMutation();
 
-  const logout = async () => {
-    if (isLoading) return;
+  const logout = () => {
+    if (mutation.isPending) return;
 
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      await authApi.logout();
-
-      clearAuth();
-
-      navigate('/login', { replace: true });
-    } catch (err) {
-      setError(getErrorMessage(err));
-    } finally {
-      setIsLoading(false);
-    }
+    mutation.mutate(undefined, {
+      onSuccess: () => {
+        clearAuth();
+        navigate('/login', { replace: true });
+      },
+      onError: () => {
+        // 에러가 나도 로컬 상태는 정리
+        clearAuth();
+        navigate('/login', { replace: true });
+      },
+    });
   };
 
   const clearError = () => {
-    setError(null);
+    mutation.reset();
   };
 
   return {
-    isLoading,
-    error,
+    isLoading: mutation.isPending,
+    error: mutation.error ? getErrorMessage(mutation.error) : null,
     logout,
     clearError,
   };

@@ -1,8 +1,8 @@
 .submitButton {
   width: 100%;
   padding: var(--spacing-3) var(--spacing-4);
-  background-color: var(--color-primary-600);
-  color: white;
+  background-color: var(--color-primary-normal);
+  color: var(--color-text-white);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
   border-radius: var(--radius-base);
@@ -11,7 +11,7 @@
 }
 
 .submitButton:hover:not(:disabled) {
-  background-color: var(--color-primary-700);
+  background-color: var(--color-primary-medium);
 }
 
 .submitButton:disabled {

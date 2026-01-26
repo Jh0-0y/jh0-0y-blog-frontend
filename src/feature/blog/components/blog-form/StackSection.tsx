@@ -1,31 +1,25 @@
 import { useState } from 'react';
 import { STACK_GROUP_LABELS, STACK_GROUP_ORDER } from '@/feature/blog/types/stack/stack.enums';
-import { VALIDATION_LIMITS } from '@/feature/blog/utils/postValidation';
+import { VALIDATION_LIMITS } from '@/feature/blog/validations/post.validation';
 import { StackManageModal } from './modal/StackManageModal';
-import type { GroupedStacks } from '@/feature/blog/types/stack';
-
+import { useStacksForForm } from '@/feature/blog/hooks/stack';
 import styles from './StackSection.module.css';
 
 interface StackSectionProps {
   selectedStacks: string[];
-  groupedStacks: GroupedStacks | null;
-  isStacksLoading: boolean;
   fieldError: string | null;
   onStackAdd: (stack: string) => void;
   onStackRemove: (stack: string) => void;
-  onStacksRefetch: () => void;
 }
 
 export const StackSection = ({
   selectedStacks,
-  groupedStacks,
-  isStacksLoading,
   fieldError,
   onStackAdd,
   onStackRemove,
-  onStacksRefetch,
 }: StackSectionProps) => {
   const [showStackModal, setShowStackModal] = useState(false);
+  const { groupedStacks, isLoading } = useStacksForForm();
 
   const handleStackToggle = (stackName: string) => {
     if (selectedStacks.includes(stackName)) {
@@ -54,8 +48,10 @@ export const StackSection = ({
             관리
           </button>
         </div>
+
         {fieldError && <span className={styles.fieldError}>{fieldError}</span>}
-        {isStacksLoading ? (
+
+        {isLoading ? (
           <div className={styles.stacksLoading}>스택 로딩중...</div>
         ) : groupedStacks ? (
           <div className={styles.stackGroups}>
@@ -83,6 +79,7 @@ export const StackSection = ({
             })}
           </div>
         ) : null}
+
         {selectedStacks.length > 0 && (
           <div className={styles.selectedStacks}>
             {selectedStacks.map((stack) => (
@@ -100,8 +97,6 @@ export const StackSection = ({
       <StackManageModal
         isOpen={showStackModal}
         onClose={() => setShowStackModal(false)}
-        groupedStacks={groupedStacks}
-        onStacksChange={onStacksRefetch}
       />
     </>
   );

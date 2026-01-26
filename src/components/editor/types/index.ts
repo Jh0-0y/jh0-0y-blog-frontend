@@ -1,4 +1,3 @@
-import type { FileMetadataType } from '@/feature/blog/types/file';
 import type { Editor } from '@tiptap/react';
 
 
@@ -10,28 +9,7 @@ export interface FileMetadata {
   url: string;
   fileName: string;
   size: number;
-  type: FileMetadataType;
-}
-
-/**
- * 이미지 노드 속성
- */
-export interface ImageNodeAttrs {
-  id: number;
-  url: string;
-  fileName: string;
-  size: number;
-  alt?: string;
-}
-
-/**
- * 비디오 노드 속성
- */
-export interface VideoNodeAttrs {
-  id: number;
-  url: string;
-  fileName: string;
-  size: number;
+  contentType: string;
 }
 
 /**
@@ -42,6 +20,7 @@ export interface FileNodeAttrs {
   url: string;
   fileName: string;
   size: number;
+  contentType: string;
 }
 
 /**

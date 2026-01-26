@@ -1,3 +1,4 @@
-export * from "./post.enums";
-export * from "./post.response";
-export * from "./post.request";
+export * from "../../../../api/post/services/post.enums";
+export * from "../../../../api/post/services/post.response";
+export * from "../../../../api/post/services/post.request";
+export * from "../file/file.response";

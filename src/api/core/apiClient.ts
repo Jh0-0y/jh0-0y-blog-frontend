@@ -1,10 +1,12 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios';
-import { useAuthStore } from '@/stores/auth/authStore';
+import { useAuthStore } from '@/feature/auth/stores/authStore';
+import { toast } from '@/shared/toast/useToast';
+import { getErrorMessage } from './api.error';
+import type { ErrorResponse } from './api.response';
+import { _getLoadingStore } from '@/shared/loading/useLoading';
 
-// API 기본 URL
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
 
-// Axios 인스턴스 생성
 export const apiClient = axios.create({
   baseURL: BASE_URL,
   timeout: 10000,
@@ -12,13 +14,72 @@ export const apiClient = axios.create({
   withCredentials: true,
 });
 
-// 응답 인터셉터 - 401 에러 시 토큰 재발급 시도
-apiClient.interceptors.response.use(
-  (response) => response,
-  async (error: AxiosError) => {
-    const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
+// 로딩 최소 표시 시간 관리
+const loadingStartTimes = new Map<string, number>();
+const MIN_LOADING_TIME = 300; // 최소 0.3초
 
-    // 401 에러 + 재시도 안 한 경우 + refresh/login/signup 요청이 아닌 경우
+// 요청 인터셉터
+apiClient.interceptors.request.use(
+  (config) => {
+    if ((config as any).skipLoading) return config;
+
+    const requestId = `${config.url}_${Date.now()}`;
+    (config as any).requestId = requestId;
+
+    // 즉시 로딩 표시 & 시작 시간 기록
+    _getLoadingStore().showLoading();
+    loadingStartTimes.set(requestId, Date.now());
+
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+// 응답 인터셉터
+apiClient.interceptors.response.use(
+  async (response) => {
+    const requestId = (response.config as any).requestId;
+    if (requestId) {
+      const startTime = loadingStartTimes.get(requestId);
+      if (startTime) {
+        const elapsed = Date.now() - startTime;
+        const remainingTime = MIN_LOADING_TIME - elapsed;
+
+        // 최소 1초 표시 보장
+        if (remainingTime > 0) {
+          await new Promise(resolve => setTimeout(resolve, remainingTime));
+        }
+
+        loadingStartTimes.delete(requestId);
+      }
+      _getLoadingStore().hideLoading();
+    }
+    return response;
+  },
+  async (error: AxiosError) => {
+    const originalRequest = error.config as InternalAxiosRequestConfig & { 
+      _retry?: boolean;
+      _skipGlobalErrorHandler?: boolean;
+      requestId?: string;
+    };
+
+    // 로딩 정리 (최소 1초 보장)
+    if (originalRequest?.requestId) {
+      const startTime = loadingStartTimes.get(originalRequest.requestId);
+      if (startTime) {
+        const elapsed = Date.now() - startTime;
+        const remainingTime = MIN_LOADING_TIME - elapsed;
+
+        if (remainingTime > 0) {
+          await new Promise(resolve => setTimeout(resolve, remainingTime));
+        }
+
+        loadingStartTimes.delete(originalRequest.requestId);
+      }
+      _getLoadingStore().hideLoading();
+    }
+
+    // 401 에러 처리
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
@@ -29,16 +90,23 @@ apiClient.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        // 토큰 재발급 요청 (쿠키가 자동으로 포함됨)
-        await apiClient.post('/auth/refresh');
-
-        // 원래 요청 재시도
+        await apiClient.post('/auth/refresh', {}, { skipLoading: true } as any);
         return apiClient(originalRequest);
       } catch (refreshError) {
-        // 재발급 실패 시 로그아웃
         useAuthStore.getState().logout();
         window.location.href = '/login';
         return Promise.reject(refreshError);
+      }
+    }
+
+    // 글로벌 에러 처리
+    if (!originalRequest._skipGlobalErrorHandler) {
+      const errorResponse = error.response?.data as ErrorResponse | undefined;
+      const hasFieldErrors = errorResponse?.errors && Object.keys(errorResponse.errors).length > 0;
+      
+      if (!hasFieldErrors) {
+        const errorMessage = getErrorMessage(error);
+        toast.error(errorMessage);
       }
     }
 
@@ -46,91 +114,8 @@ apiClient.interceptors.response.use(
   }
 );
 
-
-
-/**
- * FormData 생성 헬퍼 - JSON 데이터 + 파일
- * 
- * @param data JSON 데이터 객체
- * @param file 단일 파일 (선택)
- * @param fileKey 파일 필드명 (기본값: 'file')
- * @returns FormData 객체
- */
-const createFormData = (
-  data: object,
-  file?: File,
-  fileKey: string = 'thumbnail'
-): FormData => {
-  const formData = new FormData();
-
-  // JSON 데이터를 Blob으로 변환하여 추가
-  const jsonBlob = new Blob([JSON.stringify(data)], {
-    type: 'application/json',
-  });
-  formData.append('request', jsonBlob);
-
-  // 파일 추가
-  if (file) {
-    formData.append(fileKey, file);
+declare module 'axios' {
+  export interface AxiosRequestConfig {
+    skipLoading?: boolean;
   }
-
-  return formData;
-};
-
-/**
- * 멀티파트 POST 요청 (JSON + 파일)
- */
-export const postMultipart = async <T>(
-  url: string,
-  data: object,
-  file?: File,
-  fileKey: string = 'thumbnail'
-) => {
-  return apiClient.post<T>(url, createFormData(data, file, fileKey), {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  });
-};
-
-/**
- * 멀티파트 PUT 요청 (JSON + 파일)
- */
-export const putMultipart = async <T>(
-  url: string,
-  data: object,
-  file?: File,
-  fileKey: string = 'thumbnail'
-) => {
-  return apiClient.put<T>(url, createFormData(data, file, fileKey), {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  });
-};
-
-/**
- * 멀티파트 PATCH 요청 (JSON + 파일)
- */
-export const patchMultipart = async <T>(
-  url: string,
-  data: object,
-  file?: File,
-  fileKey: string = 'thumbnail'
-) => {
-  return apiClient.patch<T>(url, createFormData(data, file, fileKey), {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  });
-};
-
-/**
- * 파일만 업로드 (JSON 데이터 없음)
- */
-export const uploadFile = async <T>(
-  url: string,
-  file: File,
-  fileKey: string = 'file'
-) => {
-  const formData = new FormData();
-  formData.append(fileKey, file);
-
-  return apiClient.post<T>(url, formData, {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  });
-};
+}
