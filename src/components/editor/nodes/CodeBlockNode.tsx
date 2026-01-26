@@ -1,16 +1,11 @@
 import { NodeViewContent, NodeViewWrapper, type NodeViewProps } from '@tiptap/react';
-import { useCallback, useState, useMemo } from 'react';
+import { useCallback, useState } from 'react';
 import { CODE_LANGUAGES } from '../constants/codeLanguages';
 import styles from './CodeBlockNode.module.css';
 
 export const CodeBlockNode = ({ node, updateAttributes }: NodeViewProps) => {
   const [copied, setCopied] = useState(false);
   const language = node.attrs.language || 'javascript';
-  
-  const languageLabel = useMemo(() => {
-    const lang = CODE_LANGUAGES.find((l) => l.value === language);
-    return lang ? lang.label : 'Plain Text';
-  }, [language]);
 
   // 수정: useEffect 제거 - Tiptap의 CodeBlockLowlight가 자동으로 하이라이팅 처리
   // 수정: ref 제거 - NodeViewContent가 알아서 처리

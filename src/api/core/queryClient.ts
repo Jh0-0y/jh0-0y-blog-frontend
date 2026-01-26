@@ -3,7 +3,7 @@ import { QueryClient } from '@tanstack/react-query';
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      retry: (failureCount, error: any) => {
+      retry: (_failureCount, error: any) => {
         // 404는 재시도 안 함
         if (error?.response?.status === 404) return false;
         // 나머지는 재시도 안 함

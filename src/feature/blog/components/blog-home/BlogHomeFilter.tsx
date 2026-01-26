@@ -1,4 +1,4 @@
-import type { PostType } from '@/feature/blog/types/post';
+import type { PostType } from '@/api/post/types';
 import styles from './BlogHomeFilter.module.css';
 
 const POST_TYPE_TABS: { value: PostType | 'ALL'; label: string }[] = [

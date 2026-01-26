@@ -31,7 +31,7 @@ export const useUpdatePostMutation = () => {
   return useMutation({
     mutationFn: ({ slug, request }: { slug: string; request: UpdatePostRequest }) =>
       postApi.updatePost(slug, request),
-    onSuccess: (data, variables) => {
+    onSuccess: (_data, variables) => {
       // 해당 게시글 상세 무효화 (공개)
       queryClient.invalidateQueries({ queryKey: postKeys.publicDetail(variables.slug) });
       // 해당 게시글 수정용 데이터 무효화
@@ -53,7 +53,7 @@ export const useDeletePostMutation = () => {
 
   return useMutation({
     mutationFn: (slug: string) => postApi.deletePost(slug),
-    onSuccess: (data, slug) => {
+    onSuccess: (_data, slug) => {
       // 해당 게시글 관련 쿼리 제거
       queryClient.removeQueries({ queryKey: postKeys.publicDetail(slug) });
       queryClient.removeQueries({ queryKey: postKeys.edit(slug) });

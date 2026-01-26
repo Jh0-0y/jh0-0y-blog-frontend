@@ -49,7 +49,7 @@ export const CustomToc = Extension.create<CustomTocOptions>({
               const headings: TocHeading[] = [];
               
               // 문서 전체를 순회하며 heading 찾기
-              view.state.doc.descendants((node, pos) => {
+              view.state.doc.descendants((node) => {
                 if (node.type.name === 'heading') {
                   const text = node.textContent;
                   const level = node.attrs.level;
@@ -97,7 +97,6 @@ export const CustomToc = Extension.create<CustomTocOptions>({
     if (originalHeadingSpec?.toDOM) {
       const originalToDOM = originalHeadingSpec.toDOM;
       
-      // @ts-ignore
       this.editor.schema.nodes.heading.spec.toDOM = (node) => {
         const result = originalToDOM(node) as [string, any, number];
         const text = node.textContent;
