@@ -24,7 +24,7 @@ export const useMyEditor = ({
   editable = true,
 }: EditorOptions): UseMyEditorReturn => {
   // 디바운싱을 위한 타이머 ref
-  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // 디바운싱된 onUpdate 콜백
   const debouncedUpdate = useCallback(
@@ -213,7 +213,7 @@ export const useMyEditor = ({
     const currentMarkdown = htmlToMarkdown(editor.getHTML());
     if (content !== previousContent.current && content !== currentMarkdown) {
       const html = markdownToHtml(content);
-      editor.commands.setContent(html, false);
+      editor.commands.setContent(html);
       previousContent.current = content;
     }
   }, [content, editor]);

@@ -8,8 +8,9 @@ interface LoadingState {
 }
 
 // 디바운스 타이머
-let showTimer: NodeJS.Timeout | null = null;
-let hideTimer: NodeJS.Timeout | null = null;
+// 디바운스 타이머
+let showTimer: ReturnType<typeof setTimeout> | null = null;
+let hideTimer: ReturnType<typeof setTimeout> | null = null;
 
 // 내부 스토어 (외부 노출 X)
 const useLoadingStore = create<LoadingState>((set, get) => ({
