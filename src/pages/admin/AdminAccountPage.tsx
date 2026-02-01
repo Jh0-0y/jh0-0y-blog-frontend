@@ -7,6 +7,7 @@ interface FormData {
   email: string;
   password: string;
   passwordConfirm: string;
+  name: string;
   nickname: string;
 }
 
@@ -14,6 +15,7 @@ interface FormErrors {
   email?: string;
   password?: string;
   passwordConfirm?: string;
+  name?: string;
   nickname?: string;
 }
 
@@ -24,6 +26,7 @@ export const AdminAccountPage = () => {
     email: '',
     password: '',
     passwordConfirm: '',
+    name: '',
     nickname: '',
   });
 
@@ -66,6 +69,13 @@ export const AdminAccountPage = () => {
       newErrors.passwordConfirm = '비밀번호가 일치하지 않습니다';
     }
 
+    // 이름 검사
+    if (!formData.name.trim()) {
+      newErrors.name = '이름을 입력해주세요';
+    } else if (formData.name.length < 2 || formData.name.length > 20) {
+      newErrors.name = '이름은 2~20자로 입력해주세요';
+    }
+
     // 닉네임 검사
     if (!formData.nickname.trim()) {
       newErrors.nickname = '닉네임을 입력해주세요';
@@ -84,24 +94,22 @@ export const AdminAccountPage = () => {
 
     if (!validate()) return;
 
-    try {
-      await signUpMutation.mutateAsync({
-        email: formData.email.trim(),
-        password: formData.password,
-        nickname: formData.nickname.trim(),
-      });
+    await signUpMutation.mutateAsync({
+      email: formData.email.trim(),
+      password: formData.password,
+      name: formData.nickname,
+      nickname: formData.nickname.trim(),
+    });
 
-      // 성공 시 폼 초기화
-      setFormData({
-        email: '',
-        password: '',
-        passwordConfirm: '',
-        nickname: '',
-      });
-      setSuccessMessage(`"${formData.nickname}" 계정이 생성되었습니다.`);
-    } catch (error) {
-      // 에러는 전역 핸들러에서 처리
-    }
+    // 성공 시 폼 초기화
+    setFormData({
+      email: '',
+      password: '',
+      passwordConfirm: '',
+      name: '',
+      nickname: '',
+    });
+    setSuccessMessage(`"${formData.nickname}" 계정이 생성되었습니다.`);
   };
 
   return (
@@ -180,6 +188,27 @@ export const AdminAccountPage = () => {
             />
             {errors.passwordConfirm && (
               <span className={styles.errorText}>{errors.passwordConfirm}</span>
+            )}
+          </div>
+
+          {/* name */}
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>
+              이름
+              <span className={styles.required}>*</span>
+            </label>
+            <input
+              type="text"
+              name="name"
+              className={`${styles.input} ${errors.name ? styles.error : ''}`}
+              placeholder="2~20자"
+              value={formData.name}
+              onChange={handleChange}
+            />
+            {errors.name ? (
+              <span className={styles.errorText}>{errors.name}</span>
+            ) : (
+              <span className={styles.helperText}>2~20자의 이름</span>
             )}
           </div>
 
