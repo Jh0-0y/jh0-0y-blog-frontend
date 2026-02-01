@@ -4,14 +4,6 @@ import type { UserResponse } from '@/api/user/types';
 import type { LoginRequest, SignUpRequest } from '../types';
 
 export const authApi = {
-  /**
-   * 회원가입
-   * - 성공 시 쿠키에 토큰 자동 저장
-   */
-  signUp: async (request: SignUpRequest): Promise<ApiResponse<UserResponse>> => {
-    const response = await apiClient.post<ApiResponse<UserResponse>>('/auth/signup', request);
-    return response.data;
-  },
 
   /**
    * 로그인
@@ -37,6 +29,17 @@ export const authApi = {
    */
   refresh: async (): Promise<ApiResponse<UserResponse>> => {
     const response = await apiClient.post<ApiResponse<UserResponse>>('/auth/refresh');
+    return response.data;
+  },
+
+  // =========== 어드민 =============
+
+  /**
+   * 회원가입
+   * - 성공 시 쿠키에 토큰 자동 저장
+   */
+  signUp: async (request: SignUpRequest): Promise<ApiResponse<UserResponse>> => {
+    const response = await apiClient.post<ApiResponse<UserResponse>>('/admin/auth/signup', request);
     return response.data;
   },
 };

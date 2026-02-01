@@ -22,7 +22,7 @@ const INITIAL_FORM: UpdatePostRequest = {
   stacks: [],
   tags: [],
   thumbnailFileId: null,
-  thumbnailUrl: null,
+  thumbnailPath: null,
 };
 
 /**
@@ -49,7 +49,7 @@ export const usePostEdit = (slug: string) => {
       stacks: post.stacks,
       tags: post.tags,
       thumbnailFileId: null,
-      thumbnailUrl: post.thumbnailUrl,
+      thumbnailPath: post.thumbnailPath,
     };
   }, [editQuery.data]);
 
@@ -57,7 +57,7 @@ export const usePostEdit = (slug: string) => {
   const [form, setForm] = useState<UpdatePostRequest>(initialData);
   const [originalForm, setOriginalForm] = useState<UpdatePostRequest>(initialData);
   const [originalThumbnailUrl, setOriginalThumbnailUrl] = useState<string | null>(
-    editQuery.data?.data?.thumbnailUrl ?? null
+    editQuery.data?.data?.thumbnailPath ?? null
   );
   const [removeThumbnail, setRemoveThumbnail] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<ValidationErrors | null>(null);
@@ -73,8 +73,8 @@ export const usePostEdit = (slug: string) => {
 
   // originalThumbnailUrl 동기화
   useEffect(() => {
-    if (editQuery.data?.data?.thumbnailUrl !== undefined) {
-      setOriginalThumbnailUrl(editQuery.data.data.thumbnailUrl);
+    if (editQuery.data?.data?.thumbnailPath !== undefined) {
+      setOriginalThumbnailUrl(editQuery.data.data.thumbnailPath);
     }
   }, [editQuery.data]);
 
@@ -164,7 +164,7 @@ export const usePostEdit = (slug: string) => {
           setForm((prev) => ({
             ...prev,
             thumbnailFileId: response.data.id,
-            thumbnailUrl: response.data.url,
+            thumbnailUrl: response.data.path,
           }));
           setRemoveThumbnail(false);
         }

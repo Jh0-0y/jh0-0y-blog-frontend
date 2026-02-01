@@ -11,27 +11,30 @@ import type {
 
 export const postApi = {
   // ==================== Public APIs (인증 불필요) ====================
-  
+
   /**
-   * 공개 게시글 상세 조회
-   * GET /api/public/posts/{slug}
+   * 공개 게시글 상세 조회 (nickname + slug 기반)
+   * GET /api/posts/{nickname}/{slug}
    */
-  getPublicPostBySlug: async (slug: string): Promise<ApiResponse<PostDetailResponse>> => {
+  getPublicPostByNicknameAndSlug: async (
+    nickname: string,
+    slug: string
+  ): Promise<ApiResponse<PostDetailResponse>> => {
     const response = await apiClient.get<ApiResponse<PostDetailResponse>>(
-      `/public/posts/${slug}`
+      `/posts/${nickname}/${slug}`
     );
     return response.data;
   },
 
   /**
    * 공개 게시글 검색 (복합 필터링)
-   * GET /api/public/posts
+   * GET /api/posts
    */
   searchPublicPosts: async (
-    params: PostSearchParams = {},
+    params: PostSearchParams = {}
   ): Promise<ApiResponse<PageResponse<PostItemResponse>>> => {
     const response = await apiClient.get<ApiResponse<PageResponse<PostItemResponse>>>(
-      '/public/posts',
+      '/posts',
       { params }
     );
     return response.data;
@@ -39,14 +42,14 @@ export const postApi = {
 
   /**
    * 특정 사용자의 공개 게시글 조회
-   * GET /api/public/posts/user/{nickname}
+   * GET /api/posts/user/{nickname}
    */
   getUserPublicPosts: async (
     nickname: string,
-    params: PostSearchParams = {},
+    params: PostSearchParams = {}
   ): Promise<ApiResponse<PageResponse<PostItemResponse>>> => {
     const response = await apiClient.get<ApiResponse<PageResponse<PostItemResponse>>>(
-      `/public/posts/user/${nickname}`,
+      `/posts/user/${nickname}`,
       { params }
     );
     return response.data;
@@ -88,7 +91,9 @@ export const postApi = {
    * DELETE /api/my/posts/{slug}
    */
   deletePost: async (slug: string): Promise<ApiResponse<void>> => {
-    const response = await apiClient.delete<ApiResponse<void>>(`/my/posts/${slug}`);
+    const response = await apiClient.delete<ApiResponse<void>>(
+      `/my/posts/${slug}`
+    );
     return response.data;
   },
 
@@ -97,7 +102,9 @@ export const postApi = {
    * POST /api/my/posts/{slug}/restore
    */
   restorePost: async (slug: string): Promise<ApiResponse<void>> => {
-    const response = await apiClient.post<ApiResponse<void>>(`/my/posts/${slug}/restore`);
+    const response = await apiClient.post<ApiResponse<void>>(
+      `/my/posts/${slug}/restore`
+    );
     return response.data;
   },
 

@@ -15,12 +15,12 @@ export const useLogout = () => {
     mutation.mutate(undefined, {
       onSuccess: () => {
         clearAuth();
-        navigate('/login', { replace: true });
+        navigate('/', { replace: true });
       },
       onError: () => {
         // 에러가 나도 로컬 상태는 정리
         clearAuth();
-        navigate('/login', { replace: true });
+        navigate('/', { replace: true });
       },
     });
   };

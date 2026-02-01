@@ -5,7 +5,8 @@ import { getErrorMessage } from './api.error';
 import type { ErrorResponse } from './api.response';
 import { _getLoadingStore } from '@/shared/loading/useLoading';
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'https://sealog-api.o-r.kr/api';
+//const BASE_URL = import.meta.env.VITE_API_URL || 'https://sealog-api.o-r.kr/api';
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
 
 export const apiClient = axios.create({
   baseURL: BASE_URL,
@@ -14,21 +15,15 @@ export const apiClient = axios.create({
   withCredentials: true,
 });
 
-// 로딩 최소 표시 시간 관리
-const loadingStartTimes = new Map<string, number>();
-const MIN_LOADING_TIME = 300; // 최소 0.3초
-
 // 요청 인터셉터
 apiClient.interceptors.request.use(
   (config) => {
-    if ((config as any).skipLoading) return config;
-
-    const requestId = `${config.url}_${Date.now()}`;
-    (config as any).requestId = requestId;
-
-    // 즉시 로딩 표시 & 시작 시간 기록
-    _getLoadingStore().showLoading();
-    loadingStartTimes.set(requestId, Date.now());
+    // globalLoading이 false면 로딩 스킵 (기본값: true)
+    const shouldShowLoading = (config as any).globalLoading !== false;
+    
+    if (shouldShowLoading) {
+      _getLoadingStore().showLoading();
+    }
 
     return config;
   },
@@ -37,45 +32,25 @@ apiClient.interceptors.request.use(
 
 // 응답 인터셉터
 apiClient.interceptors.response.use(
-  async (response) => {
-    const requestId = (response.config as any).requestId;
-    if (requestId) {
-      const startTime = loadingStartTimes.get(requestId);
-      if (startTime) {
-        const elapsed = Date.now() - startTime;
-        const remainingTime = MIN_LOADING_TIME - elapsed;
-
-        // 최소 1초 표시 보장
-        if (remainingTime > 0) {
-          await new Promise(resolve => setTimeout(resolve, remainingTime));
-        }
-
-        loadingStartTimes.delete(requestId);
-      }
+  (response) => {
+    // globalLoading이 false가 아닌 경우만 로딩 감소
+    const shouldShowLoading = (response.config as any).globalLoading !== false;
+    
+    if (shouldShowLoading) {
       _getLoadingStore().hideLoading();
     }
+    
     return response;
   },
   async (error: AxiosError) => {
     const originalRequest = error.config as InternalAxiosRequestConfig & { 
       _retry?: boolean;
       _skipGlobalErrorHandler?: boolean;
-      requestId?: string;
     };
 
-    // 로딩 정리 (최소 1초 보장)
-    if (originalRequest?.requestId) {
-      const startTime = loadingStartTimes.get(originalRequest.requestId);
-      if (startTime) {
-        const elapsed = Date.now() - startTime;
-        const remainingTime = MIN_LOADING_TIME - elapsed;
-
-        if (remainingTime > 0) {
-          await new Promise(resolve => setTimeout(resolve, remainingTime));
-        }
-
-        loadingStartTimes.delete(originalRequest.requestId);
-      }
+    // globalLoading이 false가 아닌 경우만 로딩 감소
+    const shouldShowLoading = (originalRequest as any)?.globalLoading !== false;
+    if (shouldShowLoading) {
       _getLoadingStore().hideLoading();
     }
 
@@ -90,7 +65,7 @@ apiClient.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        await apiClient.post('/auth/refresh', {}, { skipLoading: true } as any);
+        await apiClient.post('/auth/refresh', {}, { globalLoading: false } as any);
         return apiClient(originalRequest);
       } catch (refreshError) {
         useAuthStore.getState().logout();
@@ -116,6 +91,13 @@ apiClient.interceptors.response.use(
 
 declare module 'axios' {
   export interface AxiosRequestConfig {
-    skipLoading?: boolean;
+    /**
+     * 전역 로딩 표시 여부
+     * @default true - 전역 로딩 표시
+     * @example
+     * // 전역 로딩 숨김 (컴포넌트 자체 로딩 사용)
+     * apiClient.get('/users', { globalLoading: false })
+     */
+    globalLoading?: boolean;
   }
 }

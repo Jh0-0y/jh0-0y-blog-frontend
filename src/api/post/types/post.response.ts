@@ -1,6 +1,14 @@
 import type { PostType, PostStatus } from './post.enums';
 
 /**
+ * 작성자 정보 (Backend: PostResponse.AuthorInfo)
+ */
+export interface AuthorInfo {
+  nickname: string;
+  profileImageUrl: string | null;
+}
+
+/**
  * 게시글 목록 아이템 (Backend: PostResponse.PostItems)
  */
 export interface PostItemResponse {
@@ -10,9 +18,10 @@ export interface PostItemResponse {
   excerpt: string;
   postType: PostType;
   status: PostStatus;
-  thumbnailUrl: string | null;
+  thumbnailPath: string | null;
   tags: string[];
   stacks: string[];
+  author: AuthorInfo;
   createdAt: string;
 }
 
@@ -27,9 +36,10 @@ export interface PostDetailResponse {
   postType: PostType;
   content: string;
   status: PostStatus;
-  thumbnailUrl: string | null;
+  thumbnailPath: string | null;
   tags: string[];
   stacks: string[];
+  author: AuthorInfo;
   relatedPosts: PostItemResponse[];
   createdAt: string;
   updatedAt: string;
@@ -46,7 +56,7 @@ export interface PostEditResponse {
   postType: PostType;
   content: string;
   status: PostStatus;
-  thumbnailUrl: string | null;
+  thumbnailPath: string | null;
   tags: string[];
   stacks: string[];
   createdAt: string;

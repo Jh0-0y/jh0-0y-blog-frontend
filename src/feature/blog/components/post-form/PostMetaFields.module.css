@@ -1,0 +1,105 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.charCount {
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary);
+}
+
+.fieldError {
+  font-size: var(--font-size-xs);
+  color: var(--text-error);
+}
+
+.inputError {
+  border-color: var(--text-error) !important;
+}
+
+/* 제목 입력 */
+.titleInput {
+  width: 100%;
+  padding: var(--spacing-4);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  background: var(--bg-input);
+  border: none;
+  border-bottom: 2px solid var(--border-input);
+  border-radius: var(--radius-base);
+  transition: all var(--transition-base);
+}
+
+.titleInput:hover {
+  background: var(--bg-input-hover);
+  border-color: var(--border-input-hover);
+}
+
+.titleInput:focus {
+  outline: none;
+  background: var(--bg-input-focus);
+  border-color: var(--border-input-focus);
+  box-shadow: var(--ring-input-focus);
+}
+
+.titleInput::placeholder {
+  color: var(--text-tertiary);
+  opacity: 0.6;
+}
+
+/* 요약 입력 */
+.excerptInput {
+  width: 100%;
+  padding: var(--spacing-3);
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-base);
+  resize: none;
+  transition: all var(--transition-base);
+}
+
+.excerptInput:hover {
+  background-color: var(--bg-input-hover);
+  border-color: var(--border-input-hover);
+}
+
+.excerptInput:focus {
+  outline: none;
+  background-color: var(--bg-input-focus);
+  border-color: var(--border-input-focus);
+  box-shadow: var(--ring-input-focus);
+}
+
+.excerptInput::placeholder {
+  color: var(--text-tertiary);
+  opacity: 0.6;
+}
+
+@media (max-width: 539px) {
+  .titleInput {
+    font-size: var(--font-size-xl);
+    padding: var(--spacing-3);
+  }
+}

@@ -1,4 +1,5 @@
-export { BlogHomePage } from './BlogHomePage';
-export { BlogDetailPage } from './BlogDetailPage';
-export { BlogWritePage } from './BlogWritePage';
-export { BlogEditPage } from './BlogEditPage';
+export { MainPostsPage } from './MainPostsPage';
+export { UserPostsPage } from './UserPostsPage';
+export { PostDetailPage } from './PostDetailPage';
+export { PostWritePage } from './PostWritePage';
+export { PostEditPage } from './PostEditPage';

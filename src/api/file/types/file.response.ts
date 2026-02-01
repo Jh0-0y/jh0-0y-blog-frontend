@@ -4,7 +4,7 @@
 export interface FileUploadResponse {
   id: number;
   originalName: string;
-  url: string;
+  path: string;
   size: number;
   contentType: string;
 }

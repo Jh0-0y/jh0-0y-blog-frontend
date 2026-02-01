@@ -1,0 +1,70 @@
+/* ============================================
+   ADMIN COLOR SYSTEM
+   ============================================ */
+
+:root {
+  /* ----- Admin Background ----- */
+  --admin-bg-primary: #0f1419;
+  --admin-bg-secondary: #1a1f2e;
+  --admin-bg-tertiary: #242b3d;
+  --admin-bg-card: #1e2433;
+  --admin-bg-hover: #2a3244;
+
+  /* ----- Admin Sidebar ----- */
+  --admin-sidebar-bg: #0d1117;
+  --admin-sidebar-width: 260px;
+  --admin-sidebar-hover: rgba(56, 189, 248, 0.08);
+  --admin-sidebar-active: rgba(56, 189, 248, 0.15);
+
+  /* ----- Admin Text ----- */
+  --admin-text-primary: #e6edf3;
+  --admin-text-secondary: #8b949e;
+  --admin-text-tertiary: #6e7681;
+  --admin-text-muted: #484f58;
+
+  /* ----- Admin Border ----- */
+  --admin-border-primary: #30363d;
+  --admin-border-secondary: #21262d;
+  --admin-border-focus: #388bfd;
+
+  /* ----- Admin Point Colors ----- */
+  --admin-point-primary: #38bdf8;
+  --admin-point-primary-hover: #7dd3fc;
+  --admin-point-primary-bg: rgba(56, 189, 248, 0.1);
+
+  /* ----- Admin Semantic Colors ----- */
+  --admin-success: #3fb950;
+  --admin-success-bg: rgba(63, 185, 80, 0.1);
+  --admin-error: #f85149;
+  --admin-error-bg: rgba(248, 81, 73, 0.1);
+  --admin-warning: #d29922;
+  --admin-warning-bg: rgba(210, 153, 34, 0.1);
+
+  /* ----- Admin Input ----- */
+  --admin-input-bg: #0d1117;
+  --admin-input-border: #30363d;
+  --admin-input-focus-border: #388bfd;
+  --admin-input-focus-shadow: 0 0 0 3px rgba(56, 139, 253, 0.3);
+
+  /* ----- Admin Button ----- */
+  --admin-btn-primary-bg: #238636;
+  --admin-btn-primary-hover: #2ea043;
+  --admin-btn-secondary-bg: #21262d;
+  --admin-btn-secondary-hover: #30363d;
+  --admin-btn-danger-bg: #da3633;
+  --admin-btn-danger-hover: #f85149;
+
+  /* ----- Admin Table ----- */
+  --admin-table-header-bg: #161b22;
+  --admin-table-row-hover: #1c2128;
+  --admin-table-border: #21262d;
+
+  /* ----- Admin Modal ----- */
+  --admin-modal-bg: #1e2433;
+  --admin-modal-overlay: rgba(0, 0, 0, 0.7);
+
+  /* ----- Admin Shadow ----- */
+  --admin-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --admin-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --admin-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.6);
+}

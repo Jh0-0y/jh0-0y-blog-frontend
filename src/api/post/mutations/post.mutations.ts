@@ -32,14 +32,14 @@ export const useUpdatePostMutation = () => {
     mutationFn: ({ slug, request }: { slug: string; request: UpdatePostRequest }) =>
       postApi.updatePost(slug, request),
     onSuccess: (_data, variables) => {
-      // 해당 게시글 상세 무효화 (공개)
-      queryClient.invalidateQueries({ queryKey: postKeys.publicDetail(variables.slug) });
       // 해당 게시글 수정용 데이터 무효화
       queryClient.invalidateQueries({ queryKey: postKeys.edit(variables.slug) });
       // 공개 게시글 목록 무효화
       queryClient.invalidateQueries({ queryKey: postKeys.publicLists() });
       // 내 게시글 목록 무효화
       queryClient.invalidateQueries({ queryKey: postKeys.myLists() });
+      // 공개 게시글 상세는 nickname이 필요해서 여기서 무효화하기 어려움
+      // 필요시 컴포넌트에서 직접 처리
     },
   });
 };
@@ -54,8 +54,7 @@ export const useDeletePostMutation = () => {
   return useMutation({
     mutationFn: (slug: string) => postApi.deletePost(slug),
     onSuccess: (_data, slug) => {
-      // 해당 게시글 관련 쿼리 제거
-      queryClient.removeQueries({ queryKey: postKeys.publicDetail(slug) });
+      // 해당 게시글 수정용 쿼리 제거
       queryClient.removeQueries({ queryKey: postKeys.edit(slug) });
       // 공개 게시글 목록 무효화
       queryClient.invalidateQueries({ queryKey: postKeys.publicLists() });

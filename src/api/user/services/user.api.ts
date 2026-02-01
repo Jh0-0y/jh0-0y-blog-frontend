@@ -1,14 +1,23 @@
 import { apiClient } from '@/api/core/apiClient';
 import type { ApiResponse } from '@/api/core';
-import type { ChangePasswordRequest, UpdateProfileRequest, UserResponse } from '../types';
+import type { BlogUserResponse, ChangePasswordRequest, UpdateProfileRequest, UserResponse } from '../types';
 
 
 export const userApi = {
+
+  /**
+   * 블로그 사용자 정보 조회
+   */
+  getBlogUser: async (nickname: string): Promise<ApiResponse<BlogUserResponse>> => {
+    const response = await apiClient.get<ApiResponse<BlogUserResponse>>(`/user/${nickname}`);
+    return response.data;
+  },
+
   /**
    * 내 정보 조회
    */
   getMe: async (): Promise<ApiResponse<UserResponse>> => {
-    const response = await apiClient.get<ApiResponse<UserResponse>>('/auth/me');
+    const response = await apiClient.get<ApiResponse<UserResponse>>('/me');
     return response.data;
   },
 

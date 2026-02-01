@@ -21,7 +21,7 @@ const INITIAL_FORM: CreatePostRequest = {
   stacks: [],
   tags: [],
   thumbnailFileId: null,
-  thumbnailUrl: null,
+  thumbnailPath: null,
 };
 
 /**
@@ -91,7 +91,7 @@ export const usePostCreate = () => {
         setForm((prev) => ({
           ...prev,
           thumbnailFileId: null,
-          thumbnailUrl: null,
+          thumbnailPath: null,
         }));
         return;
       }
@@ -104,7 +104,7 @@ export const usePostCreate = () => {
           setForm((prev) => ({
             ...prev,
             thumbnailFileId: response.data.id,
-            thumbnailUrl: response.data.url,
+            thumbnailPath: response.data.path,
           }));
         }
       } catch (err) {

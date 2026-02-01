@@ -23,7 +23,7 @@ export interface CreatePostRequest {
   stacks: string[];
   tags: string[];
   thumbnailFileId?: number | null;
-  thumbnailUrl?: string | null;
+  thumbnailPath?: string | null;
 }
 
 /**
@@ -37,6 +37,6 @@ export interface UpdatePostRequest {
   stacks: string[];
   tags: string[];
   thumbnailFileId?: number | null;
-  thumbnailUrl?: string | null;
+  thumbnailPath?: string | null;
   removeThumbnail?: boolean;
 }

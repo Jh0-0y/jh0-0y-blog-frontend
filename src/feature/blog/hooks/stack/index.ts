@@ -1,3 +1,3 @@
 export { useStacksForForm } from './useStacksForForm';
-export { useStacksSidebar } from './useStacksSidebar';
+export { useUserStacks } from './useUserStacks';
 export { useStackManage } from './useStackManage';

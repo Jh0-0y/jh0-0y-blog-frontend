@@ -1,0 +1,224 @@
+.banner {
+  position: relative;
+  height: 500px;
+  width: 100%;
+  overflow: hidden;
+  transition: background 1s ease;
+}
+
+/* 시간대별 배경 그라데이션 */
+.sunrise {
+  background: linear-gradient(
+    to bottom,
+    #1a1a2e 0%,
+    #4a3f6b 15%,
+    #8b5a8c 30%,
+    #d4838f 50%,
+    #f4a261 70%,
+    #ffcb8e 90%
+  );
+}
+
+.day {
+  background: linear-gradient(
+    to bottom,
+    #1e90ff 0%,
+    #4aa8ff 30%,
+    #87ceeb 60%,
+    #b0e2ff 100%
+  );
+}
+
+.sunset {
+  background: linear-gradient(
+    to bottom,
+    #2b1055 0%,
+    #4a2c6a 15%,
+    #823c6e 30%,
+    #d35459 50%,
+    #f28c38 70%,
+    #ffd194 90%
+  );
+}
+
+.night {
+  background: linear-gradient(
+    to bottom,
+    #0a0a1a 0%,
+    #0f1638 30%,
+    #1a2352 60%,
+    #243b6e 100%
+  );
+}
+
+/* 배경 컨테이너 */
+.backgroundContainer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 하늘 SVG */
+.sky {
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 100px);
+  top: 0;
+  left: 0;
+}
+
+/* 해 */
+.sun {
+  filter: drop-shadow(0 0 20px rgba(255, 200, 50, 0.8));
+}
+
+/* 달 */
+.moon {
+  filter: drop-shadow(0 0 15px rgba(255, 255, 240, 0.6));
+}
+
+/* 별 반짝임 */
+.stars {
+  opacity: 1;
+}
+
+.star {
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+
+/* 구름 애니메이션 */
+.clouds {
+  opacity: 0.9;
+}
+
+.cloud1 {
+  animation: floatCloud 30s linear infinite;
+}
+
+.cloud2 {
+  animation: floatCloud 40s linear infinite;
+  animation-delay: -10s;
+}
+
+.cloud3 {
+  animation: floatCloud 35s linear infinite;
+  animation-delay: -20s;
+}
+
+@keyframes floatCloud {
+  0% {
+    transform: translateX(-100px);
+  }
+  100% {
+    transform: translateX(500px);
+  }
+}
+
+/* 콘텐츠 컨테이너 */
+.contentContainer {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.typingText {
+  color: var(--text-white);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  text-shadow: var(--shadow-md);
+  text-align: center;
+  word-break: keep-all;
+  padding: 0 var(--spacing-5);
+}
+
+/* 물결 */
+.waveWrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+}
+
+.waves {
+  width: 100%;
+  height: 100%;
+}
+
+.parallax > use {
+  animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+}
+
+.waveLayer1 {
+  fill: var(--bg-gradient-start);
+  opacity: 0.5;
+  animation-delay: -2s;
+  animation-duration: 7s;
+}
+
+.waveLayer2 {
+  fill: var(--bg-gradient-start);
+  animation-delay: -5s;
+  animation-duration: 10s;
+}
+
+@keyframes move-forever {
+  0% {
+    transform: translate3d(-90px, 0, 0);
+  }
+  100% {
+    transform: translate3d(85px, 0, 0);
+  }
+}
+
+/* 커서 깜빡임 */
+.cursor {
+  animation: blink 0.8s infinite;
+  color: var(--text-white);
+  margin-left: var(--spacing-2);
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* 반응형 */
+@media (max-width: 920px) {
+  .banner {
+    height: 350px;
+  }
+
+  .typingText {
+    font-size: var(--font-size-xl);
+  }
+
+  .waveWrapper {
+    height: 60px;
+  }
+
+  .sky {
+    height: calc(100% - 60px);
+  }
+}

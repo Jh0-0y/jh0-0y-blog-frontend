@@ -1,71 +1,59 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ProtectedRoute, GuestRoute } from '@/router/guards';
+import { AdminRoute, ProtectedRoute } from '@/router/Guard';
+import { AuthProvider } from '@/feature/auth/providers/AuthProvider';
 
-import { BlogLayout } from '@/layout/post/BlogLayout';
-import { BlogHomePage, BlogDetailPage, BlogWritePage, BlogEditPage } from '@/pages/blog';
-import { LoginPage } from '@/pages/auth';
+import { MainPostsLayout, UserContentLayout, UserPostsLayout } from '@/layout/blog';
+
+import { MainPostsPage, PostDetailPage, PostWritePage, PostEditPage, UserPostsPage } from '@/pages/blog';
 import { NotFoundPage } from '@/pages/notfound';
-
-import ToastTest from '@/pages/test/ToastTest';
-import { AuthLayout } from '@/layout/auth/AuthLayout';
-import EditorTest from '@/pages/test/EditorTest';
+import { UserEditorLayout } from '@/layout/blog/UserEditorLayout';
+import AdminLayout from '@/layout/admin/AdminLayout';
+import { AdminAccountPage, AdminDashboardPage, AdminPostsPage, AdminStacksPage, AdminUsersPage } from '@/pages/admin';
 
 export const AppRouter = () => (
   <BrowserRouter basename="/">
-    <Routes>
-      <Route path="/" element={<BlogLayout />}>
-        <Route index element={<BlogHomePage />} />
-        <Route path=":postType">
-          <Route index element={<BlogHomePage />} />
-          <Route path="post/:slug" element={<BlogDetailPage />} />
+    <AuthProvider>
+      <Routes>
+        {/* 메인 */}
+        <Route path="/" element={<MainPostsLayout />}>
+          <Route index element={<MainPostsPage />} />
+          <Route path="type/:postType" element={<MainPostsPage />} />
         </Route>
 
-        <Route path=":group/:stack">
-          <Route index element={<BlogHomePage />} />
-          <Route path="post/:slug" element={<BlogDetailPage />} />
+        {/* 유저 - 콘텐츠 */}
+        <Route path="/user/:nickname" element={<UserContentLayout />}>
+          <Route path="entry/:slug" element={<PostDetailPage />} />
         </Route>
 
-        <Route path=":group/:stack/:postType">
-          <Route index element={<BlogHomePage />} />
-          <Route path="post/:slug" element={<BlogDetailPage />} />
+        {/* 유저 - 에디터 */}
+        <Route path="/user/:nickname" element={<UserEditorLayout />}>
+          <Route path="entry/:slug/edit" element={<ProtectedRoute><PostEditPage /></ProtectedRoute>} />
+          <Route path="write" element={<ProtectedRoute><PostWritePage /></ProtectedRoute>} />
         </Route>
 
-        <Route path="post/:slug" element={<BlogDetailPage />} />
-        
+        {/* 유저 - 목록 */}
+        <Route path="/user/:nickname" element={<UserPostsLayout />}>
+          <Route index element={<UserPostsPage />} />
+          {/* 타입별 */}
+          <Route path="type/:postType" element={<UserPostsPage />} />
+          {/* 스택별 */}
+          <Route path="stack/:stack" element={<UserPostsPage />} />
+          {/* 스택 + 타입 */}
+          <Route path="stack/:stack/type/:postType" element={<UserPostsPage />} />
+        </Route>
 
-        <Route path="write" element={
-          <ProtectedRoute>
-            <BlogWritePage />
-          </ProtectedRoute>
-        } />
-        
-        <Route path="post/:slug/edit" element={
-          <ProtectedRoute>
-            <BlogEditPage />
-          </ProtectedRoute>
-        } />
-      </Route>
+        {/* 어드민 페이지 */}
+        <Route path="/admin" element={<AdminRoute children={<AdminLayout />} />}>
+          <Route path="dashboard" element={<AdminDashboardPage />} />
+          <Route path="users" element={<AdminUsersPage />} />
+          <Route path="posts" element={<AdminPostsPage />} />
+          <Route path="stacks" element={<AdminStacksPage />} />
+          <Route path="create-account" element={<AdminAccountPage />} />
+        </Route>
 
-     {/* 로그인/회원가입 (비로그인만) - GuestRoute를 element로 */}
-      <Route path="auth" element={
-        <GuestRoute>
-          <AuthLayout />
-        </GuestRoute>
-      }>
-        <Route path="login" element={<LoginPage />} />
-        {/* <Route path="signup" element={<SignUpPage />} /> */}
-      </Route>
 
-      <Route path="test" element={
-        <ToastTest />
-      } />
-
-      <Route path="editor" element={
-        <EditorTest />
-      } />
-      <Route path="/404" element={<NotFoundPage />} />
-
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes>
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </AuthProvider>
   </BrowserRouter>
 );

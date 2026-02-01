@@ -7,21 +7,24 @@ import type { PostSearchParams } from '../types';
  */
 export const postKeys = {
   all: ['posts'] as const,
-  
+
   // Public posts
   publicLists: () => [...postKeys.all, 'public', 'list'] as const,
   publicList: (params: PostSearchParams) => [...postKeys.publicLists(), params] as const,
   publicDetails: () => [...postKeys.all, 'public', 'detail'] as const,
-  publicDetail: (slug: string) => [...postKeys.publicDetails(), slug] as const,
+  publicDetail: (nickname: string, slug: string) => 
+    [...postKeys.publicDetails(), nickname, slug] as const,
+
+  // User public posts
   userPublicLists: (nickname: string) => [...postKeys.all, 'public', 'user', nickname] as const,
-  userPublicList: (nickname: string, params: PostSearchParams) => 
+  userPublicList: (nickname: string, params: PostSearchParams) =>
     [...postKeys.userPublicLists(nickname), params] as const,
-  
+
   // My posts
   myLists: () => [...postKeys.all, 'my', 'list'] as const,
   myList: (params: PostSearchParams) => [...postKeys.myLists(), params] as const,
   myDeletedLists: () => [...postKeys.all, 'my', 'deleted'] as const,
-  myDeletedList: (params: Pick<PostSearchParams, 'page' | 'size'>) => 
+  myDeletedList: (params: Pick<PostSearchParams, 'page' | 'size'>) =>
     [...postKeys.myDeletedLists(), params] as const,
   edits: () => [...postKeys.all, 'my', 'edit'] as const,
   edit: (slug: string) => [...postKeys.edits(), slug] as const,
@@ -29,7 +32,7 @@ export const postKeys = {
 
 /**
  * 공개 게시글 목록 조회
- * GET /api/public/posts
+ * GET /api/posts
  */
 export const usePublicPostsQuery = (params: PostSearchParams = {}) => {
   return useQuery({
@@ -38,19 +41,22 @@ export const usePublicPostsQuery = (params: PostSearchParams = {}) => {
   });
 };
 
-// post.queries.ts 수정
-export const usePublicPostDetailQuery = (slug: string) => {
+/**
+ * 공개 게시글 상세 조회 (nickname + slug)
+ * GET /api/posts/{nickname}/{slug}
+ */
+export const usePublicPostDetailQuery = (nickname: string, slug: string) => {
   return useQuery({
-    queryKey: postKeys.publicDetail(slug),
-    queryFn: () => postApi.getPublicPostBySlug(slug),
-    enabled: !!slug,
-    staleTime: 1000 * 60 * 5,  // 5분간 fresh 유지
+    queryKey: postKeys.publicDetail(nickname, slug),
+    queryFn: () => postApi.getPublicPostByNicknameAndSlug(nickname, slug),
+    enabled: !!nickname && !!slug,
+    staleTime: 1000 * 60 * 5, // 5분간 fresh 유지
   });
 };
 
 /**
  * 특정 사용자의 공개 게시글 조회
- * GET /api/public/posts/user/{nickname}
+ * GET /api/posts/user/{nickname}
  */
 export const useUserPublicPostsQuery = (
   nickname: string,

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -9,28 +9,7 @@
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SeaYon Dev</title>
-
-    <!-- 테마 적용 스크립트 -->
-    <script>
-      (function () {
-        try {
-          const stored = localStorage.getItem('theme-storage');
-          if (stored) {
-            const { state } = JSON.parse(stored);
-            if (state.darkMode) {
-              document.documentElement.setAttribute('data-theme', 'dark');
-            }
-          } else {
-            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-              document.documentElement.setAttribute('data-theme', 'dark');
-            }
-          }
-        } catch (e) {}
-
-        // CSS 로드 후 화면 표시
-        document.documentElement.style.visibility = 'visible';
-      })();
-    </script>
+    <meta name="theme-color" content="#000000" />
     <script>
       // 404.html에서 리다이렉트된 경우 원래 경로로 복원
       (function () {
