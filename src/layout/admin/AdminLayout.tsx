@@ -1,4 +1,3 @@
-import React from 'react';
 import { BarChart3, Users, FileText, Layers, UserPlus } from 'lucide-react';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import styles from './AdminLayout.module.css';
@@ -7,7 +6,7 @@ export default function AdminLayout() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isActive = (path) => location.pathname === path;
+  const isActive = (path: string) => location.pathname === path;
 
   return (
     <div className={styles.layout}>

@@ -15,7 +15,7 @@ export interface UseContentFilesReturn {
   clearFiles: () => void;
   
   // 유틸
-  getFileUrl: (fileId: number) => string | null;
+  getFilePath: (fileId: number) => string | null;
 }
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
@@ -92,11 +92,11 @@ export const useContentFiles = (): UseContentFilesReturn => {
     setUploadError(null);
   }, []);
 
-  // 파일 URL 조회
-  const getFileUrl = useCallback(
+  // 파일 Path 조회
+  const getFilePath = useCallback(
     (fileId: number): string | null => {
       const file = uploadedFiles.find((f) => f.id === fileId);
-      return file ? file.url : null;
+      return file ? file.path : null;
     },
     [uploadedFiles]
   );
@@ -108,6 +108,6 @@ export const useContentFiles = (): UseContentFilesReturn => {
     uploadFile,
     removeFile,
     clearFiles,
-    getFileUrl,
+    getFilePath,
   };
 };

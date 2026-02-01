@@ -1,11 +1,12 @@
 import { usePreloadNavigate } from '@/shared/loading/usePreloadNavigate';
 import { postApi } from '@/api/post/services';
 import { postKeys } from '@/api/post/queries';
-import { PostCard, type PostCardData } from '../common/PostCard';
+import { PostCard } from '../common/PostCard';
+import type { PostItemResponse } from '@/api/post/types';
 import styles from './UserPostsContents.module.css';
 
 interface UserPostsContentsProps {
-  posts: PostCardData[];
+  posts: PostItemResponse[];
 }
 
 export const UserPostsContents = ({ posts }: UserPostsContentsProps) => {

@@ -14,9 +14,8 @@ export const stackApi = {
    * GET /api/stacks
    */
   getAllStacks: async (
-    skipLoading = false
   ): Promise<ApiResponse<StackResponse[]>> => {
-    const response = await apiClient.get<ApiResponse<StackResponse[]>>('/stacks', { skipLoading });
+    const response = await apiClient.get<ApiResponse<StackResponse[]>>('/stacks');
     return response.data;
   },
 
@@ -59,12 +58,10 @@ export const stackApi = {
    */
   createStack: async (
     request: CreateStackRequest,
-    skipLoading = false
   ): Promise<ApiResponse<StackResponse>> => {
     const response = await apiClient.post<ApiResponse<StackResponse>>(
       '/admin/stacks',
-      request,
-      { skipLoading }
+      request
     );
     return response.data;
   },

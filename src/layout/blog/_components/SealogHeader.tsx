@@ -5,7 +5,7 @@ import { useAuthStore } from '@/feature/auth/stores/authStore';
 import styles from './SealogHeader.module.css';
 import { Anchor } from 'lucide-react';
 import { useLoginModalStore } from '@/feature/auth/stores/loginModalStore';
-import { ProfileDropdown } from './parts/ProfileDropDown';
+import { ProfileDropdown } from './parts/ProfileDropdown';
 
 
 interface SealogHeaderProps {

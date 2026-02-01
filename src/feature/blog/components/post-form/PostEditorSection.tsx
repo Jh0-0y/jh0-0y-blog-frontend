@@ -17,7 +17,6 @@ export const PostEditorSection = ({
   contentLengthError,
   disabled = false,
 }: PostEditorSectionProps) => {
-  const hasError = !!contentLengthError || !!contentError;
 
   return (
     <div className={styles.container}>
