@@ -1,13 +1,22 @@
 import { BarChart3, Users, FileText, Layers, UserPlus } from 'lucide-react';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import styles from './AdminLayout.module.css';
+import { FILE_DOMAIN } from '@/constants/FileDomain';
+import { DEFAULT_PROFILE_IMAGE } from '@/constants/default';
+import { useAuthStore } from '@/feature/auth/stores';
 
 export default function AdminLayout() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useAuthStore();
 
   const isActive = (path: string) => location.pathname === path;
 
+  if (!user) return null;
+  const profileImage = user.profileImagePath 
+    ? FILE_DOMAIN + user.profileImagePath 
+    : DEFAULT_PROFILE_IMAGE;
+  
   return (
     <div className={styles.layout}>
       <aside className={styles.sidebar}>
@@ -60,10 +69,14 @@ export default function AdminLayout() {
 
         <div className={styles.sidebarFooter}>
           <div className={styles.userProfile}>
-            <div className={styles.avatar}>A</div>
+            <img 
+              src={profileImage} 
+              alt={user.nickname}
+              className={styles.avatar}
+            />
             <div className={styles.userInfo}>
-              <div className={styles.userName}>관리자</div>
-              <div className={styles.userEmail}>admin@example.com</div>
+              <div className={styles.userName}>{user.nickname}</div>
+              <div className={styles.userEmail}>{user.email}</div>
             </div>
           </div>
         </div>
