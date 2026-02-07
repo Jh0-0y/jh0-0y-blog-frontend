@@ -1,7 +1,7 @@
 
 import styles from './PostRelated.module.css';
 import type { PostItemResponse } from '@/api/post/types';
-import { PostCard } from '../common/PostCard';
+import { PostCard } from '../posts-user/_parts/PostCard';
 import { usePreloadNavigate } from '@/shared/loading/usePreloadNavigate';
 import { postKeys } from '@/api/post/queries';
 import { postApi } from '@/api/post/services';

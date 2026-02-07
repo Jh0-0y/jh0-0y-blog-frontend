@@ -5,7 +5,7 @@ import { FILE_DOMAIN } from '@/constants/FileDomain';
 import { DEFAULT_PROFILE_IMAGE } from '@/constants/default';
 import { useAuthStore } from '@/feature/auth/stores';
 
-export default function AdminLayout() {
+export const AdminLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuthStore();

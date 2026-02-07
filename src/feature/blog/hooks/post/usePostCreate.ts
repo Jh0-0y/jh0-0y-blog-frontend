@@ -182,7 +182,7 @@ export const usePostCreate = () => {
       const response = await createMutation.mutateAsync(form);
 
       if (response.success) {
-        navigate(`/post/${response.data.slug}`);
+        navigate(`/user/${response.data.author.nickname}/entry/${response.data.slug}`);
       }
     } catch (err) {
       // 서버에서 필드 에러가 내려온 경우 UI에 표시

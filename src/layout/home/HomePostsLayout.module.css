@@ -1,0 +1,52 @@
+/* ===================================
+   레이아웃 기본 구조
+   =================================== */
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: linear-gradient(
+    180deg,
+    var(--home-bg-gradient-start) 0%,
+    var(--home-bg-gradient-start) 600px,
+    var(--home-bg-gradient-end) 100%
+  );
+  position: relative;
+}
+
+/* ===================================
+   헤더
+   =================================== */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+/* ===================================
+   배너
+   =================================== */
+.banner {
+  width: 100%;
+  transition: padding-left var(--transition-slow);
+}
+
+/* ===================================
+   메인 컨텐츠
+   =================================== */
+.main {
+  flex: 1;
+  width: 100%;
+  transition: padding-left var(--transition-slow);
+}
+
+/* ===================================
+   푸터
+   =================================== */
+.footer {
+  width: 100%;
+  margin-top: var(--spacing-16);
+  transition: padding-left var(--transition-slow);
+}

@@ -1,0 +1,1 @@
+export { HomePostsPage } from './HomePostsPage';

@@ -1,4 +1,2 @@
-export {SealogHeader} from './SealogHeader';
-export {SealogFooter} from './SealogFooter';
-export {SealogBanner} from './SealogBanner';
+export {UserFooter} from './UserFooter';
 export {UserSidebar} from './UserSidebar';

@@ -39,9 +39,9 @@ export const PostWritePage = () => {
     confirmNavigation(() => navigate('/'));
   };
 
-  const handleThumbnailUploadSuccess = (fileId: number, fileUrl: string) => {
+  const handleThumbnailUploadSuccess = (fileId: number, filePath: string) => {
     updateField('thumbnailFileId', fileId);
-    updateField('thumbnailPath', fileUrl);
+    updateField('thumbnailPath', filePath);
   };
 
   const handleThumbnailRemove = () => {

@@ -1,3 +1,6 @@
+import { Buffer } from 'buffer';
+// @ts-expect-error Buffer polyfill for @react-pdf/renderer
+globalThis.Buffer = Buffer;
 import ReactDOM from 'react-dom/client'
 import '@/styles/global.css';
 import { AppRouter } from './router/AppRouter';

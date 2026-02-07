@@ -2,22 +2,30 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AdminRoute, ProtectedRoute } from '@/router/Guard';
 import { AuthProvider } from '@/feature/auth/providers/AuthProvider';
 
-import { MainPostsLayout, UserContentLayout, UserPostsLayout } from '@/layout/blog';
+//layout
+import { HomePostsLayout } from '@/layout/home';
+import { UserContentLayout, UserPostsLayout, UserEditorLayout } from '@/layout/blog';
+import { AdminLayout } from '@/layout/admin/AdminLayout';
+import { PortfolioLayout } from '@/layout/portfolio/PortfolioLayout';
 
-import { MainPostsPage, PostDetailPage, PostWritePage, PostEditPage, UserPostsPage } from '@/pages/blog';
-import { NotFoundPage } from '@/pages/notfound';
-import { UserEditorLayout } from '@/layout/blog/UserEditorLayout';
-import AdminLayout from '@/layout/admin/AdminLayout';
+//page
+import { HomePostsPage } from '@/pages/home';
+import { PostDetailPage, PostWritePage, PostEditPage, UserPostsPage } from '@/pages/blog';
 import { AdminAccountPage, AdminDashboardPage, AdminPostsPage, AdminStacksPage, AdminUsersPage } from '@/pages/admin';
+import {PortfolioPage} from '@/pages/portfolio/PortfolioPage';
+
+//404
+import { NotFoundPage } from '@/pages/notfound';
+
 
 export const AppRouter = () => (
   <BrowserRouter basename="/">
     <AuthProvider>
       <Routes>
         {/* 메인 */}
-        <Route path="/" element={<MainPostsLayout />}>
-          <Route index element={<MainPostsPage />} />
-          <Route path="type/:postType" element={<MainPostsPage />} />
+        <Route path="/" element={<HomePostsLayout />}>
+          <Route index element={<HomePostsPage />} />
+          <Route path="type/:postType" element={<HomePostsPage />} />
         </Route>
 
         {/* 유저 - 콘텐츠 */}
@@ -49,6 +57,10 @@ export const AppRouter = () => (
           <Route path="posts" element={<AdminPostsPage />} />
           <Route path="stacks" element={<AdminStacksPage />} />
           <Route path="create-account" element={<AdminAccountPage />} />
+        </Route>
+
+        <Route path="/user/:nickname" element={<PortfolioLayout />}>
+            <Route path="portfolio" element={<PortfolioPage />} />
         </Route>
 
 

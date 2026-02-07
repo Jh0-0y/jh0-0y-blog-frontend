@@ -1,0 +1,1 @@
+export { HomePostsLayout } from './HomePostsLayout';

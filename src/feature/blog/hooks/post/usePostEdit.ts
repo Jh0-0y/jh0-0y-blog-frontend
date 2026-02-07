@@ -258,7 +258,7 @@ export const usePostEdit = (slug: string) => {
       });
 
       if (response.success) {
-        navigate(`/post/${response.data.slug}`);
+          navigate(`/user/${response.data.author.nickname}/entry/${response.data.slug}`);
       }
     } catch (err) {
       const serverFieldErrors = getFieldErrors(err);

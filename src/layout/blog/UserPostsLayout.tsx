@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import { SealogBanner, SealogFooter, SealogHeader, UserSidebar } from './_components';
+import { SealogHeader } from '../common';
+import { UserFooter, UserSidebar } from './_components';
 import styles from './UserPostsLayout.module.css';
 
 export const UserPostsLayout = () => {
@@ -45,16 +46,12 @@ export const UserPostsLayout = () => {
         <SealogHeader onSidebarToggle={handleToggleSidebar} />
       </header>
 
-      <div className={styles.banner}>
-        <SealogBanner />
-      </div>
-
       <main className={styles.main}>
         <Outlet />
       </main>
 
       <footer className={styles.footer}>
-        <SealogFooter />
+        <UserFooter />
       </footer>
 
       <aside className={`${styles.aside} ${isSidebarOpen ? styles.open : ''}`}>
