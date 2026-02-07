@@ -2,7 +2,7 @@
    Search Wrapper
    =================================== */
 .searchWrapper {
-  padding: var(--spacing-4) var(--spacing-2);
+  padding: var(--spacing-6) var(--spacing-4) var(--spacing-4);
   border-bottom: 1px solid var(--global-glass-border-light);
 }
 
@@ -31,7 +31,7 @@
   width: 100%;
   padding: var(--spacing-2) var(--spacing-16) var(--spacing-2) var(--spacing-10);
   font-size: var(--font-size-sm);
-  background-color: var(--global-glass-bg-strong);
+  background-color: var(--global-glass-bg-normal);
   border: 1px solid var(--global-glass-border-light);
   border-radius: var(--radius-base);
   color: var(--global-text-primary);
@@ -45,8 +45,8 @@
 }
 
 .input:focus {
-  background-color: var(--global-glass-bg-normal);
-  border-color: var(--global-glass-border-normal);
+  background-color: var(--global-glass-bg-light);
+  border-color: var(--global-point-primary);
   outline: none;
 }
 

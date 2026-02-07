@@ -22,7 +22,7 @@
   background-color: var(--global-glass-bg-strong);
   backdrop-filter: var(--global-glass-blur);
   border: 1px solid var(--global-glass-border-normal);
-  border-radius: var(--global-radius-lg);
+  border-radius: var(--radius-lg);
   padding: var(--spacing-6);
   width: 100%;
   max-width: 420px;
@@ -50,7 +50,7 @@
   height: 3rem;
   margin: 0 auto var(--spacing-4);
   background-color: var(--global-warning-bg);
-  border-radius: var(--global-radius-full);
+  border-radius: var(--radius-full);
 }
 
 .icon {
@@ -86,7 +86,7 @@
   padding: var(--spacing-3) var(--spacing-4);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
-  border-radius: var(--global-radius-base);
+  border-radius: var(--radius-base);
   transition: all var(--transition-base);
 }
 

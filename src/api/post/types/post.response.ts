@@ -5,7 +5,7 @@ import type { PostType, PostStatus } from './post.enums';
  */
 export interface AuthorInfo {
   nickname: string;
-  profileImageUrl: string | null;
+  profileImagePath: string | null;
 }
 
 /**

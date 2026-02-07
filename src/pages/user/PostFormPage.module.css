@@ -14,7 +14,7 @@
   align-items: center;
   justify-content: center;
   min-height: 50vh;
-  color: var(--text-tertiary);
+  color: var(--global-text-tertiary);
   font-size: var(--font-size-sm);
 }
 
@@ -50,7 +50,7 @@
   flex: 1;
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
-  color: var(--text-primary);
+  color: var(--global-text-primary);
 }
 
 /* ===================================

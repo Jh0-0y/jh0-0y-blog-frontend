@@ -29,9 +29,9 @@
 }
 
 .titleIcon {
+  margin-top: 6px;
   color: var(--global-point-primary);
   filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.4));
-  animation: gentleFloat 3s ease-in-out infinite;
 }
 
 .iconGlow {

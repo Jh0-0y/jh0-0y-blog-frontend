@@ -10,7 +10,7 @@ import { PortfolioLayout } from '@/layout/portfolio'
 
 //page
 import { HomePostsPage } from '@/pages/home';
-import { PostDetailPage, PostWritePage, PostEditPage, UserPostsPage } from '@/pages/blog';
+import { PostDetailPage, PostFormPage, PostEditPage, PostsPage } from '@/pages/user';
 import { AdminAccountPage, AdminDashboardPage, AdminPostsPage, AdminStacksPage, AdminUsersPage } from '@/pages/admin';
 import {PortfolioPage} from '@/pages/portfolio/PortfolioPage';
 
@@ -30,13 +30,13 @@ export const AppRouter = () => (
 
         {/* 유저 - 게시글 목록 */}
         <Route path="/user/:nickname" element={<PostsLayout />}>
-          <Route index element={<UserPostsPage />} />
+          <Route index element={<PostsPage />} />
           {/* 타입별 */}
-          <Route path="type/:postType" element={<UserPostsPage />} />
+          <Route path="type/:postType" element={<PostsPage />} />
           {/* 스택별 */}
-          <Route path="stack/:stack" element={<UserPostsPage />} />
+          <Route path="stack/:stack" element={<PostsPage />} />
           {/* 스택 + 타입 */}
-          <Route path="stack/:stack/type/:postType" element={<UserPostsPage />} />
+          <Route path="stack/:stack/type/:postType" element={<PostsPage />} />
         </Route>
 
         {/* 유저 - 게시글 콘텐츠 */}
@@ -47,7 +47,7 @@ export const AppRouter = () => (
         {/* 유저 - 게시글 에디터 */}
         <Route path="/user/:nickname" element={<EditorLayout />}>
           <Route path="entry/:slug/edit" element={<ProtectedRoute><PostEditPage /></ProtectedRoute>} />
-          <Route path="write" element={<ProtectedRoute><PostWritePage /></ProtectedRoute>} />
+          <Route path="write" element={<ProtectedRoute><PostFormPage /></ProtectedRoute>} />
         </Route>
 
 

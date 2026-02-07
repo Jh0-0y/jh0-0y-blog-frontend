@@ -1,4 +1,7 @@
 import { formatDate } from '@/feature/post/utils';
+import type { AuthorInfo } from '@/api/post/types';
+import { useNavigate } from 'react-router-dom';
+import { FILE_DOMAIN } from '@/constants/FileDomain';
 import styles from './PostDetailHeader.module.css';
 
 interface PostDetailHeaderProps {
@@ -7,7 +10,7 @@ interface PostDetailHeaderProps {
   stacks: string[];
   tags: string[];
   createdAt: string;
-  author?: string;
+  author: AuthorInfo;
 }
 
 export const PostDetailHeader = ({
@@ -16,8 +19,14 @@ export const PostDetailHeader = ({
   stacks,
   tags,
   createdAt,
-  author = '정현영',
+  author
 }: PostDetailHeaderProps) => {
+  const navigate = useNavigate();
+
+  const handleAuthorClick = () => {
+    navigate(`/user/${author.nickname}`);
+  };
+
   return (
     <header className={styles.header}>
       <span className={styles.postType}>{postType}</span>
@@ -47,9 +56,23 @@ export const PostDetailHeader = ({
 
       {/* 메타 정보 */}
       <div className={styles.meta}>
-        <span className={styles.author}>{author}</span>
+        <div className={styles.authorLink} onClick={handleAuthorClick}>
+          <div className={styles.profileImage}>
+            {author.profileImagePath ? (
+              <img 
+                src={FILE_DOMAIN + author.profileImagePath} 
+                alt={`${author.nickname}의 프로필`}
+              />
+            ) : (
+              <div className={styles.profilePlaceholder}>
+                {author.nickname.charAt(0).toUpperCase()}
+              </div>
+            )}
+          </div>
+          <span className={styles.author}>{author.nickname}</span>
+        </div>
         <span className={styles.dot}>·</span>
-        <span>{formatDate(createdAt)}</span>
+        <span className={styles.date}>{formatDate(createdAt)}</span>
       </div>
     </header>
   );

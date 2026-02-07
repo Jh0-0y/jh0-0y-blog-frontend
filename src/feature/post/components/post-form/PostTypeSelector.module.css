@@ -18,7 +18,7 @@
 
 .typeButton {
   padding: var(--spacing-2) var(--spacing-4);
-  border-radius: var(--global-radius-full);
+  border-radius: var(--radius-full);
   font-size: var(--font-size-sm);
   color: var(--global-text-tertiary);
   background-color: var(--global-glass-bg-light);

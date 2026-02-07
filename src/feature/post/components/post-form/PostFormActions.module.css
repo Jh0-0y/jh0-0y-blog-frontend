@@ -34,7 +34,7 @@
   color: var(--global-text-secondary);
   background-color: var(--global-glass-bg-normal);
   border: 1px solid var(--global-glass-border-light);
-  border-radius: var(--global-radius-base);
+  border-radius: var(--radius-base);
   transition: all var(--transition-base);
 }
 
@@ -59,7 +59,7 @@
   color: var(--global-text-white);
   background-color: var(--global-point-primary);
   border: 1px solid transparent;
-  border-radius: var(--global-radius-base);
+  border-radius: var(--radius-base);
   transition: all var(--transition-base);
 }
 

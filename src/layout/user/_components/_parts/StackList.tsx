@@ -9,6 +9,7 @@ import {
   HiOutlineLightBulb,
   HiOutlineTerminal,
   HiOutlineDotsHorizontal,
+  HiChevronDown,
 } from 'react-icons/hi';
 
 import { STACK_GROUP_LABELS, STACK_GROUP_ORDER, type StackGroup } from '@/api/stack/types';
@@ -80,7 +81,7 @@ export const StackList = ({ onStackSelect }: StackListProps) => {
   };
 
   if (isLoading) {
-    return <div className={styles.loading}>로딩중</div>;
+    return <div className={styles.loading}>로딩중...</div>;
   }
 
   // 스택이 없을 때
@@ -102,8 +103,7 @@ export const StackList = ({ onStackSelect }: StackListProps) => {
 
   return (
     <div className={styles.scrollArea}>
-      <div className={styles.section}>
-        <h3 className={styles.sectionTitle}>All Stacks</h3>
+      <div className={styles.stackList}>
         {groupedStacks &&
           STACK_GROUP_ORDER.map((group) => {
             const stacks = groupedStacks[group];
@@ -114,56 +114,46 @@ export const StackList = ({ onStackSelect }: StackListProps) => {
             const isExpanded = expandedGroups.has(group);
             const groupPostCount = getGroupPostCount(stacks);
             const IconComponent = GROUP_ICONS[group];
+            const hasActiveStack = stacks.some((s) => s.name === selectedStack);
 
             return (
-              <div
-                key={group}
-                className={`${styles.stackGroup} ${isExpanded ? styles.expanded : ''}`}
-              >
-                {/* 그룹 헤더 (클릭하면 펼침/접힘) */}
-                <div
-                  className={`${styles.groupHeader} ${
-                    stacks.some((s) => s.name === selectedStack) ? styles.active : ''
-                  }`}
+              <div key={group} className={styles.groupWrapper}>
+                {/* 그룹 헤더 */}
+                <button
+                  className={`${styles.groupHeader} ${hasActiveStack ? styles.active : ''}`}
                   onClick={() => handleGroupToggle(group)}
                 >
+                  <div className={styles.groupIcon}>
+                    <IconComponent />
+                  </div>
                   <div className={styles.groupInfo}>
-                    <span className={styles.groupIcon}>
-                      <IconComponent />
-                    </span>
                     <span className={styles.groupLabel}>{STACK_GROUP_LABELS[group]}</span>
                     <span className={styles.groupCount}>{groupPostCount}</span>
                   </div>
-                  <svg
-                    className={styles.groupArrow}
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </div>
+                  <HiChevronDown
+                    className={`${styles.chevron} ${isExpanded ? styles.chevronExpanded : ''}`}
+                  />
+                </button>
 
-                {/* 스택 목록 (아코디언) */}
-                <div className={styles.groupStacks}>
-                  {stacks.map((stack) => (
-                    <button
-                      key={stack.id}
-                      className={`${styles.stack} ${
-                        selectedStack === stack.name ? styles.active : ''
-                      }`}
-                      onClick={() => handleStackClick(stack.name)}
-                    >
-                      <span>{stack.name}</span>
-                      <span className={styles.stackCountSmall}>{stack.postCount}</span>
-                    </button>
-                  ))}
-                </div>
+                {/* 스택 목록 (드롭다운) */}
+                {isExpanded && (
+                  <div className={styles.stackItems}>
+                    {stacks.map((stack) => (
+                      <button
+                        key={stack.id}
+                        className={`${styles.stackItem} ${
+                          selectedStack === stack.name ? styles.stackActive : ''
+                        }`}
+                        onClick={() => handleStackClick(stack.name)}
+                      >
+                        <div className={styles.stackInfo}>
+                          <span className={styles.stackName}>{stack.name}</span>
+                          <span className={styles.stackCount}>{stack.postCount}</span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             );
           })}

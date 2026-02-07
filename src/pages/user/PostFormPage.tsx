@@ -13,7 +13,7 @@ import {
 } from '@/feature/post/components/post-form';
 import styles from './PostFormPage.module.css';
 
-export const PostWritePage = () => {
+export const PostFormPage = () => {
   const navigate = useNavigate();
   
   const {

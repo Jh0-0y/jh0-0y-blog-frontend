@@ -46,7 +46,7 @@
   background: var(--global-input-bg);
   border: none;
   border-bottom: 2px solid var(--global-input-border);
-  border-radius: var(--global-radius-base);
+  border-radius: var(--radius-base);
   transition: all var(--transition-base);
 }
 
@@ -75,7 +75,7 @@
   color: var(--global-text-secondary);
   background-color: var(--global-input-bg);
   border: 1px solid var(--global-input-border);
-  border-radius: var(--global-radius-base);
+  border-radius: var(--radius-base);
   resize: none;
   transition: all var(--transition-base);
 }

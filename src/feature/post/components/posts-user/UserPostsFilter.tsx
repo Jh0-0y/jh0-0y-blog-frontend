@@ -1,4 +1,5 @@
 import type { PostType } from '@/api/post/types';
+import { useParams, useSearchParams } from 'react-router-dom';
 import styles from './UserPostsFilter.module.css';
 import { Waves } from 'lucide-react';
 
@@ -21,6 +22,10 @@ export const UserPostsFilter = ({
   totalCount,
   onTabClick,
 }: UserPostsFilterProps) => {
+  const { nickname } = useParams<{ nickname: string }>();
+  const [searchParams] = useSearchParams();
+  const searchQuery = searchParams.get('q');
+
   return (
     <div className={styles.filterContainer}>
       {/* 헤더 섹션 */}
@@ -31,9 +36,17 @@ export const UserPostsFilter = ({
             <div className={styles.iconGlow} />
           </div>
           <div className={styles.titleContent}>
-            <h1 className={styles.title}>항해 일지</h1>
+            <h1 className={styles.title}>{nickname}의 항해 일지</h1>
             <p className={styles.subtitle}>
-              깊은 바다처럼 깊이 있는 <span className={styles.count}>{totalCount}</span>개의 개발 이야기
+              {searchQuery ? (
+                <>
+                  '<span className={styles.searchQuery}>{searchQuery}</span>' 검색 결과 <span className={styles.count}>{totalCount}</span>개
+                </>
+              ) : (
+                <>
+                  깊은 바다처럼 깊이 있는 <span className={styles.count}>{totalCount}</span>개의 개발 이야기
+                </>
+              )}
             </p>
           </div>
         </div>

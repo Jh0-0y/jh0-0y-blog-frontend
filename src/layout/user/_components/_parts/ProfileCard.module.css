@@ -2,20 +2,13 @@
    Profile Card
 ================================ */
 .profileCard {
-  padding: 0;
+  padding: var(--spacing-10) var(--spacing-4);
   text-align: center;
-  position: relative;
-  overflow: hidden;
   border-bottom: 1px solid var(--global-glass-border-light);
-}
-
-/* ================================
-   Background Banner
-================================ */
-.profileBanner {
-  position: relative;
-  height: 100px;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-4);
 }
 
 /* ================================
@@ -23,82 +16,128 @@
 ================================ */
 .profileAvatar {
   position: relative;
-  width: 100px;
-  height: 100px;
-  margin: -50px auto var(--spacing-4);
-  z-index: 1;
+  width: 80px;
+  height: 80px;
 }
 
 .avatarImg {
-  position: relative;
   width: 100%;
   height: 100%;
   border-radius: var(--radius-full);
   object-fit: cover;
-  border: 4px solid var(--global-glass-bg-normal);
-  background-color: var(--global-glass-bg-normal);
-  box-shadow: var(--global-shadow-md);
-}
-
-/* ================================
-   Text
-================================ */
-.profileContent {
-  padding: 0 var(--spacing-4) var(--spacing-6);
-}
-
-.profileName {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
-  margin-bottom: var(--spacing-6);
-  color: var(--global-text-primary);
-}
-
-/* ================================
-   Action Buttons
-================================ */
-.profileActions {
-  display: flex;
-  justify-content: center;
-  gap: var(--spacing-3);
-}
-
-.actionButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  color: var(--global-text-secondary);
+  border: 3px solid var(--global-glass-border-light);
   background-color: var(--global-glass-bg-strong);
-  border: 1px solid var(--global-glass-border-light);
-  border-radius: var(--radius-full);
-  cursor: pointer;
   transition: all var(--transition-base);
 }
 
-.actionButton:hover {
-  background-color: var(--global-glass-bg-normal);
-  border-color: var(--global-glass-border-normal);
+/* ================================
+   Skeleton Loading
+================================ */
+.avatarSkeleton {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(
+    90deg,
+    var(--global-glass-bg-strong) 25%,
+    var(--global-glass-bg-light) 50%,
+    var(--global-glass-bg-strong) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+.nameSkeleton {
+  width: 120px;
+  height: 24px;
+  border-radius: var(--radius-base);
+  background: linear-gradient(
+    90deg,
+    var(--global-glass-bg-strong) 25%,
+    var(--global-glass-bg-light) 50%,
+    var(--global-glass-bg-strong) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+.positionSkeleton {
+  width: 100px;
+  height: 16px;
+  border-radius: var(--radius-base);
+  background: linear-gradient(
+    90deg,
+    var(--global-glass-bg-strong) 25%,
+    var(--global-glass-bg-light) 50%,
+    var(--global-glass-bg-strong) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ================================
+   Profile Info
+================================ */
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  width: 100%;
+}
+
+.profileName {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
   color: var(--global-text-primary);
-  transform: translateY(-2px);
-  box-shadow: var(--global-shadow-md);
+  line-height: 1.2;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--spacing-1) var(--spacing-2);
+  transition: all var(--transition-slow);
+  position: relative;
 }
 
-.actionButton svg {
-  width: var(--spacing-5);
-  height: var(--spacing-5);
+.profileName:hover {
+  opacity: 0.8;
 }
 
-/* Primary Button (글쓰기) */
-.actionButton.primary {
-  background: var(--global-point-primary);
-  color: var(--global-text-white);
-  border-color: transparent;
+.profileName::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 30%;
+  height: 2px;
+  background: currentColor;
+  transition: transform var(--transition-slow);
 }
 
-.actionButton.primary:hover {
-  background: var(--global-point-primary-hover);
-  color: var(--global-text-white);
-  box-shadow: var(--global-glow-normal);
+.profileName:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+.profilePosition {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--global-text-secondary);
+  line-height: 1.4;
+}
+
+.profileAbout {
+  font-size: var(--font-size-xs);
+  color: var(--global-text-tertiary);
+  line-height: 1.6;
+  word-break: keep-all;
+  margin-top: var(--spacing-1);
 }

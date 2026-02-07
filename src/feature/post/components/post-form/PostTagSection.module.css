@@ -33,7 +33,7 @@
   color: var(--global-text-primary);
   background-color: var(--global-input-bg);
   border: 1px solid var(--global-input-border);
-  border-radius: var(--global-radius-base);
+  border-radius: var(--radius-base);
   transition: all var(--transition-base);
 }
 
@@ -55,7 +55,7 @@
   color: var(--global-text-secondary);
   background-color: var(--global-glass-bg-light);
   border: 1px solid var(--global-glass-border-light);
-  border-radius: var(--global-radius-base);
+  border-radius: var(--radius-base);
   transition: all var(--transition-base);
 }
 
@@ -79,7 +79,7 @@
   padding: var(--spacing-1) var(--spacing-3);
   background-color: var(--global-glass-bg-light);
   border: 1px solid var(--global-glass-border-light);
-  border-radius: var(--global-radius-full);
+  border-radius: var(--radius-full);
   font-size: var(--font-size-sm);
   color: var(--global-text-secondary);
 }
@@ -92,7 +92,7 @@
   height: 1rem;
   font-size: var(--font-size-base);
   color: var(--global-text-tertiary);
-  border-radius: var(--global-radius-full);
+  border-radius: var(--radius-full);
   transition: all var(--transition-base);
 }
 

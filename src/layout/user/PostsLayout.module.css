@@ -3,10 +3,40 @@
    =================================== */
 .layout {
   display: flex;
-  flex-direction: column;
   min-height: 100vh;
   background: var(--global-bg-primary);
   position: relative;
+}
+
+/* ===================================
+   사이드바
+   =================================== */
+.aside {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 240px;
+  height: 100vh;
+  z-index: 101;
+  transform: translateX(-100%);
+  transition: transform var(--transition-slow);
+}
+
+/* 모바일에서 사이드바 열렸을 때 */
+.aside.open {
+  transform: translateX(0);
+}
+
+/* ===================================
+   메인 컨테이너 - 헤더, 메인, 푸터 포함
+   =================================== */
+.mainContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  transition: margin-left var(--transition-slow);
 }
 
 /* ===================================
@@ -18,13 +48,7 @@
   left: 0;
   right: 0;
   z-index: 100;
-}
-
-/* ===================================
-   배너
-   =================================== */
-.banner {
-  width: 100%;
+  transition: left var(--transition-slow);
 }
 
 /* ===================================
@@ -36,6 +60,14 @@
 }
 
 /* ===================================
+   배너
+   =================================== */
+.banner {
+  width: 100%;
+  transition: padding-left var(--transition-slow);
+}
+
+/* ===================================
    푸터
    =================================== */
 .footer {
@@ -44,31 +76,7 @@
 }
 
 /* ===================================
-   사이드바 - 기본적으로 숨김
-   =================================== */
-.aside {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 280px;
-  height: 100vh;
-  background-color: var(--global-glass-bg-strong);
-  backdrop-filter: var(--global-glass-blur);
-  -webkit-backdrop-filter: var(--global-glass-blur);
-  border-right: 1px solid var(--global-glass-border-light);
-  box-shadow: var(--global-shadow-lg);
-  z-index: 101;
-  transform: translateX(-100%);
-  transition: transform var(--transition-slow);
-}
-
-/* 사이드바 열렸을 때 */
-.aside.open {
-  transform: translateX(0);
-}
-
-/* ===================================
-   오버레이
+   오버레이 - 모바일에서만
    =================================== */
 .overlay {
   position: fixed;
@@ -91,8 +99,39 @@
 }
 
 /* ===================================
-   반응형: 모바일
+   반응형: 데스크탑 (>= 1024px)
    =================================== */
+@media (min-width: 1024px) {
+  /* 사이드바 항상 표시 */
+  .aside {
+    transform: translateX(0);
+  }
+
+  /* 메인 컨테이너를 사이드바 크기만큼 오른쪽으로 이동 */
+  .mainContainer {
+    margin-left: 240px;
+  }
+
+  /* 헤더도 사이드바 크기만큼 오른쪽으로 이동 */
+  .header {
+    left: 240px;
+  }
+
+  /* 오버레이는 데스크탑에서 표시 안 함 */
+  .overlay {
+    display: none;
+  }
+}
+
+/* ===================================
+   반응형: 모바일 (< 1024px)
+   =================================== */
+@media (max-width: 1023px) {
+  .aside {
+    width: 240px;
+  }
+}
+
 @media (max-width: 767px) {
   .aside {
     width: 260px;

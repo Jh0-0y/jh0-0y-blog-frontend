@@ -48,19 +48,17 @@ export const PostCard = ({ post, animationDelay = 0, onClick }: PostCardProps) =
           </div>
         )}
 
-        {post.tags.length > 0 && (
-          <div className={styles.tagList}>
-            {post.tags.slice(0, 3).map((tag) => (
-              <span key={tag} className={styles.tagBadge}>#{tag}</span>
-            ))}
-            {post.tags.length > 3 && <span className={styles.tagMore}>...</span>}
-          </div>
-        )}
+        <div className={styles.tagList}>
+          {post.tags.slice(0, 3).map((tag) => (
+            <span key={tag} className={styles.tagBadge}>#{tag}</span>
+          ))}
+          {post.tags.length > 3 && <span className={styles.tagMore}></span>}
+        </div>
 
         <footer className={styles.cardFooter}>
           <div className={styles.authorInfo}>
             <img
-              src={post.author.profileImageUrl || DEFAULT_PROFILE_IMAGE}
+              src={FILE_DOMAIN + post.author.profileImagePath || DEFAULT_PROFILE_IMAGE}
               alt={post.author.nickname}
               className={styles.authorAvatar}
               onError={(e) => {

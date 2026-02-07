@@ -39,6 +39,7 @@ export const PostDetailPage = () => {
           stacks={post.stacks}
           tags={post.tags}
           createdAt={post.createdAt}
+          author={post.author}
         />
 
         {/* 게시글 본문 */}

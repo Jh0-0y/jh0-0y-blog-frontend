@@ -55,82 +55,64 @@
 }
 
 /* ===================================
-   Section
+   Stack List
    =================================== */
-.section {
-  padding: var(--spacing-5) var(--spacing-2);
-  border-bottom: 1px solid var(--global-glass-border-light);
-}
-
-.section:last-child {
-  border-bottom: none;
-}
-
-.sectionTitle {
+.stackList {
+  padding: var(--spacing-2);
   display: flex;
-  align-items: center;
-  gap: var(--spacing-2);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-semibold);
-  color: var(--global-text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: var(--spacing-4);
-  padding-bottom: var(--spacing-3);
-  border-bottom: 1px solid var(--global-glass-border-light);
+  flex-direction: column;
+  gap: 2px;
 }
 
 /* ===================================
-   Stack Group (Category Style)
+   Group Wrapper
    =================================== */
-.stackGroup {
-  margin-bottom: var(--spacing-3);
-  border-radius: var(--radius-sm);
+.groupWrapper {
+  display: flex;
+  flex-direction: column;
 }
 
-.stackGroup:last-child {
-  margin-bottom: 0;
-}
-
-/* Group Header - Category Link Style */
+/* ===================================
+   Group Header
+   =================================== */
 .groupHeader {
   display: flex;
   align-items: center;
-  gap: var(--spacing-2);
-  padding: var(--spacing-2);
-  border-radius: var(--radius-sm);
+  gap: var(--spacing-3);
+  width: 100%;
+  padding: var(--spacing-3);
+  font-size: var(--font-size-sm);
+  color: var(--global-text-secondary);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-base);
   cursor: pointer;
   transition: all var(--transition-fast);
-  background: transparent;
+  text-align: left;
 }
 
 .groupHeader:hover {
-  background: var(--global-glass-bg-light-hover);
+  background: var(--global-glass-bg-light);
+  color: var(--global-text-primary);
 }
 
 .groupHeader.active {
   background: var(--global-glass-bg-normal);
+  color: var(--global-text-primary);
 }
 
-.groupInfo {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-2);
-  flex: 1;
-}
-
-/* Group Icon - Category Icon Style */
+/* ===================================
+   Group Icon
+   =================================== */
 .groupIcon {
-  width: 32px;
-  height: 32px;
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-sm);
   flex-shrink: 0;
-  transition: all var(--transition-fast);
-  background-color: var(--global-glass-bg-strong);
   color: var(--global-text-tertiary);
+  transition: color var(--transition-fast);
 }
 
 .groupIcon svg {
@@ -139,105 +121,88 @@
 }
 
 .groupHeader:hover .groupIcon {
-  background-color: var(--global-glass-bg-light-hover);
   color: var(--global-point-primary);
 }
 
 .groupHeader.active .groupIcon {
-  background-color: var(--global-glass-bg-light-hover);
-  color: var(--global-point-primary-hover);
-}
-
-/* Group Label - Category Name Style */
-.groupLabel {
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-medium);
-  color: var(--global-text-tertiary);
-  transition: color var(--transition-fast);
-}
-
-.groupHeader:hover .groupLabel {
   color: var(--global-point-primary);
-}
-
-.groupHeader.active .groupLabel {
-  color: var(--global-point-primary-hover);
-  font-weight: var(--font-weight-semibold);
-}
-
-/* Group Count Badge */
-.groupCount {
-  font-family: var(--font-family-code);
-  font-size: var(--font-size-xs);
-  padding: 2px var(--spacing-2);
-  border-radius: var(--radius-full);
-  transition: all var(--transition-fast);
-  background: var(--global-glass-bg-strong);
-  color: var(--global-text-tertiary);
-}
-
-.groupHeader:hover .groupCount {
-  background: var(--global-glass-bg-light-hover);
-  color: var(--global-point-primary);
-}
-
-.groupHeader.active .groupCount {
-  background: var(--global-glass-bg-light-hover);
-  color: var(--global-point-primary-hover);
-}
-
-/* Group Arrow */
-.groupArrow {
-  width: 16px;
-  height: 16px;
-  color: var(--global-text-tertiary);
-  transition:
-    transform var(--transition-base),
-    color var(--transition-fast);
-  flex-shrink: 0;
-}
-
-.groupHeader:hover .groupArrow {
-  color: var(--global-point-primary);
-}
-
-.groupHeader.active .groupArrow {
-  color: var(--global-point-primary);
-}
-
-.stackGroup.expanded .groupArrow {
-  transform: rotate(180deg);
 }
 
 /* ===================================
-   Stack Items (Subcategory Style)
+   Group Label
    =================================== */
-.groupStacks {
-  margin-left: 22px;
-  padding-left: var(--spacing-3);
-  border-left: 2px solid var(--global-glass-border-light);
-  margin-top: var(--spacing-1);
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  max-height: 0;
-  overflow: hidden;
-  transition:
-    max-height var(--transition-slow),
-    opacity var(--transition-base);
-  opacity: 0;
-}
-
-.stackGroup.expanded .groupStacks {
-  max-height: 500px;
-  opacity: 1;
-}
-
-/* Individual Stack Button */
-.stack {
+.groupInfo {
+  flex: 1;
   display: flex;
   align-items: center;
-  gap: var(--spacing-4);
+  gap: var(--spacing-2);
+}
+
+.groupLabel {
+  font-weight: var(--font-weight-medium);
+}
+
+/* ===================================
+   Group Count
+   =================================== */
+.groupCount {
+  font-family: var(--font-family-code);
+  font-size: var(--font-size-xs);
+  color: var(--global-text-tertiary);
+  transition: color var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.groupHeader:hover .groupCount {
+  color: var(--global-text-secondary);
+}
+
+.groupHeader.active .groupCount {
+  color: var(--global-text-primary);
+}
+
+/* ===================================
+   Chevron Icon
+   =================================== */
+.chevron {
+  width: 16px;
+  height: 16px;
+  color: var(--global-text-tertiary);
+  transition: all var(--transition-base);
+  flex-shrink: 0;
+}
+
+.chevronExpanded {
+  transform: rotate(180deg);
+}
+
+.groupHeader:hover .chevron {
+  color: var(--global-text-secondary);
+}
+
+.groupHeader.active .chevron {
+  color: var(--global-text-primary);
+}
+
+/* ===================================
+   Stack Items (Dropdown)
+   =================================== */
+.stackItems {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding-left: var(--spacing-8);
+  margin-top: 2px;
+  margin-bottom: var(--spacing-1);
+}
+
+/* ===================================
+   Individual Stack Item
+   =================================== */
+.stackItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
   width: 100%;
   padding: var(--spacing-2) var(--spacing-3);
   font-size: var(--font-size-sm);
@@ -250,43 +215,49 @@
   text-align: left;
 }
 
-.stack:hover {
-  color: var(--global-point-primary);
-  background: var(--global-glass-bg-light-hover);
+.stackItem:hover {
+  background: var(--global-glass-bg-light);
+  color: var(--global-text-primary);
 }
 
-.stack.active {
-  color: var(--global-point-primary-hover);
-  font-weight: var(--font-weight-medium);
+.stackItem.stackActive {
   background: var(--global-glass-bg-normal);
-  position: relative;
+  color: var(--global-point-primary);
+  font-weight: var(--font-weight-medium);
 }
 
-.stack.active::before {
-  content: '';
-  position: absolute;
-  left: -15px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 6px;
-  height: 6px;
-  background: var(--global-point-primary);
-  border-radius: var(--radius-full);
+/* ===================================
+   Stack Name
+   =================================== */
+.stackInfo {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
 }
 
-/* Stack Count */
-.stackCountSmall {
+.stackName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ===================================
+   Stack Count (in dropdown)
+   =================================== */
+.stackItem .stackCount {
   font-family: var(--font-family-code);
   font-size: var(--font-size-xs);
   color: var(--global-text-tertiary);
   transition: color var(--transition-fast);
+  flex-shrink: 0;
 }
 
-.stack:hover .stackCountSmall {
-  color: var(--global-point-primary);
+.stackItem:hover .stackCount {
+  color: var(--global-text-secondary);
 }
 
-.stack.active .stackCountSmall {
+.stackItem.stackActive .stackCount {
   color: var(--global-point-primary);
 }
 
@@ -294,7 +265,7 @@
    Empty State
    =================================== */
 .emptyState {
-  padding: var(--spacing-6);
+  padding: var(--spacing-8) var(--spacing-6);
   text-align: center;
   color: var(--global-text-tertiary);
   font-size: var(--font-size-sm);

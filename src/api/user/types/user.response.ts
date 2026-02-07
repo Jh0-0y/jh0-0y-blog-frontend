@@ -13,5 +13,7 @@ export interface UserResponse {
 
 export interface BlogUserResponse {
   nickname: string;
-  profileImageUrl: string | null;
+  profileImagePath: string | null;
+  position: string | null;
+  about: string | null;
 }

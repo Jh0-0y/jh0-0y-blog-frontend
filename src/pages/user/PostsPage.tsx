@@ -6,9 +6,9 @@ import {
   UserPostsContents
 } from '@/feature/post/components/posts-user';
 import { Pagination } from '@/shared/pagination/Pagination';
-import styles from './UserPostsPage.module.css';
+import styles from './PostsPage.module.css';
 
-export const UserPostsPage = () => {
+export const PostsPage = () => {
   const navigate = useNavigate();
   const params = useParams<{ nickname: string; postType?: string; stack?: string }>();
   const [searchParams] = useSearchParams();
