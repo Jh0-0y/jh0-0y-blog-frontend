@@ -16,10 +16,10 @@
   --global-bg-hover: #2a3244;
 
   /* ----- Text ----- */
-  --global-text-primary: #e6edf3;
-  --global-text-secondary: #8b949e;
-  --global-text-tertiary: #6e7681;
-  --global-text-muted: #484f58;
+  --global-text-primary: #f0f6fc;
+  --global-text-secondary: #c9d1d9;
+  --global-text-tertiary: #b1bac4;
+  --global-text-muted: #8b949e;
   --global-text-white: #ffffff;
   --global-text-black: #0f172a;
 
@@ -110,7 +110,7 @@
   --global-bg-hover: #f1f5f9;
 
   /* ----- Text ----- */
-  --global-text-primary: #3c4148;
+  --global-text-primary: #3c413c;
   --global-text-secondary: #475569;
   --global-text-tertiary: #64748b;
   --global-text-muted: #94a3b8;

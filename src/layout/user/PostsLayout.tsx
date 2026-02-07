@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import { UserHeader, UserFooter, UserSidebar, UserBanner } from './_components';
+import { UserHeader, UserFooter, UserSidebar } from './_components';
 import styles from './PostsLayout.module.css';
 
 export const PostsLayout = () => {
@@ -51,10 +51,6 @@ export const PostsLayout = () => {
         <header className={styles.header}>
           <UserHeader onSidebarToggle={handleToggleSidebar} />
         </header>
-
-        <div className={styles.banner}>
-          <UserBanner />
-        </div>
 
         <main className={styles.main}>
           <Outlet />

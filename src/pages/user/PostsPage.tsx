@@ -3,10 +3,12 @@ import { useUserPosts } from '@/feature/post/hooks/post/useUserPosts';
 import type { PostType } from '@/api/post/types';
 import { 
   UserPostsFilter,
-  UserPostsContents
+  UserPostsContents,
+  UserBanner
 } from '@/feature/post/components/posts-user';
 import { Pagination } from '@/shared/pagination/Pagination';
 import styles from './PostsPage.module.css';
+
 
 export const PostsPage = () => {
   const navigate = useNavigate();
@@ -43,7 +45,11 @@ export const PostsPage = () => {
 
   return (
     <div className={styles.container}>
+        <div className={styles.banner}>
+          <UserBanner />
+        </div>
       <div className={styles.sectionWrapper}>
+
         {/* 필터 */}
         <div className={styles.filterWrapper}>
           <UserPostsFilter

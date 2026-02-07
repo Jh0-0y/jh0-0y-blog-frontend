@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AdminRoute, ProtectedRoute } from '@/router/Guard';
 import { AuthProvider } from '@/feature/auth/providers/AuthProvider';
+import { ScrollToTop } from './ScrollToTop';
 
 //layout
 import { HomePostsLayout } from '@/layout/home';
@@ -21,6 +22,7 @@ import { NotFoundPage } from '@/pages/notfound';
 export const AppRouter = () => (
   <BrowserRouter basename="/">
     <AuthProvider>
+      <ScrollToTop />
       <Routes>
         {/* 메인 게시글 목록 */}
         <Route path="/" element={<HomePostsLayout />}>

@@ -58,38 +58,6 @@
    LIGHT MODE
    ============================================ */
 [data-theme='light'] {
-  /* ----- Editor Point Colors ----- */
-  --editor-point-light: #7dd3fc;
-  --editor-point-normal: var(--global-point-primary);
-  --editor-point-medium: #0284c7;
-
-  /* ----- Editor Text Colors ----- */
-  --editor-text-primary: var(--global-text-primary);
-  --editor-text-secondary: var(--global-text-secondary);
-  --editor-text-tertiary: var(--global-text-tertiary);
-  --editor-text-inverted: var(--global-text-white);
-
-  /* ----- Editor Background Colors ----- */
-  --editor-bg-surface: var(--global-glass-bg-normal);
-  --editor-bg-elevated: var(--global-glass-bg-strong);
-  --editor-bg-overlay: var(--global-modal-overlay);
-  --editor-bg-code: var(--global-bg-card);
-  --editor-bg-highlight: #fef08a;
-
-  /* ----- Editor Border Colors ----- */
-  --editor-border-light: var(--global-glass-border-light);
-  --editor-border-normal: var(--global-glass-border-normal);
-  --editor-border-hover: var(--global-border-focus);
-
-  /* ----- Editor Glass Effects ----- */
-  --editor-glass-light: var(--global-glass-bg-light);
-  --editor-glass-normal: var(--global-glass-bg-normal);
-  --editor-glass-strong: var(--global-glass-bg-strong);
-
-  /* ----- Editor Glow Effects ----- */
-  --editor-glow-normal: var(--global-glow-normal);
-  --editor-glow-hover: var(--global-glow-normal-hover);
-
   /* ----- Editor Code Syntax Colors (에디터 고유 색상) ----- */
   --editor-syntax-comment: #6a737d;
   --editor-syntax-keyword: #d73a49;
@@ -100,10 +68,4 @@
   --editor-syntax-symbol: #e36209;
   --editor-syntax-deletion: #b31d28;
   --editor-syntax-addition: #22863a;
-
-  /* ----- Editor Table of Contents ----- */
-  --editor-toc-bg: var(--global-glass-bg-normal);
-  --editor-toc-border: var(--global-glass-border-normal);
-  --editor-toc-active: var(--global-point-primary-bg);
-  --editor-toc-overlay: var(--global-modal-overlay);
 }
