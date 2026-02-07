@@ -4,9 +4,9 @@ import { AuthProvider } from '@/feature/auth/providers/AuthProvider';
 
 //layout
 import { HomePostsLayout } from '@/layout/home';
-import { UserContentLayout, UserPostsLayout, UserEditorLayout } from '@/layout/blog';
-import { AdminLayout } from '@/layout/admin/AdminLayout';
-import { PortfolioLayout } from '@/layout/portfolio/PortfolioLayout';
+import { PostsLayout, EditorLayout } from '@/layout/user';
+import { AdminLayout } from '@/layout/admin';
+import { PortfolioLayout } from '@/layout/portfolio'
 
 //page
 import { HomePostsPage } from '@/pages/home';
@@ -22,25 +22,14 @@ export const AppRouter = () => (
   <BrowserRouter basename="/">
     <AuthProvider>
       <Routes>
-        {/* 메인 */}
+        {/* 메인 게시글 목록 */}
         <Route path="/" element={<HomePostsLayout />}>
           <Route index element={<HomePostsPage />} />
           <Route path="type/:postType" element={<HomePostsPage />} />
         </Route>
 
-        {/* 유저 - 콘텐츠 */}
-        <Route path="/user/:nickname" element={<UserContentLayout />}>
-          <Route path="entry/:slug" element={<PostDetailPage />} />
-        </Route>
-
-        {/* 유저 - 에디터 */}
-        <Route path="/user/:nickname" element={<UserEditorLayout />}>
-          <Route path="entry/:slug/edit" element={<ProtectedRoute><PostEditPage /></ProtectedRoute>} />
-          <Route path="write" element={<ProtectedRoute><PostWritePage /></ProtectedRoute>} />
-        </Route>
-
-        {/* 유저 - 목록 */}
-        <Route path="/user/:nickname" element={<UserPostsLayout />}>
+        {/* 유저 - 게시글 목록 */}
+        <Route path="/user/:nickname" element={<PostsLayout />}>
           <Route index element={<UserPostsPage />} />
           {/* 타입별 */}
           <Route path="type/:postType" element={<UserPostsPage />} />
@@ -49,6 +38,18 @@ export const AppRouter = () => (
           {/* 스택 + 타입 */}
           <Route path="stack/:stack/type/:postType" element={<UserPostsPage />} />
         </Route>
+
+        {/* 유저 - 게시글 콘텐츠 */}
+        <Route path="/user/:nickname" element={<PostsLayout />}>
+          <Route path="entry/:slug" element={<PostDetailPage />} />
+        </Route>
+
+        {/* 유저 - 게시글 에디터 */}
+        <Route path="/user/:nickname" element={<EditorLayout />}>
+          <Route path="entry/:slug/edit" element={<ProtectedRoute><PostEditPage /></ProtectedRoute>} />
+          <Route path="write" element={<ProtectedRoute><PostWritePage /></ProtectedRoute>} />
+        </Route>
+
 
         {/* 어드민 페이지 */}
         <Route path="/admin" element={<AdminRoute children={<AdminLayout />} />}>

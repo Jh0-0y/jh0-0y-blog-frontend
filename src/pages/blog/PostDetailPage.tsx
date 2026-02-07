@@ -1,5 +1,5 @@
 import { Navigate, useParams } from 'react-router-dom';
-import { usePostDetails } from '@/feature/blog/hooks/post/usePostDetails';
+import { usePostDetails } from '@/feature/post/hooks/post/usePostDetails';
 import { useTocItems } from '@/shared/editor/hooks/useTocItems';
 import { TableOfContents } from '@/shared/editor/base/TableOfContents';
 import { 
@@ -7,9 +7,8 @@ import {
   PostDetailHeader,
   PostDetailContents,
   PostRelated,
-} from '@/feature/blog/components/post-detail';
+} from '@/feature/post/components/post-detail';
 import styles from './PostDetailPage.module.css';
-import { SwimmingDolphin } from '@/shared/dolphin/SwimmingDolphin';
 
 export const PostDetailPage = () => {
   const { nickname, slug } = useParams<{ nickname: string, slug: string }>();
@@ -28,7 +27,6 @@ export const PostDetailPage = () => {
 
   return (
     <div className={styles.pageWrapper}>
-      <SwimmingDolphin />
       {/* 썸네일 배너 */}
       <PostThumbnail thumbnailPath={post.thumbnailPath} title={post.title} />
 

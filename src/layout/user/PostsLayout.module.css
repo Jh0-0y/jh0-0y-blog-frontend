@@ -1,0 +1,100 @@
+/* ===================================
+   레이아웃 기본 구조
+   =================================== */
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--global-bg-primary);
+  position: relative;
+}
+
+/* ===================================
+   헤더
+   =================================== */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+/* ===================================
+   배너
+   =================================== */
+.banner {
+  width: 100%;
+}
+
+/* ===================================
+   메인 컨텐츠
+   =================================== */
+.main {
+  flex: 1;
+  width: 100%;
+}
+
+/* ===================================
+   푸터
+   =================================== */
+.footer {
+  width: 100%;
+  margin-top: var(--spacing-16);
+}
+
+/* ===================================
+   사이드바 - 기본적으로 숨김
+   =================================== */
+.aside {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100vh;
+  background-color: var(--global-glass-bg-strong);
+  backdrop-filter: var(--global-glass-blur);
+  -webkit-backdrop-filter: var(--global-glass-blur);
+  border-right: 1px solid var(--global-glass-border-light);
+  box-shadow: var(--global-shadow-lg);
+  z-index: 101;
+  transform: translateX(-100%);
+  transition: transform var(--transition-slow);
+}
+
+/* 사이드바 열렸을 때 */
+.aside.open {
+  transform: translateX(0);
+}
+
+/* ===================================
+   오버레이
+   =================================== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: var(--global-modal-overlay);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 100;
+  animation: fadeIn 0.2s ease;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ===================================
+   반응형: 모바일
+   =================================== */
+@media (max-width: 767px) {
+  .aside {
+    width: 260px;
+  }
+}

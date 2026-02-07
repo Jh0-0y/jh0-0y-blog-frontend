@@ -1,1 +1,0 @@
-export {SealogHeader} from './SealogHeader'

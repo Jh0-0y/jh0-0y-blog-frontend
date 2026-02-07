@@ -12,7 +12,7 @@ html {
   font-weight: var(--font-weight-normal);
   line-height: var(--line-height-normal);
   color: var(--color-text-primary);
-  background: var(--bg-gradient-end);
+  background-color: var(--global-bg-primary);
 }
 
 /* 포커스 스타일 */
@@ -102,12 +102,12 @@ html {
      ============================================ */
 
   /* ----- Radius ----- */
-  --home-radius-sm: 0.25rem;
-  --home-radius-base: 0.5rem;
-  --home-radius-md: 0.75rem;
-  --home-radius-lg: 1rem;
-  --home-radius-xl: 1.5rem;
-  --home-radius-full: 9999px;
+  --radius-sm: 0.25rem;
+  --radius-base: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
 
   /* ----- Shadow ----- */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);

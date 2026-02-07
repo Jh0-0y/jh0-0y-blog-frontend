@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-import { usePosts } from '@/feature/blog/hooks/post/usePosts';
+import { usePosts } from '@/feature/post/hooks/post/usePosts';
 import type { PostType } from '@/api/post/types';
 import { 
   HomePostsFilter,
   HomePostsContents
-} from '@/feature/blog/components/posts-home';
+} from '@/feature/post/components/posts-home';
 import { Pagination } from '@/shared/pagination/Pagination';
 import { SwimmingDolphin } from '@/shared/dolphin/SwimmingDolphin';
 import styles from './HomePostsPage.module.css';

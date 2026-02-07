@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { usePostCreate } from '@/feature/blog/hooks/post/usePostCreate';
-import { useUnsaved } from '@/feature/blog/hooks/common/useUnsaved';
+import { usePostCreate } from '@/feature/post/hooks/post/usePostCreate';
+import { useUnsaved } from '@/feature/post/hooks/common/useUnsaved';
 import { 
   PostThumbnailEdit,
   UnsavedModal,
@@ -10,9 +10,8 @@ import {
   PostMetaFields,
   PostEditorSection,
   PostFormActions,
-} from '@/feature/blog/components/post-form';
+} from '@/feature/post/components/post-form';
 import styles from './PostFormPage.module.css';
-import { SwimmingDolphin } from '@/shared/dolphin/SwimmingDolphin';
 
 export const PostWritePage = () => {
   const navigate = useNavigate();
@@ -67,7 +66,6 @@ export const PostWritePage = () => {
       <form onSubmit={handleSubmit} className={styles.form}>
         {/* 콘텐츠 영역 - max-width 적용, 중앙 정렬 */}
         <div className={styles.scrollArea}>
-          <SwimmingDolphin />
           <header className={styles.header}>
             <h1 className={styles.pageTitle}>새 글 작성</h1>
           </header>

@@ -1,37 +1,96 @@
 :root {
   /* ----- Editor Point Colors ----- */
-  --editor-point-light: #7dd3fc;
-  --editor-point-normal: #38bdf8;
+  --editor-point-light: var(--global-point-primary-hover);
+  --editor-point-normal: var(--global-point-primary);
   --editor-point-medium: #0ea5e9;
 
   /* ----- Editor Text Colors ----- */
-  --editor-text-primary: #ffffff;
-  --editor-text-secondary: #b3e5fc;
-  --editor-text-tertiary: #80deea;
-  --editor-text-inverted: #0f172a;
+  --editor-text-primary: var(--global-text-primary);
+  --editor-text-secondary: var(--global-text-secondary);
+  --editor-text-tertiary: var(--global-text-tertiary);
+  --editor-text-inverted: var(--global-text-black);
 
   /* ----- Editor Background Colors ----- */
-  --editor-bg-surface: rgba(255, 255, 255, 0.08);
-  --editor-bg-elevated: rgba(255, 255, 255, 0.12);
-  --editor-bg-overlay: rgba(0, 0, 0, 0.5);
-  --editor-bg-code: #fafafa;
+  --editor-bg-surface: var(--global-glass-bg-normal);
+  --editor-bg-elevated: var(--global-glass-bg-strong);
+  --editor-bg-overlay: var(--global-modal-overlay);
+  --editor-bg-code: var(--global-bg-card);
+  --editor-bg-highlight: var(--global-point-primary-bg);
+
+  /* ----- Editor Border Colors ----- */
+  --editor-border-light: var(--global-glass-border-light);
+  --editor-border-normal: var(--global-glass-border-normal);
+  --editor-border-hover: var(--global-border-focus);
+
+  /* ----- Editor Glass Effects ----- */
+  --editor-glass-light: var(--global-glass-bg-light);
+  --editor-glass-normal: var(--global-glass-bg-normal);
+  --editor-glass-strong: var(--global-glass-bg-strong);
+
+  /* ----- Editor Glow Effects ----- */
+  --editor-glow-normal: var(--global-glow-normal);
+  --editor-glow-hover: var(--global-glow-normal-hover);
+
+  /* ----- Editor Code Syntax Colors (에디터 고유 색상) ----- */
+  --editor-syntax-comment: #8b949e;
+  --editor-syntax-keyword: #ff7b72;
+  --editor-syntax-number: #79c0ff;
+  --editor-syntax-string: #a5d6ff;
+  --editor-syntax-function: #d2a8ff;
+  --editor-syntax-tag: #7ee787;
+  --editor-syntax-symbol: #ffa657;
+  --editor-syntax-deletion: #ffa198;
+  --editor-syntax-addition: #7ee787;
+
+  /* ----- Editor Table of Contents ----- */
+  --editor-toc-bg: var(--global-glass-bg-normal);
+  --editor-toc-border: var(--global-glass-border-normal);
+  --editor-toc-active: var(--global-point-primary-bg);
+  --editor-toc-overlay: var(--global-modal-overlay);
+
+  /* ----- Editor Mac Window Buttons (에디터 고유 색상) ----- */
+  --editor-mac-close: #ff5f56;
+  --editor-mac-minimize: #ffbd2e;
+  --editor-mac-maximize: #27ca40;
+}
+
+/* ============================================
+   LIGHT MODE
+   ============================================ */
+[data-theme='light'] {
+  /* ----- Editor Point Colors ----- */
+  --editor-point-light: #7dd3fc;
+  --editor-point-normal: var(--global-point-primary);
+  --editor-point-medium: #0284c7;
+
+  /* ----- Editor Text Colors ----- */
+  --editor-text-primary: var(--global-text-primary);
+  --editor-text-secondary: var(--global-text-secondary);
+  --editor-text-tertiary: var(--global-text-tertiary);
+  --editor-text-inverted: var(--global-text-white);
+
+  /* ----- Editor Background Colors ----- */
+  --editor-bg-surface: var(--global-glass-bg-normal);
+  --editor-bg-elevated: var(--global-glass-bg-strong);
+  --editor-bg-overlay: var(--global-modal-overlay);
+  --editor-bg-code: var(--global-bg-card);
   --editor-bg-highlight: #fef08a;
 
   /* ----- Editor Border Colors ----- */
-  --editor-border-light: rgba(255, 255, 255, 0.12);
-  --editor-border-normal: rgba(255, 255, 255, 0.18);
-  --editor-border-hover: rgba(56, 189, 248, 0.3);
+  --editor-border-light: var(--global-glass-border-light);
+  --editor-border-normal: var(--global-glass-border-normal);
+  --editor-border-hover: var(--global-border-focus);
 
   /* ----- Editor Glass Effects ----- */
-  --editor-glass-light: rgba(255, 255, 255, 0.04);
-  --editor-glass-normal: rgba(255, 255, 255, 0.08);
-  --editor-glass-strong: rgba(255, 255, 255, 0.12);
+  --editor-glass-light: var(--global-glass-bg-light);
+  --editor-glass-normal: var(--global-glass-bg-normal);
+  --editor-glass-strong: var(--global-glass-bg-strong);
 
   /* ----- Editor Glow Effects ----- */
-  --editor-glow-normal: 0 0 20px rgba(56, 189, 248, 0.25);
-  --editor-glow-hover: 0 0 28px rgba(56, 189, 248, 0.35);
+  --editor-glow-normal: var(--global-glow-normal);
+  --editor-glow-hover: var(--global-glow-normal-hover);
 
-  /* ----- Editor Code Syntax Colors ----- */
+  /* ----- Editor Code Syntax Colors (에디터 고유 색상) ----- */
   --editor-syntax-comment: #6a737d;
   --editor-syntax-keyword: #d73a49;
   --editor-syntax-number: #005cc5;
@@ -43,13 +102,8 @@
   --editor-syntax-addition: #22863a;
 
   /* ----- Editor Table of Contents ----- */
-  --editor-toc-bg: rgba(255, 255, 255, 0.08);
-  --editor-toc-border: rgba(255, 255, 255, 0.12);
-  --editor-toc-active: rgba(56, 189, 248, 0.15);
-  --editor-toc-overlay: rgba(0, 0, 0, 0.6);
-
-  /* ----- Editor Mac Window Buttons ----- */
-  --editor-mac-close: #ff5f56;
-  --editor-mac-minimize: #ffbd2e;
-  --editor-mac-maximize: #27ca40;
+  --editor-toc-bg: var(--global-glass-bg-normal);
+  --editor-toc-border: var(--global-glass-border-normal);
+  --editor-toc-active: var(--global-point-primary-bg);
+  --editor-toc-overlay: var(--global-modal-overlay);
 }

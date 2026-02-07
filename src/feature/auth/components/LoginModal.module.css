@@ -20,7 +20,7 @@
   padding: var(--spacing-8);
   background: var(--home-bg-glass-strong);
   border: 1px solid var(--home-border-glass-normal);
-  border-radius: var(--home-radius-xl);
+  border-radius: var(--radius-xl);
   box-shadow: var(--shadow-lg);
   animation: slideUp 0.3s ease-out;
 }
@@ -38,7 +38,7 @@
   padding: 0;
   background: transparent;
   border: none;
-  border-radius: var(--home-radius-base);
+  border-radius: var(--radius-base);
   color: var(--home-text-secondary);
   cursor: pointer;
   transition:
@@ -87,7 +87,7 @@
   padding: var(--spacing-3) var(--spacing-4);
   background-color: rgba(248, 113, 113, 0.15);
   border: 1px solid rgba(248, 113, 113, 0.3);
-  border-radius: var(--home-radius-base);
+  border-radius: var(--radius-base);
   color: #fca5a5;
   font-size: var(--font-size-sm);
   margin-bottom: var(--spacing-6);
@@ -124,7 +124,7 @@
   width: 100%;
   padding: var(--spacing-3) var(--spacing-4);
   border: 1px solid var(--home-border-input);
-  border-radius: var(--home-radius-base);
+  border-radius: var(--radius-base);
   font-size: var(--font-size-sm);
   color: var(--home-text-primary);
   background-color: var(--home-bg-input);
@@ -188,7 +188,7 @@
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
   border: none;
-  border-radius: var(--home-radius-base);
+  border-radius: var(--radius-base);
   cursor: pointer;
   transition:
     background-color var(--transition-base),

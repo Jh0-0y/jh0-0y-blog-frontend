@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { usePostEdit } from '@/feature/blog/hooks/post/usePostEdit';
-import { useUnsaved } from '@/feature/blog/hooks/common/useUnsaved';
+import { usePostEdit } from '@/feature/post/hooks/post/usePostEdit';
+import { useUnsaved } from '@/feature/post/hooks/common/useUnsaved';
 import {
   PostThumbnailEdit,
   UnsavedModal,
@@ -10,9 +10,8 @@ import {
   PostMetaFields,
   PostEditorSection,
   PostFormActions,
-} from '@/feature/blog/components/post-form';
+} from '@/feature/post/components/post-form';
 import styles from './PostFormPage.module.css';
-import { SwimmingDolphin } from '@/shared/dolphin/SwimmingDolphin';
 
 export const PostEditPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -87,8 +86,6 @@ export const PostEditPage = () => {
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.scrollArea}>
           <div className={styles.container} >
-            <SwimmingDolphin />
-
             <header className={styles.header}>
               <h1 className={styles.pageTitle}>글 수정</h1>
             </header>

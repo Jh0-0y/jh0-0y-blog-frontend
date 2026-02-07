@@ -1,13 +1,12 @@
 import { useParams, useNavigate, useSearchParams, Navigate } from 'react-router-dom';
-import { useUserPosts } from '@/feature/blog/hooks/post/useUserPosts';
+import { useUserPosts } from '@/feature/post/hooks/post/useUserPosts';
 import type { PostType } from '@/api/post/types';
 import { 
   UserPostsFilter,
   UserPostsContents
-} from '@/feature/blog/components/posts-user';
+} from '@/feature/post/components/posts-user';
 import { Pagination } from '@/shared/pagination/Pagination';
 import styles from './UserPostsPage.module.css';
-import { SwimmingDolphin } from '@/shared/dolphin/SwimmingDolphin';
 
 export const UserPostsPage = () => {
   const navigate = useNavigate();
@@ -45,8 +44,6 @@ export const UserPostsPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles.sectionWrapper}>
-        <SwimmingDolphin />
-        <SwimmingDolphin />
         {/* 필터 */}
         <div className={styles.filterWrapper}>
           <UserPostsFilter
