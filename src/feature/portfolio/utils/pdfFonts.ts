@@ -1,5 +1,3 @@
-import { Font } from '@react-pdf/renderer';
-
 let fontsLoaded = false;
 let fontLoadingPromise: Promise<void> | null = null;
 

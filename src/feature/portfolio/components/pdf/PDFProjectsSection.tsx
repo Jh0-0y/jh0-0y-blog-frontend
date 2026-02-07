@@ -42,7 +42,7 @@ export const PDFProjectsSection = ({ data }: PDFProjectsSectionProps) => {
                 <View style={styles.featureList}>
                   {project.troubleshooting.map((item, idx) => (
                     <Text key={idx} style={styles.troubleshootingItem}>
-                      • {item.problem} → {item.solution} ({item.result})
+                      • {item.problem} → 
                     </Text>
                   ))}
                 </View>
